@@ -81,8 +81,8 @@ var p = Import.prototype = new createjs.Bitmap();
 		
 		if (brx !== this.brx || bry !== this.bry || tlx !== this.tlx || tly !== this.tly) {
 			this.brx = brx; this.bry = bry; this.tlx = tlx; this.tly = tly;
-			w =  (this.br.getX() - this.tl.getX());
-			h = (this.tl.getY() - this.br.getY())
+			w =  (brx - tlx);
+			h = (tly - bry)
 
 			if (w <= 0) {
 				sx = -1;
@@ -100,8 +100,8 @@ var p = Import.prototype = new createjs.Bitmap();
 			
 			this.x = tlx;
 			this.y = tly;
-			this.scaleX = sx;
-			this.scaleY = sy;
+			this.scaleX = sx / this.image.width * w;
+			this.scaleY = sy / this.image.height * h;
 			
 		}
 		
