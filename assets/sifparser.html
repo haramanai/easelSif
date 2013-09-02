@@ -1,0 +1,37 @@
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+</head>
+<body onload="main()">
+<div id='sifParser'></div>
+<script type='text/javascript' src="../build/sifplayer.min.js"></script>
+<script type='text/javascript'>
+function main() {
+	var xmlDoc = sifPlayer.helper.loadXML('test.sif');
+	var c = xmlDoc.getElementsByTagName('canvas')[0];
+	//alert(c.nodeName);
+	var sif = sifPlayer._getData(c);//sifJson.getFromXMLDoc(xmlDoc);
+
+	document.write(JSON.stringify(sif));
+
+	
+}
+
+function loadXML (file) {
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+		var xmlhttp=new XMLHttpRequest();
+
+	} else {// code for IE6, IE5
+		var xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.open("GET",file,false);
+	xmlhttp.send();
+	var xmlDoc=xmlhttp.responseXML;
+	return xmlDoc;
+}
+
+
+</script>
+</body>
+</html>

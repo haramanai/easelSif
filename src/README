@@ -1,0 +1,9 @@
+This is the main source of the project.
+
+sifPlayer is the namespace and a holder of some common functions.
+sifobject is the object that will hold and render all the layers.
+Ease is some simple easing functions for tweenjs to help emulate the synfig animation.
+Layer is the object that all the layers will inherit.
+Params is the directory that will handle the convertions.
+
+The Layers directory contains the implemented layers.

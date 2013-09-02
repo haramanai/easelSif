@@ -1,0 +1,90 @@
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<style>
+body {
+margin: 0px;
+overflow: hidden;
+}
+</style>
+</head>
+<body onload="main()">
+<div id='sifPlayer'></div>
+<canvas id="canvas"  width="640" height="480"</canvas>
+<script type='text/javascript' src="libs/easeljs-0.6.1.min.js"></script>
+<script type='text/javascript' src="libs/tweenjs-0.4.0.min.js"></script>
+<script type='text/javascript' src="src/easelsif.js"></script>
+<script type='text/javascript' src="src/Tools/helper.js"></script>
+<script type='text/javascript' src="src/Ease.js"></script>
+<script type='text/javascript' src="src/sifobject.js"></script>
+<script type='text/javascript' src="src/Param/param.js"></script>
+<script type='text/javascript' src="src/Param/vector.js"></script>
+<script type='text/javascript' src="src/Param/composite.js"></script>	
+<script type='text/javascript' src="src/Param/integer.js"></script>
+<script type='text/javascript' src="src/Param/real.js"></script>
+<script type='text/javascript' src="src/Param/angle.js"></script>
+<script type='text/javascript' src="src/Param/bool.js"></script>
+<script type='text/javascript' src="src/Param/convert.js"></script>
+<script type='text/javascript' src="src/Layers/PasteCanvas.js"></script>
+<script type='text/javascript' src="src/Layers/circle.js"></script>
+<script type='text/javascript' src="src/Layers/region.js"></script>
+<script type='text/javascript' src="src/Layers/outline.js"></script>
+<script type='text/javascript' src="src/Layers/import.js"></script>
+<script type='text/javascript' src="src/Layers/timeloop.js"></script>
+<script type='text/javascript' src="src/Layers/rotate.js"></script>
+<script type='text/javascript' src="src/Layers/translate.js"></script>
+<script type='text/javascript' src="src/Layers/stretch.js"></script>
+<script type='text/javascript' src="src/Layers/zoom.js"></script>
+
+
+
+
+<script type='text/javascript'>
+function main() {
+	var xmlDoc = easelSif.helper.loadXML('assets/test.sif');
+	//var canvas = document.getElementById('canvas');
+	//canvas.width = 200;
+	//canvas.height = 200;
+	//var ctx = canvas.getContext('2d');
+	
+	var stage = new createjs.Stage("canvas");
+
+	var so = new easelSif.SifObject(xmlDoc , {width: 640, height: 480, sifPath: 'assets/'});
+	so.timeline.loop = true;
+	stage.addChild(so);
+	
+	/*
+	var weed = so.desc['weeds'];
+	weed.addEventListener("mousedown", function(evt) {
+		//var offset = {x:evt.target.x-evt.stageX, y:evt.target.y-evt.stageY};
+		var p = evt.target.globalToLocal(evt.stageX, evt.stageY);				 
+		// add a handler to the event object's onMouseMove callback
+		// this will be active until the user releases the mouse button:
+		evt.addEventListener("mousemove",function(ev) {
+			p = ev.target.globalToLocal(ev.stageX, ev.stageY);
+			console.log(p.x);
+			ev.target.origin.x = p.x;
+			ev.target.origin.y = p.y
+			//stage.update();
+		});
+	});
+	*/
+
+    
+	stage.update();
+	createjs.Ticker.addListener(so);
+	createjs.Ticker.addListener(stage);
+	createjs.Ticker.setFPS(60);
+	createjs.Ticker.useRaf = true;
+
+
+	
+}
+
+
+
+
+</script>
+</body>
+</html>

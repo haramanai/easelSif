@@ -1,0 +1,120 @@
+easelSif for HTML5 it's a lib to play an unzipped sif file on the html canvas.
+Sif are the files that produced by the open source vector animation software : Synfig www.synfig.org
+
+It uses the createjs.EaselJS for rendering and interaction.
+TweenJS (MIT license) for the tweens. www.createjs.com
+
+It's published under the MIT license.
+
+It is a conversion of sifPlayer to run inside easeljs.
+Future development will be on easelSif and not sifPlayer.
+
+The object that is produced is a Container object of easeljs all the layers are easeljs objects.
+
+It is not complete future. 
+It supports the types of layers:
+	Region  (Shape)
+	Outline (without point width) (Shape)
+	Circle  (Shape)
+	Import (image)
+	Group layer (Container)
+	Scale  (Container)
+	Translate  (Container)
+	Rotate  (Container)
+	Zoom	(Container)
+	Stretch  (Container)
+	Timeloop  (Container)
+
+The blend methods that much the globalCompositeOperation of the context2d
+
+	Composite		=>  source-over
+	Straight		=>  copy
+	Onto			=>  source-atop //With a bug that will render onto everything in the layer list.
+	Straight Onto	=>  source-in
+	Behind			=>  destination-over
+	Alpha Over		=>  destination-out
+	Alpha Brighter	=>  destination-in
+
+The convert that you can use.
+
+Vector converts to:
+	radial composite
+	composite
+	add
+	subtract
+	scale
+
+Real converts to:
+	add
+	subtract
+	scale
+	cos
+	sine
+	expotential
+	dotproduct
+	logarithm
+	reciprocal
+
+Angle converts to:
+	add
+	subtract
+	scale
+	atan2
+	cos
+	dotproduct (remember that this is using two Math.sqrt)
+	vectorAngle
+
+Integer converts to:
+	add
+	subtract
+	scale
+
+Bool converts to:
+	and
+
+
+
+
+
+
+Run the easelSif.html to see it. 
+
+There is a min version in the build folder
+
+Also in the /assets/ are sifparser.html  you can run it to have an understanding of how the data looks like. But keep in mind that the defs will change in the init of the SifObject to be accessed by the id of the defs.
+
+		How to use it :
+
+	
+var def = {width: 320, height: 240, sifPath: 'assets/'};
+var sifobj = easelSif.SifObject( xmlDoc, def);
+
+As you can see the first param is an XML Document object.
+The def param is an javascript object everything that you may wand to add to the SifObject like the x position that will be the upper left corner of the SifObject in the context
+the width that you wand the SifObject to have
+And the necessary sifPath that you will need if you use imagies. With sifPath SifObject will know where to search for the imagies that your sif animation used.
+
+
+sifobj.tick(delta) //moves the sifobject's timeline 'delta' milliseconds.
+
+sifobj.setPosition( pos ) // set the position of sifobject's timeline to the 'pos' millisecs.
+
+
+
+
+The desc.
+The sifObject contains a propertie name desc. Desc is a reference of all the layers by name.
+For example if you wand to grap the layer : circle
+sifobj.desc['circle']
+
+Also if you wand your animation to loop you can tell the timeline loop
+sifobj.timeline.loop = true;
+
+For more information about the timeline see the createjs tweenjs documentations.
+---------------------------------------
+
+Don't forget that .sif files are xml files.
+
+
+
+

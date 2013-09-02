@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<canvas version="0.9" width="1920" height="1080" xres="2834.645752" yres="2834.645752" view-box="-16.000000 9.000000 16.000000 -9.000000" antialias="1" fps="30.000" begin-time="0f" end-time="5s" bgcolor="0.500000 0.500000 0.500000 1.000000">
+  <name>Synfig Animation 1</name>
+  <defs>
+    <real value="0.0000000000" id="rrrr"/>
+  </defs>
+  <layer type="translate" active="true" version="0.1">
+    <param name="origin">
+      <composite type="vector" x="rrrr">
+        <y>
+          <greyed type="real">
+            <link>
+              <real value="0.0000000000"/>
+            </link>
+          </greyed>
+        </y>
+      </composite>
+    </param>
+  </layer>
+</canvas>

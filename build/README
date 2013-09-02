@@ -1,0 +1,9 @@
+Here you can find the compiled version of sifplayer and an example.
+
+The sifplayer.min.js is the lib. Don't forget that you need and the createJS.TweenJS you can find it in the libs dir or you can go to the www.createjs.com for more...
+
+Run the sifPlayer.html to see it in action.
+
+The compily.py is a little python program that will compile the src
+
+If you wand to compile the src run from the terminal : python compile.py.
