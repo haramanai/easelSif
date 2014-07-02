@@ -23,14 +23,14 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.easelSif.param = this.easelSif.param||{};
+this.sifPlayer.param = this.sifPlayer.param||{};
  (function() { 
 
 var integer =  {};
 
 
 integer._setConvert = function (layer, param, wanted_type, is_type) {
-	var type = easelSif.param.integer;
+	var type = sifPlayer.param.integer;
 	if (wanted_type === is_type) {
 		param.getValue = type.getValue;
 		param.setValue = type.setValue;
@@ -70,5 +70,5 @@ integer.scale = function () {
 
 
 
-easelSif.param.integer = integer;
+sifPlayer.param.integer = integer;
 }());

@@ -45,6 +45,6 @@
 	 **/	
 	Ease.bool = function (t) {return t < 1?1:0};
 	
-easelSif.Ease = Ease;
+sifPlayer.Ease = Ease;
 }());
 

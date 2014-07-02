@@ -1,6 +1,6 @@
 /*
-* Copyright (c) 2012 haramanai.
-* version 0.1.
+* Copyright (c) 2014 haramanai.
+* version 0.1.2
 * circle
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -46,10 +46,11 @@ var p = circle.prototype = new createjs.Shape();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (data) {
-		var _set = easelSif.param._set;
+		var _set = sifPlayer.param._set;
 		this.initialize()
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
+		this.timeline.duration = this.sifobj.timeline.duration;
 
 		_set(this, 'amount', 'real', this, data.amount);
 		_set(this, 'origin', 'vector', this, data.origin);	
@@ -57,14 +58,9 @@ var p = circle.prototype = new createjs.Shape();
 		_set(this, 'blend_method', 'integer', this, data.blend_method);
 		_set(this, 'color', 'color', this, data.color);
 		
-		if (data._desc) {
-			this.name = data._desc;
-			//keep refernce of the layer to the sifobj so we can reach it.
-			this.sifobj.desc[this.name] = this;
-			
-		}
+		sifPlayer._addToDesc(this, data);
 		
-		this.updateValues();
+		this.makeShape();
 		
 	}
 
@@ -85,22 +81,22 @@ var p = circle.prototype = new createjs.Shape();
 	
 	p.setPosition = function (position) {
 		this.timeline.setPosition(position);
-		this.updateValues();
 		return position;
 	}
 	
-	p.updateValues = function () {
+	p.updateContext = function (ctx) {
+		var that = this;
 		this.x = this.origin.getX();
 		this.y = this.origin.getY();
 		this.alpha = this.amount.getValue();
-		this.compositeOperation = easelSif._getBlend( this.blend_method.getValue() );
 		
-		if (this.rad !== this.radius.getValue() || this.r !== this.color.r || this.g !== this.color.g || this.b !== this.color.b || this.a !== this.color.a ) {
-			this.makeShape();
-		}
 		
+		var mtx = this._matrix.identity().appendTransform(that.origin.getX(), that.origin.getY(), 1, 1, 0, 0,0,0,0);
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+		ctx.globalAlpha *= that.amount.getValue();
+		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( that.blend_method.getValue() );
 	}
 
 
-easelSif.circle = circle;
+sifPlayer.easelSif.circle = circle;
 }());

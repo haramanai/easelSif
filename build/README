@@ -1,8 +1,8 @@
-Here you can find the compiled version of sifplayer and an example.
+Here you can find the compiled version of easelSif and an example.
 
-The sifplayer.min.js is the lib. Don't forget that you need and the createJS.TweenJS you can find it in the libs dir or you can go to the www.createjs.com for more...
+The sifplayer.min.js is the lib. Don't forget that you need and the createJS Suit you can find it in the libs dir or you can go to the www.createjs.com for more...
 
-Run the sifPlayer.html to see it in action.
+Run the easelSif.html to see it in action.
 
 The compily.py is a little python program that will compile the src
 

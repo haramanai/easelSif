@@ -46,20 +46,19 @@ var p = timeloop.prototype = new createjs.DisplayObject();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (data) {
-		var _set = easelSif.param._set;	
+		var _set = sifPlayer.param._set;	
 		
 		this.initialize()
 		this.timeline = new createjs.Timeline();
-		this.timeline.duration = this.sifobj.timeline.duration;
 		this.timeline.setPaused(true);
+		this.timeline.duration = this.sifobj.timeline.duration;
+		
 		
 		_set(this, 'link_time', 'integer', this, data.link_time);
 		_set(this, 'local_time', 'integer', this, data.local_time);
 		_set(this, 'duration', 'integer', this, data.duration);
-
-
-		this.timeline.duration = this.sifobj.sif.canvas.end_time - this.sifobj.sif.canvas.begin_time;
-		this.timeline.loop = true;
+		
+		sifPlayer._addToDesc(this, data);
 		
 	};
 	
@@ -94,6 +93,6 @@ var p = timeloop.prototype = new createjs.DisplayObject();
 
 
 
-easelSif.timeloop = timeloop;
+sifPlayer.easelSif.timeloop = timeloop;
 }());
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * stretch
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -45,38 +45,34 @@ var p = stretch.prototype = new createjs.Container();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (data) {
-		var _set = easelSif.param._set;
+		var _set = sifPlayer.param._set;
 		this.initialize();
 		this.timeline = new createjs.Timeline();
-		this.timeline.duration = this.sifobj.timeline.duration;
 		this.timeline.setPaused(true);
+		this.timeline.duration = this.sifobj.timeline.duration;
+
 		
 		_set(this, 'amount', 'vector', this, data.amount);
 		_set(this, 'center', 'vector', this, data.center);
 		
-		this.updateValues();
+		sifPlayer._addToDesc(this, data);
+
 	}
 
 	
-	p.setPosition = easelSif.rotate.prototype.setPosition;
-	
-	p.updateValues = function () {
-		var ox = this.center.getX();
-		var oy = this.center.getY();
+	p.setPosition = sifPlayer.easelSif.group.prototype.setPosition;
+
+	p.updateContext = function (ctx) {
+		var that = this;		
+		var orx = this.center.getX();
+		var ory = this.center.getY();
 		var sx = this.amount.getX();
 		var sy = this.amount.getY();
-		
-		this.x = ox;
-		this.y = ox;
-		this.scaleX = sx;
-		this.scaleY = sy;
-		this.regX = ox;
-		this.regY = ox;
-
-
+		var mtx = this._matrix.identity().appendTransform(orx, ory, sx, sy, 0, 0,0,orx,orx);
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 		
 		
 	}
 
-easelSif.stretch = stretch;
+sifPlayer.easelSif.stretch = stretch;
 }());

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * outline
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -38,21 +38,23 @@ function outline(sifobj, data) {
 
 var p = outline.prototype = new createjs.Shape();
 
-p.init = easelSif.region.prototype.init;
+p.init = sifPlayer.easelSif.region.prototype.init;
 
-p._getBline = easelSif.region.prototype._getBline;
+p._getBline = sifPlayer.easelSif.region.prototype._getBline;
 
-p.collectEntries = easelSif.region.prototype.collectEntries;
+p.collectEntries = sifPlayer.easelSif.region.prototype.collectEntries;
 
-p.compareEntries = easelSif.region.prototype.compareEntries;
+p.compareEntries = sifPlayer.easelSif.region.prototype.compareEntries;
 
-p._bezierEntry = easelSif.region.prototype._bezierEntry;
+p._bezierEntry = sifPlayer.easelSif.region.prototype._bezierEntry;
 
-p.setPosition = easelSif.region.prototype.setPosition;
+p.setPosition = sifPlayer.easelSif.region.prototype.setPosition;
 
-p.updateShape = easelSif.region.prototype.updateShape;
+p.updateShape = sifPlayer.easelSif.region.prototype.updateShape;
 
-p.updateValuesRegion = easelSif.region.prototype.updateValues;
+p.updateValuesRegion = sifPlayer.easelSif.region.prototype.updateValues;
+
+p.checkBline = sifPlayer.easelSif.region.prototype.checkBline;
 
 p.updateValues = function () {
 	this.updateValuesRegion();
@@ -79,5 +81,5 @@ p.makeShape = function () {
 
 
 
-easelSif.outline = outline;
+sifPlayer.easelSif.outline = outline;
 }());

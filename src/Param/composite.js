@@ -23,7 +23,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.easelSif.param = this.easelSif.param||{};
+this.sifPlayer.param = this.sifPlayer.param||{};
  (function() { 
 
 var composite =  {};
@@ -38,7 +38,7 @@ var composite =  {};
 	 * @param {Object} param_type the type of the data param.
 	 **/
 composite._get = function (layer, param_name, wanted_type, that, data) {
-	var param = easelSif.param;
+	var param = sifPlayer.param;
 	var _set = param._set;
 	
 	param_type = 'composite';
@@ -122,5 +122,5 @@ composite.bline_point_getT2 = function () {
 
 
 
-easelSif.param.composite = composite;
+sifPlayer.param.composite = composite;
 }());

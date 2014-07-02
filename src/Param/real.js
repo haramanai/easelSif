@@ -23,7 +23,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.easelSif.param = this.easelSif.param||{};
+this.sifPlayer.param = this.sifPlayer.param||{};
  (function() { 
 
 var real =  {};
@@ -31,7 +31,7 @@ var real =  {};
 real.degsToRad = 0.0174532925;
 
 real._setConvert = function (layer, param, wanted_type, is_type) {
-	var type = easelSif.param.real;
+	var type = sifPlayer.param.real;
 	if (wanted_type === is_type) {
 		param.getValue = type.getValue;
 		param.setValue = type.setValue;
@@ -105,5 +105,5 @@ real.reciprocal = function () {
 
 
 
-easelSif.param.real = real;
+sifPlayer.param.real = real;
 }());

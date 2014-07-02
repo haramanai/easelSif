@@ -1,7 +1,7 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * import
-* version 0.1.
+* version 0.1.3
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
 * files (the "Software"), to deal in the Software without
@@ -48,7 +48,7 @@ var p = Import.prototype = new createjs.Bitmap();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (data) {
-		var _set = easelSif.param._set;
+		var _set = sifPlayer.param._set;
 		this.initialize(this.sifobj.sifPath + data.filename.string)
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
@@ -57,22 +57,23 @@ var p = Import.prototype = new createjs.Bitmap();
 		_set(this, 'blend_method', 'integer', this, data.blend_method);
 		_set(this, 'tl', 'vector', this, data.tl);
 		_set(this, 'br', 'vector', this, data.br);
-
-		this.updateValues();
+		
+		sifPlayer._addToDesc(this, data);
+		
 
 		
 	}
 	
 // public methods:
 
-	p.setPosition = function (position) {
+	p.setPosition = function (position, delta) {
 		this.timeline.setPosition(position);
-		this.updateValues();
 		return position;
 	}
 	
 	
-	p.updateValues = function () {
+	p.updateContext = function (ctx) {
+		var that = this;
 		var brx = this.br.getX();
 		var bry = this.br.getY();
 		var tlx = this.tl.getX();
@@ -103,13 +104,17 @@ var p = Import.prototype = new createjs.Bitmap();
 			this.scaleX = sx / this.image.width * w;
 			this.scaleY = sy / this.image.height * h;
 			
+			
 		}
 		
-		this.alpha = this.amount.getValue();
-		this.compositeOperation = easelSif._getBlend( this.blend_method.getValue() );
+		var mtx = this._matrix.identity().appendTransform(tlx, tly, sx, sy, 0, 0,0,0,0);
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+		ctx.globalAlpha *= that.amount.getValue();
+		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( that.blend_method.getValue() );
+
 		
 	}
 	
 
-easelSif.Import = Import;
+sifPlayer.easelSif.Import = Import;
 }());

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * translate
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -45,26 +45,31 @@ var p = translate.prototype = new createjs.Container();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (data) {
-		var _set = easelSif.param._set;
+		var _set = sifPlayer.param._set;
 		this.initialize();
 		this.timeline = new createjs.Timeline();
 		this.timeline.duration = this.sifobj.timeline.duration;
 		this.timeline.setPaused(true);
+
 		
 		_set(this, 'origin', 'vector', this, data.origin);
 		
-		this.updateValues();
-	}
-
-	
-	p.setPosition = easelSif.rotate.prototype.setPosition;
-
-	
-	p.updateValues = function () {
-		this.x = this.origin.getX();
-		this.y = this.origin.getY();
+		sifPlayer._addToDesc(this, data);
 
 	}
 
-easelSif.translate = translate;
+	
+	p.setPosition = sifPlayer.easelSif.group.prototype.setPosition;
+
+	
+	p.updateContext = function (ctx) {
+		var that = this;		
+		var orx = this.origin.getX();
+		var ory = this.origin.getY();
+		var mtx = this._matrix.identity().appendTransform(orx, ory, 1, 1, 0, 0,0,0,0);
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+
+	}
+
+sifPlayer.easelSif.translate = translate;
 }());

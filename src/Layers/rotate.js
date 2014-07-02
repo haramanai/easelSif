@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * rotate
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -45,7 +45,7 @@ var p = rotate.prototype = new createjs.Container();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (data) {
-		var _set = easelSif.param._set;
+		var _set = sifPlayer.param._set;
 		this.initialize();
 		this.timeline = new createjs.Timeline();
 		this.timeline.duration = this.sifobj.timeline.duration;
@@ -54,34 +54,21 @@ var p = rotate.prototype = new createjs.Container();
 		_set(this, 'origin', 'vector', this, data.origin);
 		_set(this, 'amount', 'angle', this, data.amount);
 		
-		this.updateValues();
-	}
+		sifPlayer._addToDesc(this, data);
 
-	
-	p.setPosition = function (position) {	
-			
-		this.timeline.setPosition(position);
-		this.updateValues();
-		var ch = this.children;
-		for (var i = 0, ii = ch.length; i < ii; i++) {
-
-			position = ch[i].setPosition(position);
-		}
-		
-		return position;
 	}
 	
-	p.updateValues = function () {
-		this.x = this.origin.getX();
-		this.y = this.origin.getY();
-		this.rotation = this.amount.getValue();
-		this.regX = this.origin.getX();
-		this.regY = this.origin.getY();
+	p.setPosition = sifPlayer.easelSif.group.prototype.setPosition;
 
 
-		
-		
+	p.updateContext = function (ctx) {
+		var that = this;		
+		var orx = this.origin.getX();
+		var ory = this.origin.getY();
+		var angle = this.amount.getValue();
+		var mtx = this._matrix.identity().appendTransform(orx, ory, 1, 1, angle, 0,0,orx,orx);
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 	}
 
-easelSif.rotate = rotate;
+sifPlayer.easelSif.rotate = rotate;
 }());

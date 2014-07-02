@@ -23,10 +23,10 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.easelSif = this.easelSif || {};
-this.easelSif.param = this.easelSif.param||{};
+this.sifPlayer = this.sifPlayer || {};
+this.sifPlayer.param = this.sifPlayer.param||{};
  (function() { 
-var param = easelSif.param;
+var param = sifPlayer.param;
 
 	/**
 	 * VECTOR
@@ -263,7 +263,7 @@ var param = easelSif.param;
 		var tw_def = {paused: true, useTick: true};
 		var timeline = layer.timeline;
 		var ease;
-		var stm = easelSif._secsToMillis;
+		var stm = sifPlayer._secsToMillis;
 		that[param_name] = {};
 		
 		
@@ -277,7 +277,7 @@ var param = easelSif.param;
 
 
 			if (w[0]._time !== "0s") {
-				ease = easelSif._getEase(w[0]._before);
+				ease = sifPlayer._getEase(w[0]._before);
 				time = stm(w[0]._time);
 				tw.to( {value: w[0][param_type]._value},
 					time, ease);
@@ -285,7 +285,7 @@ var param = easelSif.param;
 
 					
 			for (var i = 0; i < w.length - 1; i++) {
-				ease = easelSif._getEase(w[i + 1]._before);
+				ease = sifPlayer._getEase(w[i + 1]._before);
 				time = stm(w[i + 1]._time) - stm(w[i]._time);						
 				tw.to( {value: w[i + 1][param_type]._value},
 					time, ease );
@@ -322,7 +322,7 @@ var param = easelSif.param;
 		var timeline = layer.timeline;
 		var ease;
 		
-		var stm = easelSif._secsToMillis;
+		var stm = sifPlayer._secsToMillis;
 		that[param_name] = {};
 		
 		
@@ -336,7 +336,7 @@ var param = easelSif.param;
 
 
 			if (w[0]._time !== "0s") {
-				ease = easelSif._getEase(w[0]._before);
+				ease = sifPlayer._getEase(w[0]._before);
 				time = stm(w[0]._time);
 				tw.to( {value: stm(w[0][param_type]._value)},
 					time, ease);
@@ -345,7 +345,7 @@ var param = easelSif.param;
 
 					
 			for (var i = 0; i < w.length - 1; i++) {
-				ease = easelSif._getEase(w[i + 1]._before);
+				ease = sifPlayer._getEase(w[i + 1]._before);
 				time = stm(w[i + 1]._time) - stm(w[i]._time);						
 				tw.to( {value: stm(w[i + 1][param_type]._value)},
 					time, ease );
@@ -423,15 +423,15 @@ var param = easelSif.param;
 				
 			if (w[0]._time !== "0s") {
 					tw.to( {r: w[0][param_type].r, g: w[0][param_type].g, b: w[0][param_type].b, a: w[0][param_type].a},
-						easelSif._secsToMillis(w[0]._time), 
-						easelSif._getEase(w[0]._before) );
+						sifPlayer._secsToMillis(w[0]._time), 
+						sifPlayer._getEase(w[0]._before) );
 			}
 
 					
 			for (var i = 0; i < w.length - 1; i++) {
 				tw.to( {r: w[i + 1][param_type].r, g: w[i + 1][param_type].g, b: w[i + 1][param_type].b, a: w[i + 1][param_type].a},
-					easelSif._secsToMillis(w[i + 1]._time) - easelSif._secsToMillis(w[i]._time),
-					easelSif._getEase(w[i + 1]._before) );
+					sifPlayer._secsToMillis(w[i + 1]._time) - sifPlayer._secsToMillis(w[i]._time),
+					sifPlayer._getEase(w[i + 1]._before) );
 			}
 			
 			timeline.addTween(tw);
@@ -478,15 +478,15 @@ var param = easelSif.param;
 				tw = createjs.Tween.get(pcolor, tw_def);
 				if (w[0]._time !== "0s") {
 					tw.to( {pos: dcolor._pos, r: dcolor.r, g: dcolor.g, b: dcolor.b, a: dcolor.a},
-						easelSif._secsToMillis(w[0]._time), 
-						easelSif._getEase(w[0]._before) );
+						sifPlayer._secsToMillis(w[0]._time), 
+						sifPlayer._getEase(w[0]._before) );
 					
 				}
 				for (var j = 0, jj = w.length - 1; j < jj; j++) {
 					dcolor = w[j + 1].gradient.color[i];
 					tw.to( {pos: dcolor._pos, r: dcolor.r, g: dcolor.g, b: dcolor.b, a: dcolor.a},
-						easelSif._secsToMillis(w[j + 1]._time) - easelSif._secsToMillis(w[j]._time), 
-						easelSif._getEase(w[j + 1]._before) );
+						sifPlayer._secsToMillis(w[j + 1]._time) - sifPlayer._secsToMillis(w[j]._time), 
+						sifPlayer._getEase(w[j + 1]._before) );
 					
 				}
 				timeline.addTween(tw);

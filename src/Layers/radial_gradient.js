@@ -35,7 +35,7 @@ function radial_gradient(parent, data) {
 	this.init(parent, data);
 }
 
-var p = radial_gradient.prototype = new sifPlayer.Layer();
+var p = radial_gradient.prototype;//= new sifPlayer.Layer();
 
 	/** 
 	 * Initialization method.
@@ -79,5 +79,5 @@ var p = radial_gradient.prototype = new sifPlayer.Layer();
 	}
 
 
-sifPlayer.radial_gradient = radial_gradient;
+sifPlayer.easelSif.radial_gradient = radial_gradient;
 }());

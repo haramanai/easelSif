@@ -23,7 +23,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.easelSif.param = this.easelSif.param||{};
+this.sifPlayer.param = this.sifPlayer.param||{};
 
  (function() {
 
@@ -47,16 +47,16 @@ vector._get = function (layer, param_name, wanted_type, that, data) {
 
 
 		if (w[0]._time !== "0s") {
-			time = easelSif._secsToMillis(w[0]._time);
+			time = sifPlayer._secsToMillis(w[0]._time);
 			tw.to( {x: w[0][param_type].x, y: w[0][param_type].y},
-				time, easelSif._getEase(w[0]._before) );
+				time, sifPlayer._getEase(w[0]._before) );
 		}
 
 				
 		for (var i = 0; i < w.length - 1; i++) {
-			time = easelSif._secsToMillis(w[i + 1]._time) - easelSif._secsToMillis(w[i]._time)
+			time = sifPlayer._secsToMillis(w[i + 1]._time) - sifPlayer._secsToMillis(w[i]._time)
 			tw.to( {x: w[i + 1][param_type].x, y: w[i + 1][param_type].y},
-				time, easelSif._getEase(w[i + 1]._before) );
+				time, sifPlayer._getEase(w[i + 1]._before) );
 
 
 		}
@@ -64,14 +64,14 @@ vector._get = function (layer, param_name, wanted_type, that, data) {
 
 		timeline.addTween(tw);
 
-		easelSif.param.convert._set( layer, that[param_name], wanted_type, param_type);
+		sifPlayer.param.convert._set( layer, that[param_name], wanted_type, param_type);
 
 
 	} 
 	else if (data[param_type]) {
 		that[param_name].x = data[param_type].x;
 		that[param_name].y = data[param_type].y;
-		easelSif.param.convert._set( layer, that[param_name], wanted_type, param_type, false );	
+		sifPlayer.param.convert._set( layer, that[param_name], wanted_type, param_type, false );	
 	}
 	else {
 		alert(JSON.stringify(data) + ' in vector');
@@ -84,7 +84,7 @@ vector._get = function (layer, param_name, wanted_type, that, data) {
 
 
 vector._setConvert = function (layer, param, wanted_type, is_type) {
-	var type = easelSif.param.vector;
+	var type = sifPlayer.param.vector;
 
 	if (wanted_type === is_type) {
 		param.getX = type.getX;
@@ -216,5 +216,5 @@ vector.getSubY = function () {
 
 
 
-easelSif.param.vector = vector;
+sifPlayer.param.vector = vector;
 }());

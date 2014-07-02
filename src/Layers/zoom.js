@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * zoom
 * version 0.2
 * Permission is hereby granted, free of charge, to any person
@@ -27,8 +27,7 @@
  (function() { 
 
 /**
-* @class rotate
-* @extends Layer
+* @class zoom
 * @constructor
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
@@ -47,36 +46,32 @@ var p = zoom.prototype = new createjs.Container();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (data) {
-		var _set = easelSif.param._set;
+		var _set = sifPlayer.param._set;
 		this.initialize();
 		this.timeline = new createjs.Timeline();
-		this.timeline.duration = this.sifobj.timeline.duration;
 		this.timeline.setPaused(true);
+		this.timeline.duration = this.sifobj.timeline.duration;
+
 		
 		_set(this, 'center', 'vector', this, data.center);
 		_set(this, 'amount', 'real', this, data.amount);
 
-		this.updateValues();
-	}
-
-	
-	p.setPosition = easelSif.rotate.prototype.setPosition;
-	
-	p.updateValues = function () {
-		var zoom = Math.exp(this.amount.getValue());
-		var cx = this.center.getX();
-		var cy = this.center.getY();
-		
-
-		this.x = cx;
-		this.y = cy;
-		this.scaleX = zoom;
-		this.scaleY = zoom;
-		this.regX = cx / zoom;
-		this.regY = cy / zoom;
+		sifPlayer._addToDesc(this, data);
 
 	}
 
+	
+	p.setPosition = sifPlayer.easelSif.rotate.prototype.setPosition;
+	
+	p.updateContext = function (ctx) {
+		var that = this;		
+		var orx = this.center.getX();
+		var ory = this.center.getY();
+		var zoom = Math.exp(that.amount.getValue());
+		var mtx = this._matrix.identity().appendTransform(orx, ory, zoom, zoom, 0, 0,0,orx/zoom,orx/zoom);
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+	}
 
-easelSif.zoom = zoom;
+
+sifPlayer.easelSif.zoom = zoom;
 }());

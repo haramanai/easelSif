@@ -23,37 +23,37 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.easelSif.param = this.easelSif.param||{};
-this.easelSif.param.convert = this.easelSif.param.convert||{};
+this.sifPlayer.param = this.sifPlayer.param||{};
+this.sifPlayer.param.convert = this.sifPlayer.param.convert||{};
  (function() { 
-var convert = easelSif.param.convert;
+var convert = sifPlayer.param.convert;
 
 convert._set = function (layer, param, wanted_type, is_type) {
 	
 	//VECTOR
 	if (wanted_type === 'vector') {
-		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 	}
 			
 	else if ( wanted_type === 'real') {
-		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 		
 	}
 	
 	else if ( wanted_type === 'integer') {
-		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 	}
 	
 	else if ( wanted_type === 'angle') {
-		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 		
 	}
 	else if ( wanted_type === 'bool') {
-		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 		
 	}
 	else if ( wanted_type === 'composite') {
-		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 		
 	}
 	

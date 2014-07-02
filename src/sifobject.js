@@ -85,7 +85,7 @@ var p = SifObject.prototype = new createjs.Container();
 		 
 		this.initialize();
 		this.sifobj = this;
-		var data = easelSif._getData(xmlDoc.getElementsByTagName('canvas')[0]);
+		var data = sifPlayer.easelSif._getData(xmlDoc.getElementsByTagName('canvas')[0]);
 		this.timeline = new createjs.Timeline();
 		
 		this.timeline.setPaused(true);	
@@ -106,6 +106,7 @@ var p = SifObject.prototype = new createjs.Container();
 		//console.log(JSON.stringify(data));
 		this.sif = {};
 		this.sif.canvas = {};
+		
 		this.sif.canvas.version = data._version;
 		this.sif.canvas.width = data._width;
 		this.sif.canvas.height = data._height;
@@ -114,8 +115,8 @@ var p = SifObject.prototype = new createjs.Container();
 		this.sif.canvas.antialias = data._antialias;
 		this.sif.canvas.fps = data._fps;
 		//convert the time to millis cause it's more common for computers...
-		this.sif.canvas.begin_time = easelSif._canvasTimeToMillis(data['_begin-time'], this.sif.canvas.fps);
-		this.sif.canvas.end_time = easelSif._canvasTimeToMillis(data['_end-time'], this.sif.canvas.fps);
+		this.sif.canvas.begin_time = sifPlayer._canvasTimeToMillis(data['_begin-time'], this.sif.canvas.fps);
+		this.sif.canvas.end_time = sifPlayer._canvasTimeToMillis(data['_end-time'], this.sif.canvas.fps);
 		var _bgcolor = data._bgcolor.split(" ");
 		this.sif.canvas.bgcolor = {};
 		//convert the color to 256 to much html5 ... I think so...
@@ -128,6 +129,8 @@ var p = SifObject.prototype = new createjs.Container();
 		
 		
 		this.sif.canvas.defs = this._getDefs(data.defs);
+		this._getBones(data);
+		//this._getBones(data);
 
 		
 		this.timeline.duration = this.sif.canvas.end_time;
@@ -183,6 +186,34 @@ var p = SifObject.prototype = new createjs.Container();
 		return defs;
 	}
 	
+	p._getBones = function (data) {
+		var sifobj = this;
+		var b = data.bones;
+		if (!b) return;
+		this.sif.bones = {};
+		var guid = this.sif.bones.guid = {};
+		var g;
+		
+		//bone_roots
+		/*
+		for (var i = 0, ii = b.bone_root.length; i < ii; i++) {
+			g = {};
+			g._m = new createjs.Matrix2D();
+			guid[b.bone_root[i]._guid] = g;
+
+		}
+		* */
+
+		//bones
+		for (var i = 0, ii = b.bone.length; i < ii; i++) {
+			guid[b.bone[i]._guid] = new sifPlayer.Bone(sifobj, b.bone[i]);
+
+		}	
+		
+			
+		
+	}
+	
 	p._getLayers = function (_layer) {
 		var o = this;
 		var sifobj = this.sifobj;
@@ -192,7 +223,7 @@ var p = SifObject.prototype = new createjs.Container();
 			
 			for (var i = 0, ii = _layer.length; i < ii; i++) {	
 				_lt = _layer[i]._type;
-				_l = easelSif._getLayer(sifobj, _layer[i]);
+				_l = sifPlayer.easelSif._getLayer(sifobj, _layer[i]);
 
 				
 				if (_lt === 'rotate' || _lt === 'translate' || _lt === 'stretch' || _lt === 'zoom') {
@@ -224,12 +255,18 @@ var p = SifObject.prototype = new createjs.Container();
 	 * @param {Integer} delta
 	 **/		
 	p.tick = function (delta) {
-		//console.log(createjs.Ticker.getMeasuredFPS());
-		//console.log(this.getNumChildren() );
+		this.animated = false;
 		this.timeline.tick(delta);
 		var new_pos = this.timeline.position;
+		var ch = this.children;
 		for (var i = 0, ii = this.children.length; i < ii; i++) {
-			new_pos = this.children[i].setPosition(new_pos);
+			if (ch[i].unsynced) {
+				new_pos = ch[i].setPosition( ch[i].timeline.position + delta , delta);					
+			} else {
+				new_pos = ch[i].setPosition(new_pos, delta);
+				
+			}
+			if (ch[i].animated) this.childAnimated = this.animated = true;
 		}
 
 	}
@@ -245,12 +282,11 @@ var p = SifObject.prototype = new createjs.Container();
 		for (var i = 0, ii = this.children.length; i < ii; i++) {
 			new_pos = this.children[i].setPosition(new_pos);
 		}
-		return position;
 	}
 
 
 
 
-easelSif.SifObject = SifObject;
+sifPlayer.easelSif.SifObject = SifObject;
 }());
 

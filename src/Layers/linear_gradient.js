@@ -36,7 +36,7 @@ function linear_gradient(parent, data) {
 	this.init(parent, data);
 }
 
-var p = linear_gradient.prototype = new sifPlayer.Layer();
+var p = linear_gradient.prototype;// = new sifPlayer.Layer();
 
 	/** 
 	 * Initialization method.
@@ -83,5 +83,5 @@ var p = linear_gradient.prototype = new sifPlayer.Layer();
 	}
 
 
-sifPlayer.linear_gradient = linear_gradient;
+sifPlayer.easelSif.linear_gradient = linear_gradient;
 }());

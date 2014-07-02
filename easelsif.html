@@ -1,0 +1,49 @@
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<style>
+body {
+margin: 0px;
+overflow: hidden;
+}
+</style>
+</head>
+<body onload="main()">
+<div id='easelSif'></div>
+<canvas id="canvas"  width="480" height="270"</canvas>
+<script type='text/javascript' src="libs/easeljs-0.7.1.min.js"></script>
+<script type='text/javascript' src="libs/tweenjs-0.5.1.min.js"></script>
+<script type='text/javascript' src="build/easelsif.min.js"></script>
+
+
+
+<script type='text/javascript'>
+function main() {
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET",'assets/test.sif',false);
+	xmlhttp.send();
+	var xmlDoc=xmlhttp.responseXML;
+
+	var stage = new createjs.Stage("canvas");
+
+	var so = new sifPlayer.easelSif.SifObject(xmlDoc , {width: stage.canvas.width, height: stage.canvas.height, sifPath: 'assets/'});
+	so.timeline.loop = true;
+	stage.addChild(so);
+
+	 createjs.Ticker.addEventListener("tick", handleTick);
+	 function handleTick(event) {
+		 so.tick(event.delta);
+		 if (so.animated) stage.update();
+	 }
+
+
+	
+}
+
+
+
+
+</script>
+</body>
+</html>

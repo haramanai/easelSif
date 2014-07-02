@@ -23,14 +23,14 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.easelSif.param = this.easelSif.param||{};
+this.sifPlayer.param = this.sifPlayer.param||{};
  (function() { 
 
 var angle =  {};
 
 
 angle._setConvert = function (layer, param, wanted_type, is_type) {
-	var type = easelSif.param.angle;
+	var type = sifPlayer.param.angle;
 	
 	if (wanted_type === is_type) {
 		param.getValue = type.getValue;
@@ -89,5 +89,5 @@ angle.vectorangle = function () {
 
 
 
-easelSif.param.angle = angle;
+sifPlayer.param.angle = angle;
 }());

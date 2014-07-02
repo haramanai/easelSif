@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * region
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -46,11 +46,12 @@ var p = region.prototype = new createjs.Shape();
 	 **/
 	p.init = function (data) {
 
-		var _set = easelSif.param._set;
+		var _set = sifPlayer.param._set;
 		this.initialize()
+		
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
-
+		
 		this._getBline(data.bline);
 		
 		_set(this, 'blend_method', 'integer', this, data.blend_method);
@@ -60,16 +61,11 @@ var p = region.prototype = new createjs.Shape();
 		if (data.width) { _set(this.bline, 'width', 'real', this, data.width); }
 		
 		
-		
-		if (data._desc) {
-			this.name = data._desc;
-			//keep refernce of the layer to the sifobj so we can reach it.
-			this.sifobj.desc[this.name] = this;
-			
-		}
+		sifPlayer._addToDesc(this, data);
+
 		this.entries = this.collectEntries();
 		this.makeShape();
-		this.aabb = easelSif.aabbFromEntries(this.entries);
+		this.aabb = sifPlayer.aabbFromEntries(this.entries , (this.width)?this.width.getValue():null);
 
 
 	}
@@ -81,7 +77,7 @@ var p = region.prototype = new createjs.Shape();
 	 * @method _getBline
 	 **/		
 	p._getBline = function (data) {
-		var _set = easelSif.param._set;
+		var _set = sifPlayer.param._set;
 		this.bline = {};
 		this.bline.sifobj = this.sifobj;
 		this.bline.timeline = new createjs.Timeline();
@@ -174,41 +170,44 @@ var p = region.prototype = new createjs.Shape();
 		
 	}
 	
-	p.setPosition = function (position) {
+	p.setPosition = function (position, delta) {
 		this.timeline.setPosition(position);
 		this.bline.timeline.setPosition(position);
-		
+		this.animated = false;
 		this.updateShape();
-		this.updateValues();
 		return position;
 	}
 	
 	p.updateShape = function () {
 		var e, aabb;
-		var scale = easelSif.getTotalScale(this);
-		
-		if (this.bline.timeline.duration) {
+		var scale = Math.abs(sifPlayer.easelSif.getTotalScale(this));
+		var width = (this.width) ? this.width.getValue() : null; 
+		//this.checkBline(); 
+		if (this.bline.animated || !this.cacheID) {
 			e = this.collectEntries();
-			
-			if (!this.compareEntries(e)) {
+			if (!this.cacheID) {				
+				this.entries = e;
+				this.aabb = sifPlayer.aabbFromEntries(e, width);
+				this.makeShape();
+			} else {
 				this.uncache();
 				this.entries = e;
-				this.aabb = easelSif.aabbFromEntries(e);
+				this.aabb = sifPlayer.aabbFromEntries(e, width);
 				this.makeShape();
-				this.animated = true;
-				return;			
+				
 			}
 		}
 		 
 		 
 		e = this.entries;
 		aabb = this.aabb;
+		
 		if (!this.cacheID) {
-
+			this.animated = true;	
 			this.scale = scale;
-			//Needs Change
-			this.cache(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1], scale);
-			//console.log(this.cacheID);
+
+			this.setBounds(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1]);
+
 		}
 
 			
@@ -226,6 +225,8 @@ var p = region.prototype = new createjs.Shape();
 				if (e1[i][1] !== e2[i][1]) return false;
 				if (e1[i][2] !== e2[i][2]) return false;
 				if (e1[i][3] !== e2[i][3]) return false;
+				if (e1[i][4] !== e2[i][4]) return false;
+				if (e1[i][5] !== e2[i][5]) return false;
 			}
 		} else {
 			return false;
@@ -233,17 +234,44 @@ var p = region.prototype = new createjs.Shape();
 		return true;
 	}
 	
-	p.updateValues = function () {
-		this.x = this.origin.getX();
-		this.y = this.origin.getY();
-		this.alpha = this.amount.getValue();
-		this.compositeOperation = easelSif._getBlend( this.blend_method.getValue() );
-		
+	p.updateContext = function (ctx) {	
+		var that = this;		
+		var orx = this.origin.getX();
+		var ory = this.origin.getY();
+		var mtx = this._matrix.identity().appendTransform(orx, ory, 1, 1, 0, 0,0,0,0);
+		ctx.globalAlpha *= that.amount.getValue();
+		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( that.blend_method.getValue() );
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 	}
-
+	
+	p.checkBline = function () {
+		this.bline.animated = false;
+		var bl = this.bline;
+		var tl = bl.timeline;
+		var tw = tl._tweens;
+		var pos = tl.position;
+		var step
+		
+		if (tw) {	
+			/*
+			for (var i = 0, ii = tw.length; i < ii; i++) {
+				for (var j = 0, jj = tw[i]._steps.length; j < jj; j++) {
+					step = tw[i]._steps[j];
+					if (pos >= step.t && pos < step.d) {
+						this.animated = true;
+					}
+				}
+				
+			}
+			*/
+			this.bline.animated = true;
+		}
+		//this.bline.animated = true;
+		//console.log(t);
+	}
 
 	
 
 
-easelSif.region = region;
+sifPlayer.easelSif.region = region;
 }());
