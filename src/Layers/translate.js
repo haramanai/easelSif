@@ -63,13 +63,12 @@ var p = translate.prototype = new createjs.Container();
 
 	
 	p.updateContext = function (ctx) {
-		var that = this;		
-		var orx = this.origin.getX();
-		var ory = this.origin.getY();
-		var mtx = this._matrix.identity().appendTransform(orx, ory, 1, 1, 0, 0,0,0,0);
+		var mtx = this.getMatrix(this._matrix);
 		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 
 	}
+	
+	p.getMatrix = sifPlayer.easelSif.region.prototype.getMatrix;
 
 sifPlayer.easelSif.translate = translate;
 }());

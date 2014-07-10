@@ -194,17 +194,6 @@ var p = SifObject.prototype = new createjs.Container();
 		var guid = this.sif.bones.guid = {};
 		var g;
 		
-		//bone_roots
-		/*
-		for (var i = 0, ii = b.bone_root.length; i < ii; i++) {
-			g = {};
-			g._m = new createjs.Matrix2D();
-			guid[b.bone_root[i]._guid] = g;
-
-		}
-		* */
-
-		//bones
 		for (var i = 0, ii = b.bone.length; i < ii; i++) {
 			guid[b.bone[i]._guid] = new sifPlayer.Bone(sifobj, b.bone[i]);
 

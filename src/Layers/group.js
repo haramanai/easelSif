@@ -50,6 +50,7 @@ var p = group.prototype = new createjs.Container();
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
 		this.timeline.duration = this.sifobj.timeline.duration;
+		this.type = 'group';
 
 
 		_set(this, 'amount', 'real', this, data.amount);
@@ -57,7 +58,8 @@ var p = group.prototype = new createjs.Container();
 		_set(this, 'origin', 'vector', this, data.origin);
 
 		this.transformation = {};
-		var composite = data.transformation.composite;;
+		var composite = data.transformation.composite;
+		
 		//COMPOSIT TRANSORMATION
 		if (composite) {		
 			_set(this, 'offset', 'vector', this.transformation, composite.offset);
@@ -65,7 +67,9 @@ var p = group.prototype = new createjs.Container();
 			_set(this, 'skew_angle', 'angle', this.transformation, composite.skew_angle);
 			_set(this, 'scale', 'vector', this.transformation, composite.scale);
 			_set(this, 'skew_angle', 'angle', this.transformation, composite.skew_angle);
-			this.updateContext = group.updateContextComposite;
+
+			this.getMatrix = group.getMatrixComposite;
+			this.scaleX = this.transformation.scale.getX();
 		}
 		
 		//BONE TRANSFORMATION
@@ -81,8 +85,9 @@ var p = group.prototype = new createjs.Container();
 			_set(this, 'scale', 'vector', base_value, bone_link.scale);
 			
 			this.base_value = base_value;
-			//console.log(JSON.stringify(this.base_value));
-			this.updateContext = group.updateContextBone;
+
+			this.getMatrix = group.getMatrixBone;
+			this.getMatrix();
 		}
 		
 		
@@ -114,10 +119,10 @@ var p = group.prototype = new createjs.Container();
 	 **/		
 	p.setPosition = function (position, delta) {
 		this.childAnimated = false;
-		this.animated = false;
+		//For now the canvas
+		this.animated = (this.bone)? true : sifPlayer._checkTimeline(this.timeline);
 		var scale;
 		this.timeline.setPosition(position);
-		//this.updateValues();
 		var new_pos = this.timeline.position;
 		var ch = this.children;
 		var ab;
@@ -128,23 +133,23 @@ var p = group.prototype = new createjs.Container();
 				new_pos = ch[i].setPosition(new_pos, delta);
 			}
 			
-			if (ch[i].animated) this.childAnimated = this.animated = true;
+			if (ch[i].animated) {
+				ch[i].uncache();
+				this.childAnimated = this.animated = true;
+			}
 			//console.log(ch[i].getBounds());
 		}
 		
-		
-		
+		if (this.childAnimated) {this.uncache();}
 
-		if (this.childAnimated && this.type === 'group') {
+		if (!this.childAnimated && !this.cacheID && this.type === 'group') {
 			this.uncache();
-			//console.log(this.name);
 			//this._bounds = null;
 			scale = Math.abs(sifPlayer.easelSif.getTotalScale(this));
 			ab = this.getBounds();
-			console.log(ab);
 			if (ab) {
-				
 				this.cache(ab.x , ab.y, ab.width, ab.height, scale);
+				
 			}
 			
 		}
@@ -153,38 +158,45 @@ var p = group.prototype = new createjs.Container();
 	}
 
 	
-	group.updateContextComposite = function (ctx) {
+	p.updateContext = function (ctx) {
 		//This step is done from easeljs anyway.
+		var mtx = this.getMatrix();
+		ctx.globalAlpha *= this.amount.getValue();
+		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( this.blend_method.getValue() );		
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+		
+	}
+	
+		
+	
+	group.getMatrixBone = function (matrix) {
+		var bone = this.sifobj.sif.bones.guid[this.bone];
+		var base = this.base_value;
+		var mtx = this._matrix.copy(bone._m);
+		mtx.appendTransform(base.offset.getX(), base.offset.getY(), base.scale.getX(), base.scale.getY(), base.angle.getValue(), 0, 0 ,0,0);
+
+		matrix = mtx.copy(mtx); 
+		return matrix;
+		
+	}
+	
+	group.getMatrixComposite = function (matrix) {
 		var tr = this.transformation;
 		var orx = this.origin.getX() + tr.offset.getX();
 		var ory = this.origin.getY()+ tr.offset.getY();
 
 	
 		
-		var sx = tr.scale.getX();
-		var sy = tr.scale.getY();
+		var sx = this.scaleX = tr.scale.getX();
+		var sy = this.scaleY = tr.scale.getY();
 
 
 		var a = tr.angle.getValue();
 		var mtx = this._matrix.identity().appendTransform(orx, ory, sx, sy, a, 0,0,0,0);
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 		
+		matrix = mtx.copy(mtx); 
+		return matrix;
 	}
-	
-		
-	
-	group.updateContextBone = function (ctx) {
-		var bone = this.sifobj.sif.bones.guid[this.bone];
-		var base = this.base_value;
-		var mtx = this._matrix.copy(bone._m);
-		mtx.appendTransform(base.offset.getX(), base.offset.getY(), base.scale.getX(), base.scale.getY(), base.angle.getValue(), 0, 0 ,0,0);
-		
-		
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-		
-	}
-	
-	
 	
 	
 

@@ -60,8 +60,6 @@ var p = Import.prototype = new createjs.Bitmap();
 		
 		sifPlayer._addToDesc(this, data);
 		
-
-		
 	}
 	
 // public methods:
@@ -73,6 +71,16 @@ var p = Import.prototype = new createjs.Bitmap();
 	
 	
 	p.updateContext = function (ctx) {
+		var that = this;
+		var mtx = this.getMatrix(this._matrix);
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+		ctx.globalAlpha *= that.amount.getValue();
+		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( that.blend_method.getValue() );
+
+		
+	}
+	
+	p.getMatrix = function (matrix) {
 		var that = this;
 		var brx = this.br.getX();
 		var bry = this.br.getY();
@@ -108,13 +116,10 @@ var p = Import.prototype = new createjs.Bitmap();
 		}
 		
 		var mtx = this._matrix.identity().appendTransform(tlx, tly, sx, sy, 0, 0,0,0,0);
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-		ctx.globalAlpha *= that.amount.getValue();
-		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( that.blend_method.getValue() );
-
 		
+		matrix = mtx.copy(mtx); 
+		return matrix;		
 	}
-	
 
 sifPlayer.easelSif.Import = Import;
 }());

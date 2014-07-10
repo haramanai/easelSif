@@ -139,10 +139,12 @@ var easelSif = {};
 		var sy = 1;
 		while (o != null) {
 			sx *= o.scaleX;
+			sy *= o.scaleY;
 			o = o.parent;
 		}
-		return sx;
+		return Math.sqrt(sx * sx  + sy * sy);
 	}
+
 	
 	/**
 	 * This function creates and return a new layer for the sifObject

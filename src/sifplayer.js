@@ -291,7 +291,36 @@ this.sifPlayer = this.sifPlayer || {};
 		}
 	}
 	
+	
+	sifPlayer._checkTimeline = function (timeline) {	
+		var tw = timeline._tweens;
+		var pos = timeline.position;
+		var check = false;
+		if (tw) {	
 
+			for (var i = 0, ii = tw.length; i < ii; i++) {
+				if (sifPlayer._checkTween(tw[i])) {check = true;}
+				
+			}
+
+		}
+		return check;
+	}
+	
+	sifPlayer._checkTween = function (tw) {
+		var props = tw._curQueueProps;
+		var target = tw._target;
+		var preprops = (target.preprops)?target.preprops : {};
+		var check = false;
+		
+		
+		for (var n in props) {
+			if (target[n] !== preprops[n]) check = true;
+			preprops[n] = target[n];
+		}
+		target.preprops = preprops;
+		return check;		
+	}
 
 window.sifPlayer = sifPlayer;
 }());

@@ -35,26 +35,27 @@ function outline(sifobj, data) {
 	this.sifobj = sifobj;
 	this.init(data);
 }
+var region = sifPlayer.easelSif.region.prototype;
 
 var p = outline.prototype = new createjs.Shape();
 
-p.init = sifPlayer.easelSif.region.prototype.init;
+p.init = region.init;
 
-p._getBline = sifPlayer.easelSif.region.prototype._getBline;
+p._getBline = region._getBline;
 
-p.collectEntries = sifPlayer.easelSif.region.prototype.collectEntries;
+p.collectEntries = region.collectEntries;
 
-p.compareEntries = sifPlayer.easelSif.region.prototype.compareEntries;
+p.compareEntries = region.compareEntries;
 
-p._bezierEntry = sifPlayer.easelSif.region.prototype._bezierEntry;
+p._bezierEntry = region._bezierEntry;
 
-p.setPosition = sifPlayer.easelSif.region.prototype.setPosition;
+p.setPosition = region.setPosition;
 
-p.updateShape = sifPlayer.easelSif.region.prototype.updateShape;
+p.updateShape = region.updateShape;
 
-p.updateValuesRegion = sifPlayer.easelSif.region.prototype.updateValues;
+p.updateContext = region.updateContext;
 
-p.checkBline = sifPlayer.easelSif.region.prototype.checkBline;
+p.getMatrix = region.getMatrix;
 
 p.updateValues = function () {
 	this.updateValuesRegion();

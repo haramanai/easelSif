@@ -66,7 +66,7 @@ var p = region.prototype = new createjs.Shape();
 		this.entries = this.collectEntries();
 		this.makeShape();
 		this.aabb = sifPlayer.aabbFromEntries(this.entries , (this.width)?this.width.getValue():null);
-
+		this.getMatrix();
 
 	}
 
@@ -173,45 +173,28 @@ var p = region.prototype = new createjs.Shape();
 	p.setPosition = function (position, delta) {
 		this.timeline.setPosition(position);
 		this.bline.timeline.setPosition(position);
-		this.animated = false;
+		this.animated = sifPlayer._checkTimeline(this.timeline);	
 		this.updateShape();
 		return position;
 	}
 	
 	p.updateShape = function () {
 		var e, aabb;
-		var scale = Math.abs(sifPlayer.easelSif.getTotalScale(this));
 		var width = (this.width) ? this.width.getValue() : null; 
-		//this.checkBline(); 
-		if (this.bline.animated || !this.cacheID) {
-			e = this.collectEntries();
-			if (!this.cacheID) {				
-				this.entries = e;
-				this.aabb = sifPlayer.aabbFromEntries(e, width);
+		if (sifPlayer._checkTimeline(this.bline.timeline)) {	
+				this.entries = this.collectEntries();
 				this.makeShape();
-			} else {
-				this.uncache();
-				this.entries = e;
-				this.aabb = sifPlayer.aabbFromEntries(e, width);
-				this.makeShape();
-				
+				this.animated = true;
+		} else {
+			aabb = sifPlayer.aabbFromEntries(this.entries, width);
+			this.setBounds(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1]);
+			if (!this.cacheID) {
+				var scale = Math.abs(sifPlayer.easelSif.getTotalScale(this));
+				this.cache(aabb[0], aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1], scale);
+				//console.log(scale);
 			}
 		}
-		 
-		 
-		e = this.entries;
-		aabb = this.aabb;
-		
-		if (!this.cacheID) {
-			this.animated = true;	
-			this.scale = scale;
 
-			this.setBounds(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1]);
-
-		}
-
-			
-		
 	}
 	
 	p.compareEntries = function (e2) {
@@ -236,38 +219,20 @@ var p = region.prototype = new createjs.Shape();
 	
 	p.updateContext = function (ctx) {	
 		var that = this;		
-		var orx = this.origin.getX();
-		var ory = this.origin.getY();
-		var mtx = this._matrix.identity().appendTransform(orx, ory, 1, 1, 0, 0,0,0,0);
+		var mtx = this.getMatrix();
 		ctx.globalAlpha *= that.amount.getValue();
 		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( that.blend_method.getValue() );
 		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 	}
 	
-	p.checkBline = function () {
-		this.bline.animated = false;
-		var bl = this.bline;
-		var tl = bl.timeline;
-		var tw = tl._tweens;
-		var pos = tl.position;
-		var step
+	p.getMatrix = function (matrix) {
+		var that = this;		
+		var orx = this.origin.getX();
+		var ory = this.origin.getY();
+		var mtx = this._matrix.identity().appendTransform(orx, ory, 1, 1, 0, 0,0,0,0);
 		
-		if (tw) {	
-			/*
-			for (var i = 0, ii = tw.length; i < ii; i++) {
-				for (var j = 0, jj = tw[i]._steps.length; j < jj; j++) {
-					step = tw[i]._steps[j];
-					if (pos >= step.t && pos < step.d) {
-						this.animated = true;
-					}
-				}
-				
-			}
-			*/
-			this.bline.animated = true;
-		}
-		//this.bline.animated = true;
-		//console.log(t);
+		matrix = mtx.copy(mtx); 
+		return matrix;		
 	}
 
 	

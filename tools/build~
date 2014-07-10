@@ -1,0 +1,3 @@
+#! /bin/bash
+
+java -jar compiler.jar --js ../src/hello.js --js_output_file ../build/sifplayer.min.js

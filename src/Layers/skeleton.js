@@ -70,9 +70,12 @@ var p = skeleton.prototype = new createjs.Shape();
 	p.setPosition = function (position) {
 		var guid = this.sifobj.sif.bones.guid;
 		var bones = this.bones;
+		var check = false;
 		for (var i = bones.length - 1, ii = 0; i >= ii; i--) {
 			guid[bones[i]].setPosition(position);
+			check = guid[bones[i]].animated = sifPlayer._checkTimeline(guid[bones[i]].timeline);
 		}
+		this.animated = true;
 		return position;
 		
 	}

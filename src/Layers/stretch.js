@@ -56,6 +56,8 @@ var p = stretch.prototype = new createjs.Container();
 		_set(this, 'center', 'vector', this, data.center);
 		
 		sifPlayer._addToDesc(this, data);
+		
+		this.getMatrix();
 
 	}
 
@@ -63,16 +65,23 @@ var p = stretch.prototype = new createjs.Container();
 	p.setPosition = sifPlayer.easelSif.group.prototype.setPosition;
 
 	p.updateContext = function (ctx) {
+		var mtx = this.getMatrix();
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+			
+	}
+	
+	p.getMatrix = function (matrix) {
 		var that = this;		
 		var orx = this.center.getX();
 		var ory = this.center.getY();
-		var sx = this.amount.getX();
+		var sx = this.scaleX = this.amount.getX();
 		var sy = this.amount.getY();
 		var mtx = this._matrix.identity().appendTransform(orx, ory, sx, sy, 0, 0,0,orx,orx);
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 		
-		
+		matrix = mtx.copy(mtx);
+		return matrix;
 	}
+		
 
 sifPlayer.easelSif.stretch = stretch;
 }());

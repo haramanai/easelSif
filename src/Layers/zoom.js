@@ -58,18 +58,27 @@ var p = zoom.prototype = new createjs.Container();
 
 		sifPlayer._addToDesc(this, data);
 
+		this.getMatrix();
 	}
 
 	
 	p.setPosition = sifPlayer.easelSif.rotate.prototype.setPosition;
 	
 	p.updateContext = function (ctx) {
-		var that = this;		
+		var mtx = this.getMatrix();
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+	}
+	
+	p.getMatrix = function (matrix) {
+	
 		var orx = this.center.getX();
 		var ory = this.center.getY();
-		var zoom = Math.exp(that.amount.getValue());
+		var zoom = this.scaleX = Math.exp(this.amount.getValue());
 		var mtx = this._matrix.identity().appendTransform(orx, ory, zoom, zoom, 0, 0,0,orx/zoom,orx/zoom);
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+		
+		matrix = mtx.copy(mtx);
+		return matrix;
+		
 	}
 
 

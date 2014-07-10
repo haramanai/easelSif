@@ -62,12 +62,19 @@ var p = rotate.prototype = new createjs.Container();
 
 
 	p.updateContext = function (ctx) {
-		var that = this;		
+		var mtx = this.getMatrix();		
+
+		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+	}
+	
+	p.getMatrix = function (matrix) {
 		var orx = this.origin.getX();
 		var ory = this.origin.getY();
 		var angle = this.amount.getValue();
 		var mtx = this._matrix.identity().appendTransform(orx, ory, 1, 1, angle, 0,0,orx,orx);
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+		
+		matrix = mtx.copy(mtx);
+		return matrix;
 	}
 
 sifPlayer.easelSif.rotate = rotate;
