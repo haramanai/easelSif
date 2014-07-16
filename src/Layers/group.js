@@ -46,6 +46,7 @@ var p = group.prototype = new createjs.Container();
 	 **/
 	p.init = function (data) {
 		var _set = sifPlayer.param._set;
+		
 		this.initialize()
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
@@ -61,7 +62,7 @@ var p = group.prototype = new createjs.Container();
 		var composite = data.transformation.composite;
 		
 		//COMPOSIT TRANSORMATION
-		if (composite) {		
+		if (composite) {
 			_set(this, 'offset', 'vector', this.transformation, composite.offset);
 			_set(this, 'angle', 'angle', this.transformation, composite.angle);
 			_set(this, 'skew_angle', 'angle', this.transformation, composite.skew_angle);
@@ -98,7 +99,26 @@ var p = group.prototype = new createjs.Container();
 			if (data.canvas.canvas) {
 				this._getLayers(data.canvas.canvas.layer);
 			} else {
-				this._getLayers(this.sifobj.sif.canvas.defs[data.canvas._use].canvas.layer);		
+				var use = data.canvas._use;
+				if (use.search('#') > 0) {
+					var r = this.sifobj.sifPath + use.slice(0,use.length - 1);
+					this._use = new sifPlayer.easelSif.SifObject();
+					this._use.preload = this.sifobj.preload;
+					//this._use.sifPath = this.sifobj.sifPath;
+					this._use.init(this.sifobj.preload.getResult(r));
+					
+					r = this._use.children;
+					
+					var list = this._use.children.slice(0);
+					for (var i=0,l=list.length; i<l; i++) {
+						this.addChild(list[i]);
+					}
+									
+					this._use.removeAllChildren();
+					
+				} else {
+					this._getLayers(this.sifobj.sif.canvas.defs[data.canvas._use].canvas.layer);
+				}
 			}
 		}
 		
@@ -118,6 +138,7 @@ var p = group.prototype = new createjs.Container();
 	 * param {Integer}
 	 **/		
 	p.setPosition = function (position, delta) {
+		//console.log(position);
 		this.childAnimated = false;
 		//For now the canvas
 		this.animated = (this.bone)? true : sifPlayer._checkTimeline(this.timeline);
@@ -173,8 +194,8 @@ var p = group.prototype = new createjs.Container();
 		var bone = this.sifobj.sif.bones.guid[this.bone];
 		var base = this.base_value;
 		var mtx = this._matrix.copy(bone._m);
+		//console.log(JSON.stringify(mtx));
 		mtx.appendTransform(base.offset.getX(), base.offset.getY(), base.scale.getX(), base.scale.getY(), base.angle.getValue(), 0, 0 ,0,0);
-
 		matrix = mtx.copy(mtx); 
 		return matrix;
 		

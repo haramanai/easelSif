@@ -30,108 +30,7 @@
 var easelSif = {};
 	
 
-	easelSif._getData = function (node) {
 
-		var	data = {};
-
-		// append a value
-		function Add(name, value) {
-
-			if (data[name]) {
-				if (data[name].constructor != Array) {
-					data[name] = [data[name]];
-				}
-				data[name][data[name].length] = value;
-			}
-			else {
-				data[name] = value;
-			}
-		};
-		
-		// element attributes
-		var c, cn, cname;
-		for (c = 0; cn = node.attributes[c]; c++) {
-			Add("_" + cn.name, sifPlayer._toSifValue(cn.value));
-		}
-		
-		// child elements
-		for (c = 0; cn = node.childNodes[c]; c++) {
-			if (cn.nodeType == 1) {
-				cname = cn.nodeName;
-				if (cn.childNodes.length == 1 && cn.firstChild.nodeType == 3) {
-					// text value
-					Add(cn.nodeName, sifPlayer._toSifValue(cn.firstChild.nodeValue));
-				}
-				else {
-					// A switch to help catch the changes we wand
-					
-					switch (cname) {
-						
-							
-							
-						case 'param':
-							/* To get the params out the param array 
-							*and set the name as propertie we will get
-							* the ugly: 
-							* bline.bline.entry[0].point.vector.x
-							* canvas.canvas.layer for the PasteCanvas
-							* color.color.a
-							* and some more but it's the best solution for
-							* a clean json 
-							* */
-							data[cn.getAttribute('name')] = easelSif._getData(cn);
-							break;
-							
-							
-						case 'layer':
-							/* layer and waypoint must always be array
-							 * 
-							 * */
-							
-							if (typeof data[cname] == 'undefined') data[cname] = [];
-							var layer_type = cn.getAttribute('type');
-
-							/*		Switch Layer Type
-							*	Push a fake layer of type restore and unshift the layer
-							* 	This is needed for rendering.
-							* */
-							switch (layer_type) {
-								case 'rotate': case 'translate': case 'zoom': case 'stretch':
-									//Add('layer', {_type: 'restore'});
-									Add(cn.nodeName, easelSif._getData(cn));
-									break;
-
-								case 'timeloop':
-									data.layer.unshift(easelSif._getData(cn));
-									break;
-
-								default:
-									Add(cn.nodeName, easelSif._getData(cn));						
-									break;
-										
-								
-									
-									
-							} //Switch Layer Type Over
-							break; //layer
-								
-						case 'waypoint': case 'entry': case 'bone_root': case 'bone':
-							/*  To be sure that it will be an array
-							 * */
-								if (typeof data[cname] == 'undefined') data[cname] = [];
-								//No break here just wanted to be sure that it will be an array.
-									
-						default:
-							Add(cname, easelSif._getData(cn))
-							break
-					} //Switch (cn.nodeName) END
-				}
-			}
-		}
-
-		return data;
-
-	}
 
 	
 	easelSif.getTotalScale = function (o) {
@@ -141,6 +40,12 @@ var easelSif = {};
 			sx *= o.scaleX;
 			sy *= o.scaleY;
 			o = o.parent;
+			if (o) {
+				if (o._ussed) {
+					o = this._ussed;
+				}
+			} 
+
 		}
 		return Math.sqrt(sx * sx  + sy * sy);
 	}
@@ -168,7 +73,7 @@ var easelSif = {};
 		o.timeline.setPaused(true);
 	}
 	
-		easelSif._getBlend = function (blend) {
+	easelSif._getBlend = function (blend) {
 	
 		switch (blend) {
 			case 0:

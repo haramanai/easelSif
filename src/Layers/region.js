@@ -184,6 +184,7 @@ var p = region.prototype = new createjs.Shape();
 		if (sifPlayer._checkTimeline(this.bline.timeline)) {	
 				this.entries = this.collectEntries();
 				this.makeShape();
+				this.uncache();
 				this.animated = true;
 		} else {
 			aabb = sifPlayer.aabbFromEntries(this.entries, width);

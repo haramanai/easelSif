@@ -48,8 +48,11 @@ var p = Import.prototype = new createjs.Bitmap();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (data) {
+		var preload = this.sifobj.preload;
 		var _set = sifPlayer.param._set;
-		this.initialize(this.sifobj.sifPath + data.filename.string)
+		var filename = data.filename.string;
+
+		this.initialize(preload.getResult(this.sifobj.sifPath + filename));
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
 		
@@ -69,7 +72,6 @@ var p = Import.prototype = new createjs.Bitmap();
 		return position;
 	}
 	
-	
 	p.updateContext = function (ctx) {
 		var that = this;
 		var mtx = this.getMatrix(this._matrix);
@@ -88,32 +90,29 @@ var p = Import.prototype = new createjs.Bitmap();
 		var tly = this.tl.getY();
 		var w,h,sx,sy;
 		
-		if (brx !== this.brx || bry !== this.bry || tlx !== this.tlx || tly !== this.tly) {
-			this.brx = brx; this.bry = bry; this.tlx = tlx; this.tly = tly;
-			w =  (brx - tlx);
-			h = (tly - bry)
+		w =  (brx - tlx);
+		h = (tly - bry)
 
-			if (w <= 0) {
-				sx = -1;
-				w *=-1;
-			} else {
-				sx = 1;
-			}
-			
-			if (h <= 0) {
-				sy = 1
-				h *=-1;
-			} else {
-				sy = -1;
-			}
-			
-			this.x = tlx;
-			this.y = tly;
-			this.scaleX = sx / this.image.width * w;
-			this.scaleY = sy / this.image.height * h;
-			
-			
+		if (w <= 0) {
+			sx = -1;
+			w *=-1;
+		} else {
+			sx = 1;
 		}
+		
+		if (h <= 0) {
+			sy = 1
+			h *=-1;
+		} else {
+			sy = -1;
+		}
+		
+
+		sx = sx / this.image.width * w;
+		sy = sy / this.image.height * h;
+			
+			
+
 		
 		var mtx = this._matrix.identity().appendTransform(tlx, tly, sx, sy, 0, 0,0,0,0);
 		
@@ -121,5 +120,6 @@ var p = Import.prototype = new createjs.Bitmap();
 		return matrix;		
 	}
 
+	
 sifPlayer.easelSif.Import = Import;
 }());

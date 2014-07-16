@@ -49,18 +49,40 @@ overflow: hidden;
 <script type='text/javascript'>
 function main() {
 	var stage = new createjs.Stage("canvas");
-	var so = new sifPlayer.easelSif.SifObject('assets/test2.sif' , {width: stage.canvas.width, height: stage.canvas.height, sifPath: 'assets/'});
-	so.timeline.loop = true;
-	stage.addChild(so);
-
-	createjs.Ticker.addEventListener("tick", handleTick);
 	
+	var so;
+
+	var queue = new createjs.LoadQueue(false);
+	queue.on("fileload", handleFileLoad, this);
+	queue.on("complete", handleComplete, this);
+	
+	queue.loadFile({id:'sifobj', src:'assets/test.sif', type:createjs.LoadQueue.XML});
 	
 	function handleTick(event) {
-		so.tick(event.delta);
+		//so.tick(event.delta);
 		stage.update();
 	}
 	 
+	function handleFileLoad(event) {
+		var item = event.item; // A reference to the item that was passed in to the LoadQueue
+		var type = item.type;
+		var id = item.id;
+		if (id === 'sifobj') {
+			so = new sifPlayer.easelSif.SifObject(event.result , {width: stage.canvas.width, height: stage.canvas.height, sifPath: 'assets/'});
+		}
+
+		 
+	}
+	
+	function handleComplete(event) {
+		so.timeline.loop = true;
+		stage.addChild(so);
+		console.log(stage.tickOnUpdate);
+		createjs.Ticker.addEventListener("tick", handleTick);
+				
+	}
+	
+	
 
 
 	
