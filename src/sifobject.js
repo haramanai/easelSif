@@ -43,10 +43,13 @@ function SifObject(sifFile, props) {
 		}
 		
 	}
-	//We need this for check if it is a sifobject.
-	this.sifPath = this.sifPath || '';	
+	//We need this for check if it is a sifobject. Let's get it from the name
+	//this.sifPath = this.sifPath || '';	
+	
+
 	this.timeline = new createjs.Timeline();
 	if (sifFile) {
+		this.sifPath = sifFile.slice(0 , sifFile.lastIndexOf('/') + 1);
 		this.preload = new createjs.LoadQueue(true);
 		this.preload.on("fileload", SifObject.handleFileLoad, this);
 		this.preload.on("complete", SifObject.handleComplete, this);
@@ -239,26 +242,24 @@ var p = SifObject.prototype = new createjs.Container();
 		var type = item.type;
 		var id = item.id;
 		//console.log(type);
-		if (type === createjs.LoadQueue.XML) {
-			
-			
+		if (type === createjs.LoadQueue.XML) {			
 			this.getFiles(event.result);
-
-
 		}
-		if (type === createjs.LoadQueue.IMAGE) {
-			console.log(id);
-		} 
-
-
 		 
 	}
 	
 	SifObject.handleComplete = function(event) {
-		//console.log('complete');
+		this.removeAllChildren(); // To clear a loading trick.
 		this.init(this.preload.getResult('sifobj'));
-		this.tick = this.tickReady;
+		/* 
+		 * this way we can skip a tick to give time for setting up the sifobject.
+		 */
+		this.tick = function () {
+			this.setPosition(0);
+			this.tick = this.tickReady;
+		}
 
+		
 	}
 	
 	// private methods:

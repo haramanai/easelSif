@@ -31,9 +31,8 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function timeloop(sifobj, data) {
-	this.sifobj = sifobj;
-	this.init(data);
+function timeloop() {
+	this.type = 'timeloop';
 }
 
 var p = timeloop.prototype = new createjs.DisplayObject();
@@ -45,7 +44,8 @@ var p = timeloop.prototype = new createjs.DisplayObject();
 	 * @param {Object} parent The parent of the Layer
 	 * @param {Object} data The data for the Layer
 	 **/
-	p.init = function (data) {
+	p.init = function (sifobj, data) {
+		this.sifobj = sifobj;
 		var _set = sifPlayer.param._set;	
 		
 		this.initialize()

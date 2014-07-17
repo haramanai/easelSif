@@ -40,11 +40,6 @@ var easelSif = {};
 			sx *= o.scaleX;
 			sy *= o.scaleY;
 			o = o.parent;
-			if (o) {
-				if (o._ussed) {
-					o = this._ussed;
-				}
-			} 
 
 		}
 		return Math.sqrt(sx * sx  + sy * sy);
@@ -58,9 +53,24 @@ var easelSif = {};
 	 * @param {Object} data the data for the layer
 	 * @return {Object} the a sif layer
 	 **/	
-	easelSif._getLayer = function (parent, data) {
-		if (sifPlayer.easelSif[data._type]) return new sifPlayer.easelSif[data._type](parent, data);
-		if (data._type === 'import') return new sifPlayer.easelSif.Import(parent, data);
+	easelSif._getLayer = function (sifobj, data) {
+		var o;
+		if (sifPlayer.easelSif[data._type]) {
+			o = new sifPlayer.easelSif[data._type]();
+			o.init(sifobj, data);
+			return o;
+		}
+		if (data._type === 'import') {
+			o = new sifPlayer.easelSif.Import();
+			o.init(sifobj, data);
+			return o;
+		}
+		
+		if (data._type === 'switch') {
+			o = new sifPlayer.easelSif.Switch();
+			o.init(sifobj, data);
+			return o;
+		}
 		// Not supported LAYER
 		console.log("EERRROOR  "  + data._type + " layer it's not supported");
 		//var bad_layer = new sifPlayer.easelSif.Layer();

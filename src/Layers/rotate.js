@@ -31,9 +31,8 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function rotate(sifobj, data) {
-	this.sifobj = sifobj;
-	this.init(data);
+function rotate() {
+	this.type = 'rotate';
 }
 
 var p = rotate.prototype = new createjs.Container();
@@ -44,18 +43,25 @@ var p = rotate.prototype = new createjs.Container();
 	 * @param {Object} parent The parent of the Layer
 	 * @param {Object} data The data for the Layer
 	 **/
-	p.init = function (data) {
+	p.init = function (sifobj, data) {
+		this.sifobj = sifobj;
 		var _set = sifPlayer.param._set;
 		this.initialize();
 		this.timeline = new createjs.Timeline();
-		this.timeline.duration = this.sifobj.timeline.duration;
 		this.timeline.setPaused(true);
-		
-		_set(this, 'origin', 'vector', this, data.origin);
-		_set(this, 'amount', 'angle', this, data.amount);
-		
-		sifPlayer._addToDesc(this, data);
+		this.timeline.duration = this.sifobj.timeline.duration;
 
+		this._setParams(data);
+		sifPlayer._addToDesc(this, data);
+		
+		this.getMatrix();
+
+	}
+	
+	p._setParams = function (data) {
+		var _set = sifPlayer.param._set;
+		_set(this, 'origin', 'vector', this, data.origin);
+		_set(this, 'amount', 'angle', this, data.amount);		
 	}
 	
 	p.setPosition = sifPlayer.easelSif.group.prototype.setPosition;

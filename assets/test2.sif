@@ -2397,8 +2397,8 @@
     </param>
     <param name="origin">
       <vector>
-        <x>0.0000000000</x>
-        <y>0.0000000000</y>
+        <x>0.3499999940</x>
+        <y>-0.0333333351</y>
       </vector>
     </param>
     <param name="invert">
@@ -2687,70 +2687,6 @@
       <composite type="transformation">
         <offset>
           <vector>
-            <x>-0.5576134920</x>
-            <y>-0.2188531905</y>
-          </vector>
-        </offset>
-        <angle>
-          <angle value="0.000000"/>
-        </angle>
-        <skew_angle>
-          <angle value="0.000000"/>
-        </skew_angle>
-        <scale>
-          <vector>
-            <x>1.0000000000</x>
-            <y>1.0000000000</y>
-          </vector>
-        </scale>
-      </composite>
-    </param>
-    <param name="enable_transformation">
-      <bool value="true"/>
-    </param>
-    <param name="canvas" use="test3.sif#"/>
-    <param name="time_offset">
-      <time value="0s"/>
-    </param>
-    <param name="children_lock">
-      <bool value="true"/>
-    </param>
-    <param name="outline_grow">
-      <real value="0.0000000000"/>
-    </param>
-    <param name="z_range">
-      <bool value="false" static="true"/>
-    </param>
-    <param name="z_range_position">
-      <real value="0.0000000000"/>
-    </param>
-    <param name="z_range_depth">
-      <real value="0.0000000000"/>
-    </param>
-    <param name="z_range_blur">
-      <real value="0.0000000000"/>
-    </param>
-  </layer>
-  <layer type="group" active="true" exclude_from_rendering="false" version="0.2">
-    <param name="z_depth">
-      <real value="0.0000000000"/>
-    </param>
-    <param name="amount">
-      <real value="1.0000000000"/>
-    </param>
-    <param name="blend_method">
-      <integer value="0" static="true"/>
-    </param>
-    <param name="origin">
-      <vector>
-        <x>0.0000000000</x>
-        <y>0.0000000000</y>
-      </vector>
-    </param>
-    <param name="transformation">
-      <composite type="transformation">
-        <offset>
-          <vector>
             <x>0.0000000000</x>
             <y>0.0000000000</y>
           </vector>
@@ -2793,6 +2729,163 @@
     </param>
     <param name="z_range_blur">
       <real value="0.0000000000"/>
+    </param>
+  </layer>
+  <layer type="group" active="true" exclude_from_rendering="false" version="0.2">
+    <param name="z_depth">
+      <real value="0.0000000000"/>
+    </param>
+    <param name="amount">
+      <real value="1.0000000000"/>
+    </param>
+    <param name="blend_method">
+      <integer value="0" static="true"/>
+    </param>
+    <param name="origin">
+      <vector>
+        <x>0.0000000000</x>
+        <y>0.0000000000</y>
+      </vector>
+    </param>
+    <param name="transformation">
+      <composite type="transformation">
+        <offset>
+          <vector>
+            <x>1.3666666746</x>
+            <y>-0.3000000119</y>
+          </vector>
+        </offset>
+        <angle>
+          <angle value="0.000000"/>
+        </angle>
+        <skew_angle>
+          <angle value="0.000000"/>
+        </skew_angle>
+        <scale>
+          <vector>
+            <x>1.0000000000</x>
+            <y>1.0000000000</y>
+          </vector>
+        </scale>
+      </composite>
+    </param>
+    <param name="enable_transformation">
+      <bool value="true"/>
+    </param>
+    <param name="canvas" use="test3.sif#"/>
+    <param name="time_offset">
+      <time value="0s"/>
+    </param>
+    <param name="children_lock">
+      <bool value="true"/>
+    </param>
+    <param name="outline_grow">
+      <real value="0.0000000000"/>
+    </param>
+    <param name="z_range">
+      <bool value="false" static="true"/>
+    </param>
+    <param name="z_range_position">
+      <real value="0.0000000000"/>
+    </param>
+    <param name="z_range_depth">
+      <real value="0.0000000000"/>
+    </param>
+    <param name="z_range_blur">
+      <real value="0.0000000000"/>
+    </param>
+  </layer>
+  <layer type="switch" active="true" exclude_from_rendering="false" version="0.0" desc="head.png">
+    <param name="z_depth">
+      <real value="0.0000000000"/>
+    </param>
+    <param name="amount">
+      <real value="1.0000000000"/>
+    </param>
+    <param name="blend_method">
+      <integer value="0" static="true"/>
+    </param>
+    <param name="origin">
+      <vector>
+        <x>0.0000000000</x>
+        <y>0.0000000000</y>
+      </vector>
+    </param>
+    <param name="transformation">
+      <composite type="transformation">
+        <offset>
+          <vector>
+            <x>2.2000000477</x>
+            <y>-0.9666666389</y>
+          </vector>
+        </offset>
+        <angle>
+          <angle value="58.781597"/>
+        </angle>
+        <skew_angle>
+          <angle value="0.000000"/>
+        </skew_angle>
+        <scale>
+          <vector>
+            <x>1.0000000000</x>
+            <y>1.0000000000</y>
+          </vector>
+        </scale>
+      </composite>
+    </param>
+    <param name="enable_transformation">
+      <bool value="true"/>
+    </param>
+    <param name="canvas">
+      <canvas>
+        <layer type="import" active="true" exclude_from_rendering="false" version="0.1" desc="head.png">
+          <param name="z_depth">
+            <real value="0.0000000000"/>
+          </param>
+          <param name="amount">
+            <real value="1.0000000000"/>
+          </param>
+          <param name="blend_method">
+            <integer value="0" static="true"/>
+          </param>
+          <param name="tl">
+            <vector>
+              <x>-1.2500000000</x>
+              <y>2.4916665554</y>
+            </vector>
+          </param>
+          <param name="br">
+            <vector>
+              <x>1.2500000000</x>
+              <y>-2.4916665554</y>
+            </vector>
+          </param>
+          <param name="c">
+            <integer value="1" static="true"/>
+          </param>
+          <param name="gamma_adjust">
+            <real value="1.0000000000"/>
+          </param>
+          <param name="filename">
+            <string>imgs/head.png</string>
+          </param>
+          <param name="time_offset">
+            <time value="0s"/>
+          </param>
+        </layer>
+      </canvas>
+    </param>
+    <param name="time_offset">
+      <time value="0s"/>
+    </param>
+    <param name="children_lock">
+      <bool value="true" static="true"/>
+    </param>
+    <param name="outline_grow">
+      <real value="0.0000000000"/>
+    </param>
+    <param name="layer_name">
+      <string>head.png</string>
     </param>
   </layer>
 </canvas>

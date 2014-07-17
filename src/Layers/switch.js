@@ -1,6 +1,6 @@
 /*
 * Copyright (c) 2014 haramanai.
-* outline
+* switch
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
 * files (the "Software"), to deal in the Software without
@@ -22,42 +22,27 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.sifPlayer = this.sifPlayer||{};
-this.sifPlayer.easelSif = this.sifPlayer.easelSif||{};
-(function() { 
+ (function() { 
 
 /**
-* @class region
+* @class switch
 * @extends Layer
 * @constructor
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
-**/	
-function outline() {
-	
+**/	 	
+function Switch() {
+	this.type = 'switch';
 }
 
-var p = outline.prototype = new sifPlayer.easelSif.region();
+var p = Switch.prototype = new sifPlayer.easelSif.group();
 
-
-p.makeShape = function () {
-	var e = this.entries;
-	var g = this.graphics;
-	g.clear();
-	g.setStrokeStyle( this.width.getValue() ); //To change
-	g.s( createjs.Graphics.getRGB( Math.round(this.color.r * 256),Math.round(this.color.g * 256),Math.round(this.color.b * 256), this.color.a) );
+	p.init_group = p.init;
 	
-	g.mt( e[0][0], e[0][1] );
-	for (var i = 1, ii = e.length; i !== ii; i++) {			
-		g.bt(e[i][0], e[i][1], e[i][2], e[i][3], e[i][4], e[i][5]);
-		
+	p.init = function (sifobj, data) {
+		this.init_group(sifobj,data);
 	}
-	g.es();
 	
-}
 
-
-
-
-sifPlayer.easelSif.outline = outline;
+sifPlayer.easelSif.Switch = Switch;
 }());

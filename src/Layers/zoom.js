@@ -32,12 +32,12 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function zoom(sifobj, data) {
-	this.sifobj = sifobj;
-	this.init(data);
+function zoom() {
+	
+	this.type = 'zoom';
 }
 
-var p = zoom.prototype = new createjs.Container();
+var p = zoom.prototype = new sifPlayer.easelSif.rotate();
 
 	/** 
 	 * Initialization method.
@@ -45,30 +45,12 @@ var p = zoom.prototype = new createjs.Container();
 	 * @param {Object} parent The parent of the Layer
 	 * @param {Object} data The data for the Layer
 	 **/
-	p.init = function (data) {
+	p._setParams = function (data) {
 		var _set = sifPlayer.param._set;
-		this.initialize();
-		this.timeline = new createjs.Timeline();
-		this.timeline.setPaused(true);
-		this.timeline.duration = this.sifobj.timeline.duration;
-
-		
 		_set(this, 'center', 'vector', this, data.center);
 		_set(this, 'amount', 'real', this, data.amount);
-
-		sifPlayer._addToDesc(this, data);
-
-		this.getMatrix();
 	}
 
-	
-	p.setPosition = sifPlayer.easelSif.rotate.prototype.setPosition;
-	
-	p.updateContext = function (ctx) {
-		var mtx = this.getMatrix();
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-	}
-	
 	p.getMatrix = function (matrix) {
 	
 		var orx = this.center.getX();

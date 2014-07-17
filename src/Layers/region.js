@@ -26,14 +26,11 @@
 
 /**
 * @class region
-* @extends Layer
+* @extends Shape
 * @constructor
-* @param {Object} parent The parent of the Layer
-* @param {Object} data The data for the Layer
 **/	
-function region(sifobj, data) {
-	this.sifobj = sifobj;
-	this.init(data);
+function region() {
+
 }
 
 var p = region.prototype = new createjs.Shape();
@@ -44,8 +41,8 @@ var p = region.prototype = new createjs.Shape();
 	 * @param {Object} parent The parent of the Layer
 	 * @param {Object} data The data for the Layer
 	 **/
-	p.init = function (data) {
-
+	p.init = function (sifobj, data) {
+		this.sifobj = sifobj;
 		var _set = sifPlayer.param._set;
 		this.initialize()
 		

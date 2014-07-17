@@ -32,43 +32,20 @@
 * @param {Object} data The data for the Layer
 **/	 	
 function stretch(sifobj, data) {
-	this.sifobj = sifobj;
-	this.init(data);
+	this.type = 'stretch';
 }
 
-var p = stretch.prototype = new createjs.Container();
+var p = stretch.prototype = new sifPlayer.easelSif.rotate();
 
-	/** 
-	 * Initialization method.
-	 * @method init
-	 * @param {Object} parent The parent of the Layer
-	 * @param {Object} data The data for the Layer
-	 **/
-	p.init = function (data) {
+	
+	p._setParams = function (data) {
 		var _set = sifPlayer.param._set;
-		this.initialize();
-		this.timeline = new createjs.Timeline();
-		this.timeline.setPaused(true);
-		this.timeline.duration = this.sifobj.timeline.duration;
-
-		
 		_set(this, 'amount', 'vector', this, data.amount);
 		_set(this, 'center', 'vector', this, data.center);
 		
-		sifPlayer._addToDesc(this, data);
 		
-		this.getMatrix();
-
 	}
-
 	
-	p.setPosition = sifPlayer.easelSif.group.prototype.setPosition;
-
-	p.updateContext = function (ctx) {
-		var mtx = this.getMatrix();
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-			
-	}
 	
 	p.getMatrix = function (matrix) {
 		var that = this;		

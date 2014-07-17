@@ -33,15 +33,14 @@
 **/	
 
  
-function skeleton(sifobj, data) {
-	this.sifobj = sifobj;
-	this.init(data);
+function skeleton() {
+	this.type = 'skeleton';
 }
 
 var p = skeleton.prototype = new createjs.Shape();
 
-	p.init = function (data) {
-
+	p.init = function (sifobj, data) {
+		this.sifobj = sifobj;
 		var _set = sifPlayer.param._set;
 		this.initialize()
 

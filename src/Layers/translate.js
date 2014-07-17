@@ -31,12 +31,11 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function translate(sifobj, data) {
-	this.sifobj = sifobj;
-	this.init(data);
+function translate() {
+	this.type = 'translate';
 }
 
-var p = translate.prototype = new createjs.Container();
+var p = translate.prototype = new sifPlayer.easelSif.rotate();
 
 	/** 
 	 * Initialization method.
@@ -44,30 +43,12 @@ var p = translate.prototype = new createjs.Container();
 	 * @param {Object} parent The parent of the Layer
 	 * @param {Object} data The data for the Layer
 	 **/
-	p.init = function (data) {
+	p._setParams = function (data) {
 		var _set = sifPlayer.param._set;
-		this.initialize();
-		this.timeline = new createjs.Timeline();
-		this.timeline.duration = this.sifobj.timeline.duration;
-		this.timeline.setPaused(true);
-
-		
 		_set(this, 'origin', 'vector', this, data.origin);
-		
-		sifPlayer._addToDesc(this, data);
-
 	}
 
-	
-	p.setPosition = sifPlayer.easelSif.group.prototype.setPosition;
 
-	
-	p.updateContext = function (ctx) {
-		var mtx = this.getMatrix(this._matrix);
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-
-	}
-	
 	p.getMatrix = sifPlayer.easelSif.region.prototype.getMatrix;
 
 sifPlayer.easelSif.translate = translate;

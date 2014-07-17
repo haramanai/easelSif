@@ -31,9 +31,8 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function group(sifobj, data) {
-	this.sifobj = sifobj;
-	this.init(data);
+function group() {
+	this.type = 'group';
 }
 
 var p = group.prototype = new createjs.Container();
@@ -44,14 +43,14 @@ var p = group.prototype = new createjs.Container();
 	 * @param {Object} parent The parent of the Layer
 	 * @param {Object} data The data for the Layer
 	 **/
-	p.init = function (data) {
-		var _set = sifPlayer.param._set;
-		
+	p.init = function (sifobj, data) {
+		this.sifobj = sifobj;
+		var _set = sifPlayer.param._set;	
 		this.initialize()
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
 		this.timeline.duration = this.sifobj.timeline.duration;
-		this.type = 'group';
+		
 
 
 		_set(this, 'amount', 'real', this, data.amount);
@@ -104,7 +103,7 @@ var p = group.prototype = new createjs.Container();
 					var r = this.sifobj.sifPath + use.slice(0,use.length - 1);
 					this._use = new sifPlayer.easelSif.SifObject();
 					this._use.preload = this.sifobj.preload;
-					//this._use.sifPath = this.sifobj.sifPath;
+					this._use.sifPath = this.sifobj.sifPath + use.slice(0 , use.lastIndexOf('/') + 1);
 					this._use.init(this.sifobj.preload.getResult(r));
 					
 					r = this._use.children;

@@ -34,9 +34,8 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 
-function Import (sifobj, data) {
-	this.sifobj = sifobj;
-	this.init(data);
+function Import () {
+
 }
 
 var p = Import.prototype = new createjs.Bitmap();
@@ -47,7 +46,8 @@ var p = Import.prototype = new createjs.Bitmap();
 	 * @param {Object} parent The parent of the Layer
 	 * @param {Object} data The data for the Layer
 	 **/
-	p.init = function (data) {
+	p.init = function (sifobj, data) {
+		this.sifobj = sifobj;
 		var preload = this.sifobj.preload;
 		var _set = sifPlayer.param._set;
 		var filename = data.filename.string;
