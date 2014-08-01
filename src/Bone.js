@@ -22,7 +22,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.sifPlayer = this.sifPlayer || {};
+this.easelSif = this.easelSif || {};
 (function() { 	
 		
 
@@ -35,7 +35,7 @@ this.sifPlayer = this.sifPlayer || {};
 	
 	p.init = function (sifobj, data) {
 	
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		
 		this.name = data.name.string;
 		this.parent = data.parent.bone_valuenode._guid;
@@ -98,15 +98,6 @@ this.sifPlayer = this.sifPlayer || {};
 		
 	}
 	
-	p.getParentScale = function () {
-		var parent = this.sifobj.sif.bones.guid[this.parent];
-		var s = new createjs.Point(0,0);
-		if (parent) {
-			s.x = parent._m.a;
-			s.y = parent._m.d;
-		}
-		return s;
-	}
 	
 	p.setPosition = function (position) {
 		var t = this.timeline;
@@ -121,6 +112,6 @@ this.sifPlayer = this.sifPlayer || {};
 
 
 
-sifPlayer.Bone = Bone;
+easelSif.Bone = Bone;
 }());
 

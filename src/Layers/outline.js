@@ -22,8 +22,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.sifPlayer = this.sifPlayer||{};
-this.sifPlayer.easelSif = this.sifPlayer.easelSif||{};
+
 (function() { 
 
 /**
@@ -37,12 +36,16 @@ function outline() {
 	
 }
 
-var p = outline.prototype = new sifPlayer.easelSif.region();
+var p = outline.prototype = new easelSif.region();
 
 
 p.makeShape = function () {
 	var e = this.entries;
 	var g = this.graphics;
+	
+	var aabb = easelSif.aabbFromEntries(this.entries , this.width.getValue());
+	this.setBounds(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1]);
+	
 	g.clear();
 	g.setStrokeStyle( this.width.getValue() ); //To change
 	g.s( createjs.Graphics.getRGB( Math.round(this.color.r * 256),Math.round(this.color.g * 256),Math.round(this.color.b * 256), this.color.a) );
@@ -59,5 +62,5 @@ p.makeShape = function () {
 
 
 
-sifPlayer.easelSif.outline = outline;
+easelSif.outline = outline;
 }());

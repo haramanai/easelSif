@@ -36,7 +36,8 @@ function rotate() {
 }
 
 var p = rotate.prototype = new createjs.Container();
-
+p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
+p.updateContext = easelSif.group.prototype.updateContext;
 	/** 
 	 * Initialization method.
 	 * @method init
@@ -45,26 +46,26 @@ var p = rotate.prototype = new createjs.Container();
 	 **/
 	p.init = function (sifobj, data) {
 		this.sifobj = sifobj;
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		this.initialize();
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
 		this.timeline.duration = this.sifobj.timeline.duration;
 
 		this._setParams(data);
-		sifPlayer._addToDesc(this, data);
+		easelSif._addToDesc(this, data);
 		
 		this.getMatrix();
 
 	}
 	
 	p._setParams = function (data) {
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		_set(this, 'origin', 'vector', this, data.origin);
 		_set(this, 'amount', 'angle', this, data.amount);		
 	}
 	
-	p.setPosition = sifPlayer.easelSif.group.prototype.setPosition;
+	p.setPosition = easelSif.group.prototype.setPosition;
 
 
 	p.updateContext = function (ctx) {
@@ -77,11 +78,11 @@ var p = rotate.prototype = new createjs.Container();
 		var orx = this.origin.getX();
 		var ory = this.origin.getY();
 		var angle = this.amount.getValue();
-		var mtx = this._matrix.identity().appendTransform(orx, ory, 1, 1, angle, 0,0,orx,orx);
+		matrix = (matrix ? matrix.identity() : new createjs.Matrix2D())
+		matrix.appendTransform(orx, ory, 1, 1, angle, 0,0,orx,orx);
 		
-		matrix = mtx.copy(mtx);
 		return matrix;
 	}
 
-sifPlayer.easelSif.rotate = rotate;
+easelSif.rotate = rotate;
 }());

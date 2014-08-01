@@ -35,7 +35,7 @@ function Switch() {
 	this.type = 'switch';
 }
 
-var p = Switch.prototype = new sifPlayer.easelSif.group();
+var p = Switch.prototype = new easelSif.group();
 
 	p.init_group = p.init;
 	
@@ -44,5 +44,5 @@ var p = Switch.prototype = new sifPlayer.easelSif.group();
 	}
 	
 
-sifPlayer.easelSif.Switch = Switch;
+easelSif.Switch = Switch;
 }());

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * composite
 * version 0.2.
 * Permission is hereby granted, free of charge, to any person
@@ -23,7 +23,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.sifPlayer.param = this.sifPlayer.param||{};
+this.easelSif.param = this.easelSif.param||{};
  (function() { 
 
 var composite =  {};
@@ -38,7 +38,7 @@ var composite =  {};
 	 * @param {Object} param_type the type of the data param.
 	 **/
 composite._get = function (layer, param_name, wanted_type, that, data) {
-	var param = sifPlayer.param;
+	var param = easelSif.param;
 	var _set = param._set;
 	
 	param_type = 'composite';
@@ -122,5 +122,5 @@ composite.bline_point_getT2 = function () {
 
 
 
-sifPlayer.param.composite = composite;
+easelSif.param.composite = composite;
 }());

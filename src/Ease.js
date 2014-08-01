@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * Ease
 * version 0.1.
 * Permission is hereby granted, free of charge, to any person
@@ -45,6 +45,6 @@
 	 **/	
 	Ease.bool = function (t) {return t < 1?1:0};
 	
-sifPlayer.Ease = Ease;
+easelSif.Ease = Ease;
 }());
 

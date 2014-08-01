@@ -1,29 +1,31 @@
-easelSif for HTML5 it's a lib to play an unzipped sif file on the html canvas.
-Sif are the files that produced by the open source vector animation software : Synfig www.synfig.org
+easelSif
+---
 
-It uses the createjs.EaselJS for rendering and interaction.
-TweenJS (MIT license) for the tweens. www.createjs.com
+ is a lib that uses [createJs](http://www.createjs.com/#!/CreateJS) 
+to load [preload](http://www.createjs.com/#!/PreloadJS), 
+display [easelJs](http://www.createjs.com/#!/EaselJS) 
+and animate [tweenJs](http://www.createjs.com/#!/TweenJS) 
+unzipped sif [Synfig](http://www.synfig.org) files.
 
-It's published under the MIT license.
+All published under the MIT license.
 
-It is a conversion of sifPlayer to run inside easeljs.
-Future development will be on easelSif and not sifPlayer.
 
 The object that is produced is a Container object of easeljs all the layers are easeljs objects.
 
 It is not complete future. 
 It supports the types of layers:
+
+	Group layer (Container)
 	Region  (Shape)
 	Outline (without point width) (Shape)
 	Circle  (Shape)
-	Import (image)
-	Group layer (Container)
-	Scale  (Container)
+	Import (image)	
+	Scale  (Container) ## ALL the tranformation layers are containers better use group layer
 	Translate  (Container)
 	Rotate  (Container)
 	Zoom	(Container)
 	Stretch  (Container)
-	Timeloop  (Container)
+	Timeloop  (DisplayObject)
 
 The blend methods that much the globalCompositeOperation of the context2d
 
@@ -37,7 +39,8 @@ The blend methods that much the globalCompositeOperation of the context2d
 
 The convert that you can use.
 
-Vector converts to:
+Vector converts to :
+
 	radial composite
 	composite
 	add
@@ -45,6 +48,7 @@ Vector converts to:
 	scale
 
 Real converts to:
+
 	add
 	subtract
 	scale
@@ -56,6 +60,7 @@ Real converts to:
 	reciprocal
 
 Angle converts to:
+
 	add
 	subtract
 	scale
@@ -65,11 +70,13 @@ Angle converts to:
 	vectorAngle
 
 Integer converts to:
+
 	add
 	subtract
 	scale
 
 Bool converts to:
+
 	and
 
 
@@ -81,40 +88,30 @@ Run the easelSif.html to see it.
 
 There is a min version in the build folder
 
-Also in the /assets/ are sifparser.html  you can run it to have an understanding of how the data looks like. But keep in mind that the defs will change in the init of the SifObject to be accessed by the id of the defs.
-
-		How to use it :
-
-	
-var def = {width: 320, height: 240, sifPath: 'assets/'};
-var sifobj = easelSif.SifObject( xmlDoc, def);
-
-As you can see the first param is an XML Document object.
-The def param is an javascript object everything that you may wand to add to the SifObject like the x position that will be the upper left corner of the SifObject in the context
-the width that you wand the SifObject to have
-And the necessary sifPath that you will need if you use imagies. With sifPath SifObject will know where to search for the imagies that your sif animation used.
-
-
-sifobj.tick(delta) //moves the sifobject's timeline 'delta' milliseconds.
-
-sifobj.setPosition( pos ) // set the position of sifobject's timeline to the 'pos' millisecs.
-
-
-
-
-The desc.
-The sifObject contains a propertie name desc. Desc is a reference of all the layers by name.
-For example if you wand to grap the layer : circle
-sifobj.desc['circle']
+The sifObject contains a property named desc.
+Desc is a reference of all the layers by name.
+For example if you wand to the layer named “circle”
+If there is only one 'circle' sifobj.desc['circle'] will be a refernce of the layer. 
+But if there are more layers named 'circle' then the
+sifobj.desc['circle'] will be an array with all the layers named 'circle'
 
 Also if you wand your animation to loop you can tell the timeline loop
 sifobj.timeline.loop = true;
 
-For more information about the timeline see the createjs tweenjs documentations.
----------------------------------------
-
-Don't forget that .sif files are xml files.
+You can unsync a layer by setting the property unsynced to True
 
 
+important
+----
+
+If you want to create a stage for easeljs and then import synfig files 
+that will work properly the x and y values you must set the Canvas property's (F8) Image Area to have
+top left to x : 0.0, y : 0.0
+
+For example 
+
+	Top Left	    X: 0,00000		Y: 0,00000
+	Bottom Right    X: 8,00000		Y: 4,50000
+	
 
 

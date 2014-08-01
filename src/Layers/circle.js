@@ -36,7 +36,7 @@ function circle(sifobj, data) {
 	this.sifobj = sifobj;
 	this.init(data);
 }
-var region = sifPlayer.easelSif.region.prototype;
+var region = easelSif.region.prototype;
 var p = circle.prototype = new createjs.Shape();
 
 	/** 
@@ -88,11 +88,11 @@ var p = circle.prototype = new createjs.Shape();
 		var mtx = this.getMatrix(this._matrix);
 		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 		ctx.globalAlpha *= this.amount.getValue();
-		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( this.blend_method.getValue() );
+		ctx.globalCompositeOperation = easelSif._getBlend( this.blend_method.getValue() );
 	}
 	
-	p.getMatrix = sifPlayer.easelSif.region.prototype.getMatrix;
+	p.getMatrix = easelSif.region.prototype.getMatrix;
 
 
-sifPlayer.easelSif.circle = circle;
+easelSif.circle = circle;
 }());

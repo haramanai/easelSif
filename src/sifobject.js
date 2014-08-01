@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * SifObject
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -43,10 +43,7 @@ function SifObject(sifFile, props) {
 		}
 		
 	}
-	//We need this for check if it is a sifobject. Let's get it from the name
-	//this.sifPath = this.sifPath || '';	
 	
-
 	this.timeline = new createjs.Timeline();
 	if (sifFile) {
 		this.sifPath = sifFile.slice(0 , sifFile.lastIndexOf('/') + 1);
@@ -105,7 +102,7 @@ var p = SifObject.prototype = new createjs.Container();
 		// element attributes
 		var c, cn, cname;
 		for (c = 0; cn = node.attributes[c]; c++) {
-			Add("_" + cn.name, sifPlayer._toSifValue(cn.value));
+			Add("_" + cn.name, easelSif._toSifValue(cn.value));
 		}
 		
 		// child elements
@@ -114,7 +111,7 @@ var p = SifObject.prototype = new createjs.Container();
 				cname = cn.nodeName;
 				if (cn.childNodes.length == 1 && cn.firstChild.nodeType == 3) {
 					// text value
-					Add(cn.nodeName, sifPlayer._toSifValue(cn.firstChild.nodeValue));
+					Add(cn.nodeName, easelSif._toSifValue(cn.firstChild.nodeValue));
 				}
 				else {
 					// A switch to help catch the changes we wand
@@ -251,10 +248,13 @@ var p = SifObject.prototype = new createjs.Container();
 	SifObject.handleComplete = function(event) {
 		this.removeAllChildren(); // To clear a loading trick.
 		this.init(this.preload.getResult('sifobj'));
+		this.ready = true;
+		this.setup(); 
 		/* 
 		 * this way we can skip a tick to give time for setting up the sifobject.
+
 		 */
-		this.tick = function () {
+		this.tick = function () {		
 			this.setPosition(0);
 			this.tick = this.tickReady;
 		}
@@ -283,8 +283,8 @@ var p = SifObject.prototype = new createjs.Container();
 		this.sif.canvas.antialias = data._antialias;
 		this.sif.canvas.fps = data._fps;
 		//convert the time to millis cause it's more common for computers...
-		this.sif.canvas.begin_time = sifPlayer._canvasTimeToMillis(data['_begin-time'], this.sif.canvas.fps);
-		this.sif.canvas.end_time = sifPlayer._canvasTimeToMillis(data['_end-time'], this.sif.canvas.fps);
+		this.sif.canvas.begin_time = easelSif._canvasTimeToMillis(data['_begin-time'], this.sif.canvas.fps);
+		this.sif.canvas.end_time = easelSif._canvasTimeToMillis(data['_end-time'], this.sif.canvas.fps);
 		var _bgcolor = data._bgcolor.split(" ");
 		this.sif.canvas.bgcolor = {};
 		//convert the color to 256 to much html5 ... I think so...
@@ -305,8 +305,9 @@ var p = SifObject.prototype = new createjs.Container();
 		
 		this.scaleX = this.width / (this.sif.canvas.view_box[2] - this.sif.canvas.view_box[0]);
 		this.scaleY = this.height / (this.sif.canvas.view_box[3] - this.sif.canvas.view_box[1]);
-		this.x = this.width / 2;
-		this.y = this.height / 2;
+		
+		if (this.sif.canvas.view_box[0]) this.x = this.width / 2;
+		if (this.sif.canvas.view_box[1]) this.y = this.height / 2;
 
 		//Get the layers
 		this._getLayers(data.layer);
@@ -363,7 +364,7 @@ var p = SifObject.prototype = new createjs.Container();
 		var g;
 		
 		for (var i = 0, ii = b.bone.length; i < ii; i++) {
-			guid[b.bone[i]._guid] = new sifPlayer.Bone(sifobj, b.bone[i]);
+			guid[b.bone[i]._guid] = new easelSif.Bone(sifobj, b.bone[i]);
 
 		}	
 		
@@ -380,7 +381,7 @@ var p = SifObject.prototype = new createjs.Container();
 			
 			for (var i = 0, ii = _layer.length; i < ii; i++) {	
 				_lt = _layer[i]._type;
-				_l = sifPlayer.easelSif._getLayer(sifobj, _layer[i]);
+				_l = easelSif._getLayer(sifobj, _layer[i]);
 
 				
 				if (_lt === 'rotate' || _lt === 'translate' || _lt === 'stretch' || _lt === 'zoom') {
@@ -412,19 +413,7 @@ var p = SifObject.prototype = new createjs.Container();
 	 * @param {Integer} delta
 	 **/		
 	p.tickReady = function (delta) {
-		this.animated = false;
-		this.timeline.tick(delta);
-		var new_pos = this.timeline.position;
-		var ch = this.children;
-		for (var i = 0, ii = this.children.length; i < ii; i++) {
-			if (ch[i].unsynced) {
-				new_pos = ch[i].setPosition( ch[i].timeline.position + delta , delta);					
-			} else {
-				new_pos = ch[i].setPosition(new_pos, delta);
-				
-			}
-			if (ch[i].animated) this.childAnimated = this.animated = true;
-		}
+		this.setPosition(this.timeline.position + delta);
 
 	}
 	
@@ -438,19 +427,32 @@ var p = SifObject.prototype = new createjs.Container();
 	 * @method setPosition
 	 * @param {Integer} time
 	 **/	
-	p.setPosition = function (time) {
-		this.timeline.setPosition(time);
+	p.setPosition = function (position) {
+		var delta = position - this.timeline.position;
+		this.animated = false;
+		this.timeline.setPosition(position);
 		var new_pos = this.timeline.position;
+		var ch = this.children;
 		for (var i = 0, ii = this.children.length; i < ii; i++) {
-			new_pos = this.children[i].setPosition(new_pos);
+			if (ch[i].unsynced) {
+				new_pos = ch[i].setPosition( ch[i].timeline.position + delta , delta);					
+			} else {
+				new_pos = ch[i].setPosition(new_pos, delta);
+				
+			}
+			if (ch[i].animated) this.childAnimated = this.animated = true;
 		}
 	}
 	
-	
+	//this method is for ovveride and setup objects of the sifobj after it's creation
+	p.setup = function () {
+		
+		return true;
+	}
 
 
 
 
-sifPlayer.easelSif.SifObject = SifObject;
+easelSif.SifObject = SifObject;
 }());
 

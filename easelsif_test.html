@@ -17,8 +17,7 @@ overflow: hidden;
 <script type='text/javascript' src="libs/tweenjs-0.5.1.min.js"></script>
 <script type='text/javascript' src="libs/preloadjs-0.4.1.min.js"></script>
 
-<script type='text/javascript' src="src/sifplayer.js"></script>
-<script type='text/javascript' src="src/easelsif.js"></script>
+<script type='text/javascript' src="src/easelSif.js"></script>
 <script type='text/javascript' src="src/Bone.js"></script>
 <script type='text/javascript' src="src/sifobject.js"></script>
 <script type='text/javascript' src="src/Ease.js"></script>
@@ -40,9 +39,9 @@ overflow: hidden;
 <script type='text/javascript' src="src/Layers/translate.js"></script>
 <script type='text/javascript' src="src/Layers/stretch.js"></script>
 <script type='text/javascript' src="src/Layers/zoom.js"></script>
-<script type='text/javascript' src="src/Layers/text.js"></script>
 <script type='text/javascript' src="src/Layers/skeleton.js"></script>
 <script type='text/javascript' src="src/Layers/switch.js"></script>
+<script type='text/javascript' src="src/Layers/fakeswitch.js"></script>
 
 
 
@@ -50,7 +49,7 @@ overflow: hidden;
 <script type='text/javascript'>
 function main() {
 	var stage = new createjs.Stage("canvas");
-	var so = new sifPlayer.easelSif.SifObject('assets/test2.sif' , {width: stage.canvas.width, height: stage.canvas.height, sifPath: 'assets/'});
+	var so = new easelSif.SifObject('assets/stage.sif' , {width: stage.canvas.width, height: stage.canvas.height});
 	so.timeline.loop = true;
 	stage.addChild(so);
 
@@ -59,10 +58,35 @@ function main() {
 	
 	function handleTick(event) {
 		so.tick(event.delta);
+		//so.setPosition(0);
 		stage.update();
 	}
-	 
+	
+	
+	so.setup = function () {
+		
+		var h = so.desc['enemy'][0];
 
+		var s = new easelSif.FakeSwitch(h, 30);
+
+		
+		//s.x = 0.1;
+
+		h.parent.addChild(s);
+		
+		h.x = 0.1;
+
+		h.parent.forcedAnimation = true;
+		
+		h.on("click", function(evt) {
+			evt.target.parent.forcedAnimation = true;
+			evt.target.parent.removeAllChildren();
+			
+		});
+
+	}
+	
+	
 
 	
 }

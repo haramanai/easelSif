@@ -34,6 +34,8 @@ function region() {
 }
 
 var p = region.prototype = new createjs.Shape();
+
+p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 	
 	/** 
 	 * Initialization method.
@@ -43,7 +45,7 @@ var p = region.prototype = new createjs.Shape();
 	 **/
 	p.init = function (sifobj, data) {
 		this.sifobj = sifobj;
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		this.initialize()
 		
 		this.timeline = new createjs.Timeline();
@@ -58,11 +60,10 @@ var p = region.prototype = new createjs.Shape();
 		if (data.width) { _set(this.bline, 'width', 'real', this, data.width); }
 		
 		
-		sifPlayer._addToDesc(this, data);
+		easelSif._addToDesc(this, data);
 
 		this.entries = this.collectEntries();
 		this.makeShape();
-		this.aabb = sifPlayer.aabbFromEntries(this.entries , (this.width)?this.width.getValue():null);
 		this.getMatrix();
 
 	}
@@ -74,7 +75,7 @@ var p = region.prototype = new createjs.Shape();
 	 * @method _getBline
 	 **/		
 	p._getBline = function (data) {
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		this.bline = {};
 		this.bline.sifobj = this.sifobj;
 		this.bline.timeline = new createjs.Timeline();
@@ -155,6 +156,10 @@ var p = region.prototype = new createjs.Shape();
 	p.makeShape = function () {
 		var e = this.entries;
 		var g = this.graphics;
+		
+		var aabb = easelSif.aabbFromEntries(this.entries);
+		this.setBounds(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1]);
+		
 		g.clear();
 		g.f( createjs.Graphics.getRGB( Math.round(this.color.r * 256),Math.round(this.color.g * 256),Math.round(this.color.b * 256), this.color.a) );
 		
@@ -170,71 +175,45 @@ var p = region.prototype = new createjs.Shape();
 	p.setPosition = function (position, delta) {
 		this.timeline.setPosition(position);
 		this.bline.timeline.setPosition(position);
-		this.animated = sifPlayer._checkTimeline(this.timeline);	
+		this.animated = easelSif._checkTimeline(this.timeline);	
 		this.updateShape();
 		return position;
 	}
 	
 	p.updateShape = function () {
-		var e, aabb;
+		var e;
+		
 		var width = (this.width) ? this.width.getValue() : null; 
-		if (sifPlayer._checkTimeline(this.bline.timeline)) {	
+		if (easelSif._checkTimeline(this.bline.timeline)) {			
 				this.entries = this.collectEntries();
 				this.makeShape();
 				this.uncache();
 				this.animated = true;
 		} else {
-			aabb = sifPlayer.aabbFromEntries(this.entries, width);
-			this.setBounds(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1]);
 			if (!this.cacheID) {
-				var scale = Math.abs(sifPlayer.easelSif.getTotalScale(this));
-				this.cache(aabb[0], aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1], scale);
+				var scale = Math.abs(easelSif.getTotalScale(this));
+				this.cache(this._bounds.x, this._bounds.y, this._bounds.width, this._bounds.height, scale);
 				//console.log(scale);
 			}
 		}
 
 	}
 	
-	p.compareEntries = function (e2) {
-		var e1 = this.entries;
-		if (this.entries) {
-			
-			if (e1[0][0] !== e2[0][0]) return false;
-			if (e1[0][1] !== e2[0][1]) return false;
-			for (var i = 1, ii = e1.length; i < ii; i++) {
-				if (e1[i][0] !== e2[i][0]) return false;
-				if (e1[i][1] !== e2[i][1]) return false;
-				if (e1[i][2] !== e2[i][2]) return false;
-				if (e1[i][3] !== e2[i][3]) return false;
-				if (e1[i][4] !== e2[i][4]) return false;
-				if (e1[i][5] !== e2[i][5]) return false;
-			}
-		} else {
-			return false;
-		}
-		return true;
-	}
 	
-	p.updateContext = function (ctx) {	
-		var that = this;		
-		var mtx = this.getMatrix();
-		ctx.globalAlpha *= that.amount.getValue();
-		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( that.blend_method.getValue() );
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-	}
 	
 	p.getMatrix = function (matrix) {
 		var that = this;		
 		var orx = this.origin.getX();
 		var ory = this.origin.getY();
-		var mtx = this._matrix.identity().appendTransform(orx, ory, 1, 1, 0, 0,0,0,0);
-		
-		matrix = mtx.copy(mtx); 
-		return matrix;		
+
+		return (matrix ? matrix.identity() : new createjs.Matrix2D()).appendTransform(orx, ory, 1, 1, 0, 0,0,0,0);	
 	}
+	
+
+
 
 	
 
 
-sifPlayer.easelSif.region = region;
+easelSif.region = region;
 }());

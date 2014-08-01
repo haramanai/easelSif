@@ -35,7 +35,7 @@ function translate() {
 	this.type = 'translate';
 }
 
-var p = translate.prototype = new sifPlayer.easelSif.rotate();
+var p = translate.prototype = new easelSif.rotate();
 
 	/** 
 	 * Initialization method.
@@ -44,12 +44,12 @@ var p = translate.prototype = new sifPlayer.easelSif.rotate();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p._setParams = function (data) {
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		_set(this, 'origin', 'vector', this, data.origin);
 	}
 
 
-	p.getMatrix = sifPlayer.easelSif.region.prototype.getMatrix;
+	p.getMatrix = easelSif.region.prototype.getMatrix;
 
-sifPlayer.easelSif.translate = translate;
+easelSif.translate = translate;
 }());

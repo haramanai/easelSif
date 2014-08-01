@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * angle
 * version 0.2.
 * Permission is hereby granted, free of charge, to any person
@@ -23,14 +23,14 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.sifPlayer.param = this.sifPlayer.param||{};
+this.easelSif.param = this.easelSif.param||{};
  (function() { 
 
 var angle =  {};
 
 
 angle._setConvert = function (layer, param, wanted_type, is_type) {
-	var type = sifPlayer.param.angle;
+	var type = easelSif.param.angle;
 	
 	if (wanted_type === is_type) {
 		param.getValue = type.getValue;
@@ -89,5 +89,5 @@ angle.vectorangle = function () {
 
 
 
-sifPlayer.param.angle = angle;
+easelSif.param.angle = angle;
 }());

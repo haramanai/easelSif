@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * integer
 * version 0.2.
 * Permission is hereby granted, free of charge, to any person
@@ -23,14 +23,14 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.sifPlayer.param = this.sifPlayer.param||{};
+this.easelSif.param = this.easelSif.param||{};
  (function() { 
 
 var integer =  {};
 
 
 integer._setConvert = function (layer, param, wanted_type, is_type) {
-	var type = sifPlayer.param.integer;
+	var type = easelSif.param.integer;
 	if (wanted_type === is_type) {
 		param.getValue = type.getValue;
 		param.setValue = type.setValue;
@@ -70,5 +70,5 @@ integer.scale = function () {
 
 
 
-sifPlayer.param.integer = integer;
+easelSif.param.integer = integer;
 }());

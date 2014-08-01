@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * real
 * version 0.2.
 * Permission is hereby granted, free of charge, to any person
@@ -23,7 +23,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.sifPlayer.param = this.sifPlayer.param||{};
+this.easelSif.param = this.easelSif.param||{};
  (function() { 
 
 var real =  {};
@@ -31,7 +31,7 @@ var real =  {};
 real.degsToRad = 0.0174532925;
 
 real._setConvert = function (layer, param, wanted_type, is_type) {
-	var type = sifPlayer.param.real;
+	var type = easelSif.param.real;
 	if (wanted_type === is_type) {
 		param.getValue = type.getValue;
 		param.setValue = type.setValue;
@@ -105,5 +105,5 @@ real.reciprocal = function () {
 
 
 
-sifPlayer.param.real = real;
+easelSif.param.real = real;
 }());

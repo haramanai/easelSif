@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * timeloop
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
@@ -46,7 +46,7 @@ var p = timeloop.prototype = new createjs.DisplayObject();
 	 **/
 	p.init = function (sifobj, data) {
 		this.sifobj = sifobj;
-		var _set = sifPlayer.param._set;	
+		var _set = easelSif.param._set;	
 		
 		this.initialize()
 		this.timeline = new createjs.Timeline();
@@ -58,7 +58,7 @@ var p = timeloop.prototype = new createjs.DisplayObject();
 		_set(this, 'local_time', 'integer', this, data.local_time);
 		_set(this, 'duration', 'integer', this, data.duration);
 		
-		sifPlayer._addToDesc(this, data);
+		easelSif._addToDesc(this, data);
 		
 	};
 	
@@ -93,6 +93,6 @@ var p = timeloop.prototype = new createjs.DisplayObject();
 
 
 
-sifPlayer.easelSif.timeloop = timeloop;
+easelSif.timeloop = timeloop;
 }());
 

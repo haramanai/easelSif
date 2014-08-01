@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * convert
 * version 0.1.
 * Permission is hereby granted, free of charge, to any person
@@ -23,37 +23,37 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.sifPlayer.param = this.sifPlayer.param||{};
-this.sifPlayer.param.convert = this.sifPlayer.param.convert||{};
+this.easelSif.param = this.easelSif.param||{};
+this.easelSif.param.convert = this.easelSif.param.convert||{};
  (function() { 
-var convert = sifPlayer.param.convert;
+var convert = easelSif.param.convert;
 
 convert._set = function (layer, param, wanted_type, is_type) {
 	
 	//VECTOR
 	if (wanted_type === 'vector') {
-		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 	}
 			
 	else if ( wanted_type === 'real') {
-		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 		
 	}
 	
 	else if ( wanted_type === 'integer') {
-		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 	}
 	
 	else if ( wanted_type === 'angle') {
-		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 		
 	}
 	else if ( wanted_type === 'bool') {
-		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 		
 	}
 	else if ( wanted_type === 'composite') {
-		sifPlayer.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
+		easelSif.param[wanted_type]._setConvert(layer, param, wanted_type, is_type)
 		
 	}
 	

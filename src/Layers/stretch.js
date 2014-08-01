@@ -35,7 +35,7 @@ function stretch(sifobj, data) {
 	this.type = 'stretch';
 }
 
-var p = stretch.prototype = new sifPlayer.easelSif.rotate();
+var p = stretch.prototype = new easelSif.rotate();
 
 	
 	p._setParams = function (data) {
@@ -53,12 +53,12 @@ var p = stretch.prototype = new sifPlayer.easelSif.rotate();
 		var ory = this.center.getY();
 		var sx = this.scaleX = this.amount.getX();
 		var sy = this.amount.getY();
-		var mtx = this._matrix.identity().appendTransform(orx, ory, sx, sy, 0, 0,0,orx,orx);
-		
-		matrix = mtx.copy(mtx);
+		matrix = (matrix ? matrix.identity() : new createjs.Matrix2D())
+		matrix.appendTransform(orx, ory, sx, sy, 0, 0,0,orx,orx);
+
 		return matrix;
 	}
 		
 
-sifPlayer.easelSif.stretch = stretch;
+easelSif.stretch = stretch;
 }());

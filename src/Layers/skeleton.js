@@ -37,18 +37,19 @@ function skeleton() {
 	this.type = 'skeleton';
 }
 
-var p = skeleton.prototype = new createjs.Shape();
+var p = skeleton.prototype = new createjs.DisplayObject();
 
 	p.init = function (sifobj, data) {
 		this.sifobj = sifobj;
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		this.initialize()
 
 		_set(this, 'amount', 'real', this, data.amount);
 
 		//console.log(JSON.stringify(data));
 		this._getBones(data.bones);
-		sifPlayer._addToDesc(this, data);
+		easelSif._addToDesc(this, data);
+		//this.setPosition(0);
 
 	}
 	
@@ -64,7 +65,7 @@ var p = skeleton.prototype = new createjs.Shape();
 		
 	}
 	
-
+	
 	
 	p.setPosition = function (position) {
 		var guid = this.sifobj.sif.bones.guid;
@@ -72,16 +73,15 @@ var p = skeleton.prototype = new createjs.Shape();
 		var check = false;
 		for (var i = bones.length - 1, ii = 0; i >= ii; i--) {
 			guid[bones[i]].setPosition(position);
-			check = guid[bones[i]].animated = sifPlayer._checkTimeline(guid[bones[i]].timeline);
+			//check = guid[bones[i]].animated = easelSif._checkTimeline(guid[bones[i]].timeline);
 		}
 		this.animated = true;
 		return position;
 		
 	}
 	
-	
 
 
 
-sifPlayer.easelSif.skeleton = skeleton;
+easelSif.skeleton = skeleton;
 }());

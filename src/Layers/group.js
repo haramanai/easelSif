@@ -45,7 +45,7 @@ var p = group.prototype = new createjs.Container();
 	 **/
 	p.init = function (sifobj, data) {
 		this.sifobj = sifobj;
-		var _set = sifPlayer.param._set;	
+		var _set = easelSif.param._set;	
 		this.initialize()
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
@@ -87,12 +87,12 @@ var p = group.prototype = new createjs.Container();
 			this.base_value = base_value;
 
 			this.getMatrix = group.getMatrixBone;
-			this.getMatrix();
+			//this.getMatrix();
 		}
 		
 		
 		
-		sifPlayer._addToDesc(this, data);
+		easelSif._addToDesc(this, data);
 
 		if (data.canvas) {
 			if (data.canvas.canvas) {
@@ -101,7 +101,7 @@ var p = group.prototype = new createjs.Container();
 				var use = data.canvas._use;
 				if (use.search('#') > 0) {
 					var r = this.sifobj.sifPath + use.slice(0,use.length - 1);
-					this._use = new sifPlayer.easelSif.SifObject();
+					this._use = new easelSif.SifObject();
 					this._use.preload = this.sifobj.preload;
 					this._use.sifPath = this.sifobj.sifPath + use.slice(0 , use.lastIndexOf('/') + 1);
 					this._use.init(this.sifobj.preload.getResult(r));
@@ -120,15 +120,14 @@ var p = group.prototype = new createjs.Container();
 				}
 			}
 		}
-		
-		//alert(JSON.stringify(this.children));
-		//this.updateValues();
+
 		
 	}
 	
-	p._getLayers = sifPlayer.easelSif.SifObject.prototype._getLayers;
+	p._getLayers = easelSif.SifObject.prototype._getLayers;
 	
-	p.moveChildrenTo = sifPlayer.easelSif.SifObject.prototype.moveChildrenTo;
+	p.moveChildrenTo = easelSif.SifObject.prototype.moveChildrenTo;
+	
 
 
 	/**
@@ -138,9 +137,9 @@ var p = group.prototype = new createjs.Container();
 	 **/		
 	p.setPosition = function (position, delta) {
 		//console.log(position);
-		this.childAnimated = false;
+		this.childAnimated = this.forcedAnimation;
 		//For now the canvas
-		this.animated = (this.bone)? true : sifPlayer._checkTimeline(this.timeline);
+		this.animated = (this.bone)? true : easelSif._checkTimeline(this.timeline) || this.forcedAnimation;
 		var scale;
 		this.timeline.setPosition(position);
 		var new_pos = this.timeline.position;
@@ -161,11 +160,11 @@ var p = group.prototype = new createjs.Container();
 		}
 		
 		if (this.childAnimated) {this.uncache();}
-
+		
 		if (!this.childAnimated && !this.cacheID && this.type === 'group') {
 			this.uncache();
 			//this._bounds = null;
-			scale = Math.abs(sifPlayer.easelSif.getTotalScale(this));
+			scale = Math.abs(easelSif.getTotalScale(this));
 			ab = this.getBounds();
 			if (ab) {
 				this.cache(ab.x , ab.y, ab.width, ab.height, scale);
@@ -173,7 +172,8 @@ var p = group.prototype = new createjs.Container();
 			}
 			
 		}
-
+		
+		this.forcedAnimation = false;
 		return position;
 	}
 
@@ -182,7 +182,7 @@ var p = group.prototype = new createjs.Container();
 		//This step is done from easeljs anyway.
 		var mtx = this.getMatrix();
 		ctx.globalAlpha *= this.amount.getValue();
-		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( this.blend_method.getValue() );		
+		ctx.globalCompositeOperation = easelSif._getBlend( this.blend_method.getValue() );		
 		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 		
 	}
@@ -192,34 +192,48 @@ var p = group.prototype = new createjs.Container();
 	group.getMatrixBone = function (matrix) {
 		var bone = this.sifobj.sif.bones.guid[this.bone];
 		var base = this.base_value;
-		var mtx = this._matrix.copy(bone._m);
-		//console.log(JSON.stringify(mtx));
-		mtx.appendTransform(base.offset.getX(), base.offset.getY(), base.scale.getX(), base.scale.getY(), base.angle.getValue(), 0, 0 ,0,0);
-		matrix = mtx.copy(mtx); 
+		matrix = bone._m.copy(bone._m);
+		//console.log(JSON.stringify(matrix));
+		matrix.appendTransform(base.offset.getX(), base.offset.getY(), base.scale.getX(), base.scale.getY(), base.angle.getValue(), 0, 0 ,0,0);
 		return matrix;
 		
 	}
 	
 	group.getMatrixComposite = function (matrix) {
 		var tr = this.transformation;
-		var orx = this.origin.getX() + tr.offset.getX();
-		var ory = this.origin.getY()+ tr.offset.getY();
+		var orx = this.origin.getX() + tr.offset.getX() + this.x;
+		var ory = this.origin.getY()+ tr.offset.getY() + this.y;
 
 	
 		
-		var sx = this.scaleX = tr.scale.getX();
-		var sy = this.scaleY = tr.scale.getY();
+		var sx = this.scaleSifX = tr.scale.getX();
+		var sy = this.scaleSifY = tr.scale.getY();
 
 
 		var a = tr.angle.getValue();
-		var mtx = this._matrix.identity().appendTransform(orx, ory, sx, sy, a, 0,0,0,0);
-		
-		matrix = mtx.copy(mtx); 
+		matrix = (matrix ? matrix.identity() : new createjs.Matrix2D())
+		matrix.appendTransform(orx, ory, sx, sy, a, 0,0,0,0);
+
 		return matrix;
 	}
-	
-	
+
+	/* Slightly modified easeljs DysplayObject method
+	*/
+	p.getConcatenatedMatrix = function(matrix) {
+		if (matrix) { matrix.identity(); }
+		else { matrix = new createjs.Matrix2D(); }
+		var o = this;
+		while (o != null) {
+			
+			var m = o.getMatrix();
+			//matrix.prependTransform(o.x, o.y, o.scaleX, o.scaleY, o.rotation, o.skewX, o.skewY, o.regX, o.regY).prependProperties(o.alpha, o.shadow, o.compositeOperation);
+			matrix.prependMatrix(m);
+			o = o.parent;
+		}
+		
+		return matrix;
+	};	
 
 
-sifPlayer.easelSif.group = group;
+easelSif.group = group;
 }());

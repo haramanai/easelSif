@@ -37,7 +37,7 @@ function zoom() {
 	this.type = 'zoom';
 }
 
-var p = zoom.prototype = new sifPlayer.easelSif.rotate();
+var p = zoom.prototype = new easelSif.rotate();
 
 	/** 
 	 * Initialization method.
@@ -56,13 +56,13 @@ var p = zoom.prototype = new sifPlayer.easelSif.rotate();
 		var orx = this.center.getX();
 		var ory = this.center.getY();
 		var zoom = this.scaleX = Math.exp(this.amount.getValue());
-		var mtx = this._matrix.identity().appendTransform(orx, ory, zoom, zoom, 0, 0,0,orx/zoom,orx/zoom);
+		matrix = (matrix ? matrix.identity() : new createjs.Matrix2D())
+		matrix.appendTransform(orx, ory, zoom, zoom, 0, 0,0,orx/zoom,orx/zoom);
 		
-		matrix = mtx.copy(mtx);
 		return matrix;
 		
 	}
 
 
-sifPlayer.easelSif.zoom = zoom;
+easelSif.zoom = zoom;
 }());

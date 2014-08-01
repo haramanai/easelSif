@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012 haramanai.
+* Copyright (c) 2014 haramanai.
 * bool
 * version 0.2.
 * Permission is hereby granted, free of charge, to any person
@@ -23,13 +23,13 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-this.sifPlayer.param = this.sifPlayer.param||{};
+this.easelSif.param = this.easelSif.param||{};
  (function() { 
 
 var bool =  {};
 
 bool._get = function (layer, param_name, wanted_type, that, data) {
-	var param = sifPlayer.param;
+	var param = easelSif.param;
 	var param_type = 'bool';
 	var w, tw, time;
 	var tw_def = {paused: true, useTick: true};
@@ -51,18 +51,18 @@ bool._get = function (layer, param_name, wanted_type, that, data) {
 
 
 		if (w[0]._time !== "0s") {
-			ease = sifPlayer.Ease.bool;
-			time = sifPlayer._secsToMillis(w[0]._time);
+			ease = easelSif.Ease.bool;
+			time = easelSif._secsToMillis(w[0]._time);
 			tw.to( {value: w[0][param_type]._value},
 				time, ease);
 		}
 
 				
 		for (var i = 0; i < w.length - 1; i++) {
-			ease = (easeInOut[1 - easeIn])? sifPlayer.Ease.bool : sifPlayer.Ease.constant;
+			ease = (easeInOut[1 - easeIn])? easelSif.Ease.bool : easelSif.Ease.constant;
 			easeIn = 1 - easeIn;
 			//easeInOut[1 - easeIn]
-			time = sifPlayer._secsToMillis(w[i + 1]._time) - sifPlayer._secsToMillis(w[i]._time);						
+			time = easelSif._secsToMillis(w[i + 1]._time) - easelSif._secsToMillis(w[i]._time);						
 			if (w[i][param_type]._value !== w[i + 1][param_type]._value) {
 				tw.to( {value: w[i + 1][param_type]._value},
 					time, ease);
@@ -87,7 +87,7 @@ bool._get = function (layer, param_name, wanted_type, that, data) {
 
 
 bool._setConvert = function (layer, param, wanted_type, is_type, animated) {
-	var type = sifPlayer.param.bool;
+	var type = easelSif.param.bool;
 	if (wanted_type === is_type) {
 		param.getValue = type.getValue;
 		param.setValue = type.setValue;
@@ -117,5 +117,5 @@ bool.getAnd = function () {
 
 
 
-sifPlayer.param.bool = bool;
+easelSif.param.bool = bool;
 }());

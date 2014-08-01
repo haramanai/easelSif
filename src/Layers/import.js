@@ -39,7 +39,7 @@ function Import () {
 }
 
 var p = Import.prototype = new createjs.Bitmap();
-
+p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 	/** 
 	 * Initialization method.
 	 * @method init
@@ -49,7 +49,7 @@ var p = Import.prototype = new createjs.Bitmap();
 	p.init = function (sifobj, data) {
 		this.sifobj = sifobj;
 		var preload = this.sifobj.preload;
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		var filename = data.filename.string;
 
 		this.initialize(preload.getResult(this.sifobj.sifPath + filename));
@@ -61,7 +61,7 @@ var p = Import.prototype = new createjs.Bitmap();
 		_set(this, 'tl', 'vector', this, data.tl);
 		_set(this, 'br', 'vector', this, data.br);
 		
-		sifPlayer._addToDesc(this, data);
+		easelSif._addToDesc(this, data);
 		
 	}
 	
@@ -77,7 +77,7 @@ var p = Import.prototype = new createjs.Bitmap();
 		var mtx = this.getMatrix(this._matrix);
 		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
 		ctx.globalAlpha *= that.amount.getValue();
-		ctx.globalCompositeOperation = sifPlayer.easelSif._getBlend( that.blend_method.getValue() );
+		ctx.globalCompositeOperation = easelSif._getBlend( that.blend_method.getValue() );
 
 		
 	}
@@ -113,13 +113,12 @@ var p = Import.prototype = new createjs.Bitmap();
 			
 			
 
-		
-		var mtx = this._matrix.identity().appendTransform(tlx, tly, sx, sy, 0, 0,0,0,0);
-		
-		matrix = mtx.copy(mtx); 
+		matrix = (matrix ? matrix.identity() : new createjs.Matrix2D())
+		matrix.appendTransform(tlx, tly, sx, sy, 0, 0,0,0,0);
+
 		return matrix;		
 	}
 
 	
-sifPlayer.easelSif.Import = Import;
+easelSif.Import = Import;
 }());

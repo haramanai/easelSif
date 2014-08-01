@@ -64,7 +64,7 @@ var p = text.prototype = new createjs.Text();
 		_set(this, 'orient', 'vector', this, data.orient);
 		_set(this, 'origin', 'vector', this, data.origin);
 		
-		sifPlayer._addToDesc(this, data);
+		easelSif._addToDesc(this, data);
 		
 		var s = easelSif.getTotalScale(this);
 		this.initialize(this.text.string, '10px ' + this.family.string, "#ff7700");

@@ -20,7 +20,7 @@ overflow: hidden;
 <script type='text/javascript'>
 function main() {
 	var stage = new createjs.Stage("canvas");
-	var so = new sifPlayer.easelSif.SifObject('assets/test2.sif' , {width: stage.canvas.width, height: stage.canvas.height, sifPath: 'assets/'});
+	var so = new easelSif.SifObject('assets/stage.sif' , {width: stage.canvas.width, height: stage.canvas.height, sifPath: 'assets/'});
 	so.timeline.loop = true;
 	stage.addChild(so);
 
