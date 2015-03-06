@@ -31,11 +31,13 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function timeloop() {
+function timeloop(sifobj , data) {
+	this.DisplayObject_constructor();
 	this.type = 'timeloop';
+	if (data) this.init(sifobj , data);
 }
 
-var p = timeloop.prototype = new createjs.DisplayObject();
+var p = createjs.extend(timeloop, createjs.DisplayObject);
 
 
 	/** 
@@ -47,8 +49,7 @@ var p = timeloop.prototype = new createjs.DisplayObject();
 	p.init = function (sifobj, data) {
 		this.sifobj = sifobj;
 		var _set = easelSif.param._set;	
-		
-		this.initialize()
+		this.name = (data._desc)?data._desc:data._type;
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
 		this.timeline.duration = this.sifobj.timeline.duration;
@@ -93,6 +94,6 @@ var p = timeloop.prototype = new createjs.DisplayObject();
 
 
 
-easelSif.timeloop = timeloop;
+easelSif.timeloop = createjs.promote(timeloop , 'DisplayObject');
 }());
 

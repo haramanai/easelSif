@@ -32,12 +32,12 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function zoom() {
-	
+function zoom(sifobj, data) {
 	this.type = 'zoom';
+	this.rotate_constructor(sifobj, data);
 }
 
-var p = zoom.prototype = new easelSif.rotate();
+var p = createjs.extend(zoom , easelSif.rotate);
 
 	/** 
 	 * Initialization method.
@@ -46,7 +46,7 @@ var p = zoom.prototype = new easelSif.rotate();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p._setParams = function (data) {
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		_set(this, 'center', 'vector', this, data.center);
 		_set(this, 'amount', 'real', this, data.amount);
 	}
@@ -64,5 +64,5 @@ var p = zoom.prototype = new easelSif.rotate();
 	}
 
 
-easelSif.zoom = zoom;
+easelSif.zoom = createjs.promote(zoom , 'rotate');
 }());

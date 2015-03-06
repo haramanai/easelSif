@@ -33,16 +33,17 @@
 **/	
 
  
-function skeleton() {
+function skeleton(sifobj , data) {
+	this.DisplayObject_constructor();
 	this.type = 'skeleton';
+	if (data) this.init(sifobj , data);
 }
 
-var p = skeleton.prototype = new createjs.DisplayObject();
+var p = createjs.extend(skeleton, createjs.DisplayObject);
 
 	p.init = function (sifobj, data) {
 		this.sifobj = sifobj;
 		var _set = easelSif.param._set;
-		this.initialize()
 
 		_set(this, 'amount', 'real', this, data.amount);
 
@@ -68,6 +69,7 @@ var p = skeleton.prototype = new createjs.DisplayObject();
 	
 	
 	p.setPosition = function (position) {
+		//console.log(this.sifobj);
 		var guid = this.sifobj.sif.bones.guid;
 		var bones = this.bones;
 		var check = false;
@@ -83,5 +85,5 @@ var p = skeleton.prototype = new createjs.DisplayObject();
 
 
 
-easelSif.skeleton = skeleton;
+easelSif.skeleton = createjs.promote(skeleton , 'DisplayObject');
 }());

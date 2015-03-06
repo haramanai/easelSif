@@ -2,6 +2,11 @@
 <head>
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="full-screen" content="true"/>
+<meta name="screen-orientation" content="portrait"/>
+<meta name="x5-fullscreen" content="true"/>
+<meta name="360-fullscreen" content="true"/>
 <style>
 body {
 margin: 0px;
@@ -9,15 +14,11 @@ overflow: hidden;
 }
 </style>
 </head>
-<body onload="main()">
+<body onload="preload()">
 <div id='easelSif'></div>
 <canvas id="canvas"  width="480" height="270"</canvas>
-
-<script type='text/javascript' src="libs/easeljs-0.7.1.min.js"></script>
-<script type='text/javascript' src="libs/tweenjs-0.5.1.min.js"></script>
-<script type='text/javascript' src="libs/preloadjs-0.4.1.min.js"></script>
-
-<script type='text/javascript' src="src/easelSif.js"></script>
+<script src="https://code.createjs.com/createjs-2014.12.12.min.js"></script>
+<script type='text/javascript' src="build/easelsif.min.js"></script><script type='text/javascript' src="src/easelSif.js"></script>
 <script type='text/javascript' src="src/Bone.js"></script>
 <script type='text/javascript' src="src/sifobject.js"></script>
 <script type='text/javascript' src="src/Ease.js"></script>
@@ -45,47 +46,32 @@ overflow: hidden;
 
 
 
-
 <script type='text/javascript'>
+	
+function preload() {
+	easelSif.loadfile('assets/play.sif');
+	createjs.Ticker.setFPS(60);
+	
+}	
+
 function main() {
 	var stage = new createjs.Stage("canvas");
-	var so = new easelSif.SifObject('assets/stage.sif' , {width: stage.canvas.width, height: stage.canvas.height});
-	so.timeline.loop = true;
-	stage.addChild(so);
-
 	createjs.Ticker.addEventListener("tick", handleTick);
 	
 	
+	var so = new easelSif.SifObject('assets/play.sif' , stage.canvas.width, stage.canvas.height);
+	so.timeline.loop = true;
+	stage.addChild(so);
+
+	so.setPosition(0);
+	//stage.update();
+	
 	function handleTick(event) {
 		so.tick(event.delta);
-		//so.setPosition(0);
+		
 		stage.update();
 	}
-	
-	
-	so.setup = function () {
-		
-		var h = so.desc['enemy'][0];
-
-		var s = new easelSif.FakeSwitch(h, 30);
-
-		
-		//s.x = 0.1;
-
-		h.parent.addChild(s);
-		
-		h.x = 0.1;
-
-		h.parent.forcedAnimation = true;
-		
-		h.on("click", function(evt) {
-			evt.target.parent.forcedAnimation = true;
-			evt.target.parent.removeAllChildren();
-			
-		});
-
-	}
-	
+	 
 	
 
 	

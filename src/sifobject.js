@@ -35,51 +35,27 @@
 * @param {Number} height The height of the SifObject
 * @param {String} sifPath The path of the sif.xml this is needed for import layer
 **/
-function SifObject(sifFile, props) {
-	if (props) {
-		
-		for (c in props) {
-			this[c] = props[c];
-		}
-		
-	}
+function SifObject(filename , width, height) {
+	'use strict'
+	this.Container_constructor();
+	this.sifobj = this;
+	this.sifPath = '';
+	p.desc = {};
+	this.width = (width)?width:64;
+	this.height = (height)?height:64;
 	
 	this.timeline = new createjs.Timeline();
-	if (sifFile) {
-		this.sifPath = sifFile.slice(0 , sifFile.lastIndexOf('/') + 1);
-		this.preload = new createjs.LoadQueue(true);
-		this.preload.on("fileload", SifObject.handleFileLoad, this);
-		this.preload.on("complete", SifObject.handleComplete, this);
-		this.preload.loadFile({id:'sifobj', src:sifFile, type:createjs.LoadQueue.XML});
-		
-	}
-	//this.init(xmlDoc);
+
+	if (filename) this.init(filename);
 
 }
 
-var p = SifObject.prototype = new createjs.Container();
+var p = createjs.extend(SifObject, createjs.Container);
 
 // public properties:
 
 
 
-	p.sifPath = '';
-			
-	/**
-	 * The timeline to use for the tweens
-	 * @property timeline
-	 * @type Object
-	 **/
-	p.timeline = null;
-	
-	/**
-	 * Referense to the layers by desc. This is the way to connect with
-	 * the sif.
-	 * @property desc
-	 * @type Object
-	 **/
-	p.desc = {};
-	
 
 	p._getData = function (node) {
 
@@ -192,9 +168,12 @@ var p = SifObject.prototype = new createjs.Container();
 	 * @method init
 	 * @param {XmlDocument} xmlDoc The xml document that represents the synfig animation
 	 **/
-	 p.init = function (xmlDoc) {
-		 
-		this.initialize();
+	 p.init = function (filename) {
+		var xmlDoc = easelSif.preload.getResult(filename);
+		//console.log(filename);
+		this.sifPath = filename.slice(0,(filename.search('/'))?filename.search('/') + 1:0 );
+		
+		//this.initialize();
 		this.sifobj = this;
 		var data = this._getData(xmlDoc.getElementsByTagName('canvas')[0]);		
 		this.timeline.setPaused(true);	
@@ -203,64 +182,8 @@ var p = SifObject.prototype = new createjs.Container();
 		
 	}
 	
-	p.getFiles = function (xmlDoc) {
-		var preload = this.preload;
-		var params = xmlDoc.getElementsByTagName('param');
-		
-		for (var i = 0, ii = params.length; i < ii; i++) {
-			var r = params[i].getAttribute('name');
-			if (r === 'filename') {
-				//console.log(r.slice('.'));
-				var rr = this.sifPath + params[i].getElementsByTagName('string')[0].childNodes[0].nodeValue;
-				if (!this.preload.getItem(rr)) {
-					this.preload.loadFile({src:rr});
-				}
-				//console.log(this.preload);
-			} else if (r === 'canvas') {
-				var rr = params[i].getAttribute('use');
-					if (rr) {
-						if (rr.search('#') > 0) {
-							rr = this.sifPath + rr.slice(0, rr.length - 1);
-							if (!this.preload.getItem(rr)) {
-								this.preload.loadFile({src:rr, type: createjs.LoadQueue.XML});
-							}
-							
-						}
-					}
-			}
-			
-			
-		}
-		
-	}
-	
-	SifObject.handleFileLoad = function(event) {
-		var item = event.item; // A reference to the item that was passed in to the LoadQueue
-		var type = item.type;
-		var id = item.id;
-		//console.log(type);
-		if (type === createjs.LoadQueue.XML) {			
-			this.getFiles(event.result);
-		}
-		 
-	}
-	
-	SifObject.handleComplete = function(event) {
-		this.removeAllChildren(); // To clear a loading trick.
-		this.init(this.preload.getResult('sifobj'));
-		this.ready = true;
-		this.setup(); 
-		/* 
-		 * this way we can skip a tick to give time for setting up the sifobject.
 
-		 */
-		this.tick = function () {		
-			this.setPosition(0);
-			this.tick = this.tickReady;
-		}
 
-		
-	}
 	
 	// private methods:
 
@@ -412,15 +335,11 @@ var p = SifObject.prototype = new createjs.Container();
 	 * @method tick
 	 * @param {Integer} delta
 	 **/		
-	p.tickReady = function (delta) {
+	p.tick = function (delta) {
 		this.setPosition(this.timeline.position + delta);
 
 	}
-	
-	p.tick = function () {
-		//console.log('loading');
-		
-	}
+
 	
 	/**
 	 * 
@@ -428,6 +347,7 @@ var p = SifObject.prototype = new createjs.Container();
 	 * @param {Integer} time
 	 **/	
 	p.setPosition = function (position) {
+		
 		var delta = position - this.timeline.position;
 		this.animated = false;
 		this.timeline.setPosition(position);
@@ -451,8 +371,6 @@ var p = SifObject.prototype = new createjs.Container();
 	}
 
 
-
-
-easelSif.SifObject = SifObject;
+easelSif.SifObject = createjs.promote(SifObject, "Container");
 }());
 

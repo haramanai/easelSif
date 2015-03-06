@@ -32,11 +32,13 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	
-function outline() {
+function outline(sifobj, data) {
+	'use strict'
+	this.region_constructor(sifobj, data);
 	
 }
 
-var p = outline.prototype = new easelSif.region();
+var p = createjs.extend(outline, easelSif.region);
 
 
 p.makeShape = function () {
@@ -47,7 +49,7 @@ p.makeShape = function () {
 	this.setBounds(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1]);
 	
 	g.clear();
-	g.setStrokeStyle( this.width.getValue() ); //To change
+	g.setStrokeStyle( this.width.getValue() , "round" ); //To change
 	g.s( createjs.Graphics.getRGB( Math.round(this.color.r * 256),Math.round(this.color.g * 256),Math.round(this.color.b * 256), this.color.a) );
 	
 	g.mt( e[0][0], e[0][1] );
@@ -62,5 +64,5 @@ p.makeShape = function () {
 
 
 
-easelSif.outline = outline;
+easelSif.outline = createjs.promote(outline, 'region');
 }());

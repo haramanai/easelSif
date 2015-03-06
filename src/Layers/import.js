@@ -34,11 +34,14 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 
-function Import () {
-
+function Import (sifobj , data) {
+	this.Bitmap_constructor();
+	
+	if (data) this.init(sifobj , data);
 }
 
-var p = Import.prototype = new createjs.Bitmap();
+var p = createjs.extend(Import , createjs.Bitmap);
+
 p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 	/** 
 	 * Initialization method.
@@ -51,8 +54,9 @@ p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 		var preload = this.sifobj.preload;
 		var _set = easelSif.param._set;
 		var filename = data.filename.string;
-
-		this.initialize(preload.getResult(this.sifobj.sifPath + filename));
+		this.image = preload.getResult(this.sifobj.sifPath + filename);
+		
+		
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
 		
@@ -120,5 +124,5 @@ p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 	}
 
 	
-easelSif.Import = Import;
+easelSif.Import = createjs.promote(Import, 'Bitmap');
 }());

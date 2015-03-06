@@ -1,0 +1,223 @@
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<style>
+body {
+margin: 0px;
+overflow: hidden;
+}
+</style>
+</head>
+<body onload="preload()">
+<div id='easelSif'></div>
+<canvas id="canvas"  width="640" height="480"</canvas>
+
+<script type='text/javascript' src="libs/easeljs-0.8.0.combined.js"></script>
+<script type='text/javascript' src="libs/tweenjs-0.6.0.combined.js"></script>
+<script type='text/javascript' src="libs/preloadjs-0.6.0.combined.js"></script>
+<script type='text/javascript' src="libs/p2.js"></script>
+
+<script type='text/javascript' src="src/easelSif.js"></script>
+<script type='text/javascript' src="src/Bone.js"></script>
+<script type='text/javascript' src="src/sifobject.js"></script>
+<script type='text/javascript' src="src/Ease.js"></script>
+<script type='text/javascript' src="src/Param/param.js"></script>
+<script type='text/javascript' src="src/Param/vector.js"></script>
+<script type='text/javascript' src="src/Param/composite.js"></script>	
+<script type='text/javascript' src="src/Param/integer.js"></script>
+<script type='text/javascript' src="src/Param/real.js"></script>
+<script type='text/javascript' src="src/Param/angle.js"></script>
+<script type='text/javascript' src="src/Param/bool.js"></script>
+<script type='text/javascript' src="src/Param/convert.js"></script>
+<script type='text/javascript' src="src/Layers/group.js"></script>
+<script type='text/javascript' src="src/Layers/region.js"></script>
+<script type='text/javascript' src="src/Layers/outline.js"></script>
+<script type='text/javascript' src="src/Layers/circle.js"></script>
+<script type='text/javascript' src="src/Layers/import.js"></script>
+<script type='text/javascript' src="src/Layers/timeloop.js"></script>
+<script type='text/javascript' src="src/Layers/rotate.js"></script>
+<script type='text/javascript' src="src/Layers/translate.js"></script>
+<script type='text/javascript' src="src/Layers/stretch.js"></script>
+<script type='text/javascript' src="src/Layers/zoom.js"></script>
+<script type='text/javascript' src="src/Layers/skeleton.js"></script>
+<script type='text/javascript' src="src/Layers/switch.js"></script>
+<script type='text/javascript' src="src/Layers/fakeswitch.js"></script>
+
+
+
+
+<script type='text/javascript'>
+function preload() {
+	easelSif.loadfile('assets/p2_test2.sif');
+}	
+	
+
+function main() {
+	var world = new p2.World();
+	var buttons = {
+		space : false,
+		spacePressed: false,
+		left :  false,
+		right : false,
+	};
+	
+	world.defaultContactMaterial.friction = 1;
+	world.setGlobalStiffness(1e5);
+	world.gravity[1] = -10;
+	var stage = new createjs.Stage("canvas");
+	var so = new easelSif.SifObject('assets/p2_test2.sif', stage.canvas.width, stage.canvas.height);
+	so.timeline.loop = true;
+	so.scaleX = 40;
+	so.scaleY = -40;
+	stage.addChild(so);
+	createjs.Ticker.addEventListener("tick", handleTick);
+	
+	var box = so.getChildByName('box');
+	box.speed = 7;
+	box.jumpSpeed = 8;
+	SifP2Box(world , box , 1 , true);
+	box.p2Body.damping = 0.4;
+	//box.p2Body.inertia = 100;
+	console.log(box.p2Body);
+	
+	
+	var box2 = [];
+	for (var i = 0; i < so.children.length;i++){
+		if (so.children[i].name === 'box2') {
+			box2.push(so.children[i]);
+			SifP2Box(world, so.children[i] , 1);
+		}
+	}
+	
+	planeShape = new p2.Plane();
+	planeBody = new p2.Body({position:[0,-3.5]});
+	planeBody.addShape(planeShape);
+	world.addBody(planeBody);
+	
+	window.onkeydown = function(event){
+		switch(event.keyCode){
+			case 38: // up
+			case 32: // space
+				if (!event.repeat) { 
+					buttons.spacePressed = true;
+				} else {
+					buttons.spacePressed = false;
+				}
+				buttons.space = true;
+				break;
+			case 39: // right
+				buttons.right = true;
+				break;
+			case 37: // left
+				buttons.left = true;
+				break;
+		}
+	}
+
+	window.onkeyup = function(event){
+		switch(event.keyCode){
+			case 38: // up
+			case 32: // space
+				buttons.space = false;
+				break;
+			case 39: // right
+				buttons.right = false;
+				break;
+			case 37: // left
+				buttons.left = false;
+				break;
+		}
+	}
+	
+	function handleTick(event) {
+		so.tick(event.delta);
+			
+		//so.setPosition(0);
+		// Apply button response
+		var timeloop = box.getChildByName('assets/small_guy.sif').getChildByName('timeloop');
+		if(buttons.right){
+			timeloop.link_time.value = 500;
+			timeloop.duration.value = 1000;
+			box.p2Body.velocity[0] =  box.speed;
+			if (box.transformation.scale.x < 0) box.transformation.scale.x *=-1; 
+		}
+		else if(buttons.left){
+			timeloop.link_time.value = 500;
+			timeloop.duration.value = 1000;
+			box.p2Body.velocity[0] = -box.speed;
+			if (box.transformation.scale.x > 0) box.transformation.scale.x *=-1; 
+		}
+		else {
+			timeloop.link_time.value = 0;
+			timeloop.duration.value = 0;
+			box.p2Body.velocity[0] = 0;
+		}
+		if(checkIfCanJump()) {
+			box.p2Body.velocity[1] = 0;
+			if (buttons.space) {
+				box.p2Body.velocity[1] = box.jumpSpeed;
+			}
+		} else {
+			timeloop.link_time.value = 0;
+			timeloop.duration.value = 0;
+		}
+		world.step(1/30);
+
+		
+		box.updateP2Body();
+		for (var i = 0;i < box2.length;i++) {
+			box2[i].updateP2Body();
+		}
+		stage.update();
+
+	}
+	
+	
+
+
+
+	
+	function SifP2Box(world , o , mass, fixedRotation) {
+		fixedRotation = (fixedRotation)?fixedRotation:false;
+		mass = (mass)?mass:0;
+		var b = o.getChildByName('collision');
+		o.unsyched = true;
+		//console.log(b.entries);
+		var boxShape = new p2.Rectangle(b.entries[1][4] - b.entries[0][0] , b.entries[0][1] - b.entries[3][5]);
+		o.p2Body = new p2.Body({ mass:mass, position:[o.transformation.offset.x, o.transformation.offset.y],angle: o.transformation.angle.value * Math.PI  / 180, fixedRotation:fixedRotation});
+		o.p2Body.addShape(boxShape);
+		world.addBody(o.p2Body);
+		o.updateP2Body = function() {
+			o.transformation.offset.x = o.p2Body.position[0];
+			o.transformation.offset.y = o.p2Body.position[1];
+			if (!o.p2Body.fixeRotation) {
+				o.transformation.angle.value = o.p2Body.angle / Math.PI * 180;
+			}
+		}
+	}
+	
+	var yAxis = p2.vec2.fromValues(0,1);
+	function checkIfCanJump(){
+		var result = false;
+		for(var i=0; i<world.narrowphase.contactEquations.length; i++){
+			var c = world.narrowphase.contactEquations[i];
+			if(c.bodyA === box.p2Body || c.bodyB === box.p2Body){
+				var d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
+				if(c.bodyA === box.p2Body) d *= -1;
+				if(d > 0.5) result = true;
+			}
+		}
+		return result;
+	}
+	
+
+	
+}
+
+
+
+
+</script>
+</body>
+</html>

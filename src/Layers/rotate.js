@@ -31,13 +31,19 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function rotate() {
+function rotate(sifobj, data) {
+	this.Container_constructor();
 	this.type = 'rotate';
+	this.sifobj = sifobj;
+	
+	this.timeline = new createjs.Timeline();
+	this.transformMatrix = new createjs.Matrix2D();
+	
+	if (data) this.init(sifobj , data);
 }
 
-var p = rotate.prototype = new createjs.Container();
-p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
-p.updateContext = easelSif.group.prototype.updateContext;
+var p = createjs.extend(rotate , createjs.Container);
+
 	/** 
 	 * Initialization method.
 	 * @method init
@@ -45,13 +51,10 @@ p.updateContext = easelSif.group.prototype.updateContext;
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (sifobj, data) {
-		this.sifobj = sifobj;
 		var _set = easelSif.param._set;
-		this.initialize();
-		this.timeline = new createjs.Timeline();
+
 		this.timeline.setPaused(true);
 		this.timeline.duration = this.sifobj.timeline.duration;
-
 		this._setParams(data);
 		easelSif._addToDesc(this, data);
 		
@@ -67,22 +70,13 @@ p.updateContext = easelSif.group.prototype.updateContext;
 	
 	p.setPosition = easelSif.group.prototype.setPosition;
 
-
-	p.updateContext = function (ctx) {
-		var mtx = this.getMatrix();		
-
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-	}
 	
-	p.getMatrix = function (matrix) {
+	p.setTransformMatrix = function () {
 		var orx = this.origin.getX();
 		var ory = this.origin.getY();
 		var angle = this.amount.getValue();
-		matrix = (matrix ? matrix.identity() : new createjs.Matrix2D())
-		matrix.appendTransform(orx, ory, 1, 1, angle, 0,0,orx,orx);
-		
-		return matrix;
+		this.transformMatrix.identity().appendTransform(orx, ory, 1, 1, angle, 0,0,orx,orx);
 	}
 
-easelSif.rotate = rotate;
+easelSif.rotate = createjs.promote(rotate, 'Container');
 }());

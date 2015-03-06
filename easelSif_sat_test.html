@@ -1,0 +1,164 @@
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="full-screen" content="true"/>
+<meta name="screen-orientation" content="portrait"/>
+<meta name="x5-fullscreen" content="true"/>
+<meta name="360-fullscreen" content="true"/>
+<style>
+body {
+margin: 0px;
+overflow: hidden;
+}
+</style>
+</head>
+<body onload="preload()">
+<div id='easelSif'></div>
+<canvas id="canvas"  width="640" height="480"</canvas>
+<script src="https://code.createjs.com/createjs-2014.12.12.min.js"></script>
+<script type='text/javascript' src="libs/SAT.js"></script>
+<script type='text/javascript' src="libs/bodysat.js"></script>
+
+<script type='text/javascript' src="src/easelSif.js"></script>
+<script type='text/javascript' src="src/Bone.js"></script>
+<script type='text/javascript' src="src/sifobject.js"></script>
+<script type='text/javascript' src="src/Ease.js"></script>
+<script type='text/javascript' src="src/Param/param.js"></script>
+<script type='text/javascript' src="src/Param/vector.js"></script>
+<script type='text/javascript' src="src/Param/composite.js"></script>	
+<script type='text/javascript' src="src/Param/integer.js"></script>
+<script type='text/javascript' src="src/Param/real.js"></script>
+<script type='text/javascript' src="src/Param/angle.js"></script>
+<script type='text/javascript' src="src/Param/bool.js"></script>
+<script type='text/javascript' src="src/Param/convert.js"></script>
+<script type='text/javascript' src="src/Layers/group.js"></script>
+<script type='text/javascript' src="src/Layers/region.js"></script>
+<script type='text/javascript' src="src/Layers/outline.js"></script>
+<script type='text/javascript' src="src/Layers/circle.js"></script>
+<script type='text/javascript' src="src/Layers/import.js"></script>
+<script type='text/javascript' src="src/Layers/timeloop.js"></script>
+<script type='text/javascript' src="src/Layers/rotate.js"></script>
+<script type='text/javascript' src="src/Layers/translate.js"></script>
+<script type='text/javascript' src="src/Layers/stretch.js"></script>
+<script type='text/javascript' src="src/Layers/zoom.js"></script>
+<script type='text/javascript' src="src/Layers/skeleton.js"></script>
+<script type='text/javascript' src="src/Layers/switch.js"></script>
+<script type='text/javascript' src="src/Layers/fakeswitch.js"></script>
+
+
+
+<script type='text/javascript'>
+	
+function preload() {
+	easelSif.loadfile('assets/play.sif');
+	
+}	
+
+function main() {
+	var stage = new createjs.Stage("canvas");
+	var buttons = {};
+	createjs.Ticker.addEventListener("tick", handleTick);
+	var so = new easelSif.SifObject('assets/play.sif' , stage.canvas.width, stage.canvas.height);
+	so.timeline.loop = true;
+	stage.addChild(so);
+
+	so.setPosition(0);
+	
+	var body = new BodySat(so.getChildByName('box') , 'easelSif_collision');
+	var colliders = [];
+	for(var i = 0; i < so.children.length;i++) {
+		if(so.children[i].name === 'box2') {
+			colliders.push(new BodySat(so.children[i], 'easelSif_collision'));
+		}
+	}
+	
+	console.log(colliders);
+	
+	function handleTick(event) {
+		so.tick(event.delta);
+		var walkSpeed = 0.2;
+		var speedY =-0.1;
+		var speedX = 0;
+		var timeloop = body.group.getChildByName('assets/small_guy.sif').getChildByName('timeloop');
+		if(buttons.right){
+			timeloop.link_time.value = 500;
+			timeloop.duration.value = 1000;
+			speedX =  walkSpeed;
+			if (body.group.transformation.scale.x < 0) body.group.transformation.scale.x *=-1; 
+		}
+		else if(buttons.left){
+			timeloop.link_time.value = 500;
+			timeloop.duration.value = 1000;
+			speedX = -walkSpeed;
+			if (body.group.transformation.scale.x > 0) body.group.transformation.scale.x *=-1; 
+		}
+		else {
+			timeloop.link_time.value = 0;
+			timeloop.duration.value = 0;
+			speedX = 0;
+		}
+		
+		
+		body.polygon.pos.x += speedX;
+		
+		
+		body.boundFromColliders(colliders);
+		body.polygon.pos.y += speedY;
+		body.boundFromColliders(colliders);
+		
+		body.updateGroupPos();
+		body.group.transformation.setTransformMatrix();
+		stage.update();
+	}
+	
+	
+	window.onkeydown = function(event){
+		switch(event.keyCode){
+			case 38: // up
+			case 32: // space
+				
+				if (!event.repeat) {
+					buttons.spacePressed = true;
+				} else {
+					buttons.spacePressed = false;
+				}
+				buttons.space = true;
+				break;
+			case 39: // right
+				buttons.right = true;
+				break;
+			case 37: // left
+				buttons.left = true;
+				break;
+		}
+	}
+
+	window.onkeyup = function(event){
+		switch(event.keyCode){
+			case 38: // up
+			case 32: // space
+				buttons.space = false;
+				buttons.spacePressed = false;
+				break;
+			case 39: // right
+				buttons.right = false;
+				break;
+			case 37: // left
+				buttons.left = false;
+				break;
+		}
+	}
+	 
+
+
+	
+}
+
+
+
+
+</script>
+</body>
+</html>

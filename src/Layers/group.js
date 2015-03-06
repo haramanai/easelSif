@@ -31,11 +31,23 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function group() {
+function group(sifobj, data) {
+	'use strict'
 	this.type = 'group';
+	this.Container_constructor();
+	this.sifobj = sifobj;	
+	this.timeline = new createjs.Timeline();
+	this.timeline.setPaused(true);
+	this.transformMatrix = new createjs.Matrix2D();
+	this.transformation = {group:this};
+	this.unsynced = false;
+	this.bone = ''; //keep reference even if there is no bone
+	this.animated = true;
+	
+	if (data) this.init(sifobj , data);
 }
 
-var p = group.prototype = new createjs.Container();
+var p = createjs.extend(group, createjs.Container);
 	
 	/** 
 	 * Initialization method.
@@ -44,12 +56,8 @@ var p = group.prototype = new createjs.Container();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (sifobj, data) {
-		this.sifobj = sifobj;
 		var _set = easelSif.param._set;	
-		this.initialize()
-		this.timeline = new createjs.Timeline();
-		this.timeline.setPaused(true);
-		this.timeline.duration = this.sifobj.timeline.duration;
+		this.timeline.duration = sifobj.timeline.duration;
 		
 
 
@@ -57,18 +65,17 @@ var p = group.prototype = new createjs.Container();
 		_set(this, 'blend_method', 'integer', this, data.blend_method);
 		_set(this, 'origin', 'vector', this, data.origin);
 
-		this.transformation = {};
+
 		var composite = data.transformation.composite;
 		
 		//COMPOSIT TRANSORMATION
 		if (composite) {
 			_set(this, 'offset', 'vector', this.transformation, composite.offset);
 			_set(this, 'angle', 'angle', this.transformation, composite.angle);
-			_set(this, 'skew_angle', 'angle', this.transformation, composite.skew_angle);
 			_set(this, 'scale', 'vector', this.transformation, composite.scale);
 			_set(this, 'skew_angle', 'angle', this.transformation, composite.skew_angle);
 
-			this.getMatrix = group.getMatrixComposite;
+			this.transformation.setTransformMatrix = group.setTransformMatrixComposite;
 			this.scaleX = this.transformation.scale.getX();
 		}
 		
@@ -81,13 +88,13 @@ var p = group.prototype = new createjs.Container();
 			
 			_set(this, 'offset', 'vector', base_value, bone_link.offset);
 			_set(this, 'angle', 'angle', base_value, bone_link.angle);
-			_set(this, 'skew_angle', 'vector', base_value, bone_link.skew_angle);
+			_set(this, 'skew_angle', 'angle', base_value, bone_link.skew_angle);
 			_set(this, 'scale', 'vector', base_value, bone_link.scale);
 			
-			this.base_value = base_value;
+			this.transformation.base_value = base_value;
 
-			this.getMatrix = group.getMatrixBone;
-			//this.getMatrix();
+			this.transformation.setTransformMatrix = group.setTransformMatrixBone;
+
 		}
 		
 		
@@ -96,16 +103,19 @@ var p = group.prototype = new createjs.Container();
 
 		if (data.canvas) {
 			if (data.canvas.canvas) {
-				this._getLayers(data.canvas.canvas.layer);
+				this._getLayers(data.canvas.canvas.layer , this.sifPath);
 			} else {
 				var use = data.canvas._use;
+				//console.log(use);
 				if (use.search('#') > 0) {
-					var r = this.sifobj.sifPath + use.slice(0,use.length - 1);
-					this._use = new easelSif.SifObject();
-					this._use.preload = this.sifobj.preload;
-					this._use.sifPath = this.sifobj.sifPath + use.slice(0 , use.lastIndexOf('/') + 1);
-					this._use.init(this.sifobj.preload.getResult(r));
 					
+					var r = this.sifobj.sifPath + use.slice(0,use.length - 1);
+					//console.log(r);
+					this._use = new easelSif.SifObject(r);
+
+					this._use.sifPath = this.sifPath
+
+					this.name = r;
 					r = this._use.children;
 					
 					var list = this._use.children.slice(0);
@@ -115,13 +125,13 @@ var p = group.prototype = new createjs.Container();
 									
 					this._use.removeAllChildren();
 					
-				} else {
+				} else {					
 					this._getLayers(this.sifobj.sif.canvas.defs[data.canvas._use].canvas.layer);
 				}
 			}
 		}
 
-		
+		this.transformation.setTransformMatrix();
 	}
 	
 	p._getLayers = easelSif.SifObject.prototype._getLayers;
@@ -136,15 +146,16 @@ var p = group.prototype = new createjs.Container();
 	 * param {Integer}
 	 **/		
 	p.setPosition = function (position, delta) {
-		//console.log(position);
 		this.childAnimated = this.forcedAnimation;
 		//For now the canvas
 		this.animated = (this.bone)? true : easelSif._checkTimeline(this.timeline) || this.forcedAnimation;
 		var scale;
 		this.timeline.setPosition(position);
+		this.transformation.setTransformMatrix();
 		var new_pos = this.timeline.position;
 		var ch = this.children;
 		var ab;
+
 		for (var i = 0, ii = ch.length; i < ii; i++) {
 			if (ch[i].unsynced) {
 				new_pos = ch[i].setPosition( ch[i].timeline.position + delta , delta);
@@ -153,16 +164,16 @@ var p = group.prototype = new createjs.Container();
 			}
 			
 			if (ch[i].animated) {
-				ch[i].uncache();
+				//ch[i].uncache();
 				this.childAnimated = this.animated = true;
 			}
 			//console.log(ch[i].getBounds());
 		}
 		
-		if (this.childAnimated) {this.uncache();}
 		
+		
+		if (this.childAnimated) {this.uncache();}
 		if (!this.childAnimated && !this.cacheID && this.type === 'group') {
-			this.uncache();
 			//this._bounds = null;
 			scale = Math.abs(easelSif.getTotalScale(this));
 			ab = this.getBounds();
@@ -189,51 +200,56 @@ var p = group.prototype = new createjs.Container();
 	
 		
 	
-	group.getMatrixBone = function (matrix) {
-		var bone = this.sifobj.sif.bones.guid[this.bone];
+	group.setTransformMatrixBone = function () {
+		var group = this.group;
+		var bone = group.sifobj.sif.bones.guid[this.group.bone];
 		var base = this.base_value;
-		matrix = bone._m.copy(bone._m);
-		//console.log(JSON.stringify(matrix));
-		matrix.appendTransform(base.offset.getX(), base.offset.getY(), base.scale.getX(), base.scale.getY(), base.angle.getValue(), 0, 0 ,0,0);
-		return matrix;
+
+		var orx = group.origin.getX() + base.offset.getX();
+		var ory = group.origin.getY()+ base.offset.getY();
+
+	
 		
+		var sx = base.scale.getX();
+		var sy = base.scale.getY();
+		var skew = base.skew_angle.getValue();
+
+		var a = base.angle.getValue();
+		
+		//var matrix = bone._m.copy(bone._m);
+		var matrix = group.transformMatrix.copy(bone._m);
+		//console.log(JSON.stringify(matrix));
+		//console.log(this.desc);
+		if(bone.angle.getValue() <= a){ //I have no isea why is that so
+			matrix.appendTransform(orx, ory, sx , sy, a, 0, skew ,0,0);
+		} else {
+			matrix.appendTransform(orx, ory, sx , sy, a, 0, 0 ,0,0);
+			if (skew) matrix.appendTransform(0, 0, 1, 1, 0, skew , 0 , 0 , 0);
+		}
+
 	}
 	
-	group.getMatrixComposite = function (matrix) {
-		var tr = this.transformation;
-		var orx = this.origin.getX() + tr.offset.getX() + this.x;
-		var ory = this.origin.getY()+ tr.offset.getY() + this.y;
+	group.setTransformMatrixComposite = function () {
+		var tr = this;
+		var group = this.group;
+		var orx = group.origin.getX() + tr.offset.getX();
+		var ory = group.origin.getY()+ tr.offset.getY();
 
 	
 		
-		var sx = this.scaleSifX = tr.scale.getX();
-		var sy = this.scaleSifY = tr.scale.getY();
-
+		var sx = tr.scale.getX();
+		var sy = tr.scale.getY();
+		var skew = tr.skew_angle.getValue();
 
 		var a = tr.angle.getValue();
-		matrix = (matrix ? matrix.identity() : new createjs.Matrix2D())
+		var matrix = group.transformMatrix;
+		matrix.identity()
 		matrix.appendTransform(orx, ory, sx, sy, a, 0,0,0,0);
-
-		return matrix;
+		if (skew) matrix.appendTransform(0, 0, 1, 1, 0, skew , 0 , 0 , 0);
 	}
 
-	/* Slightly modified easeljs DysplayObject method
-	*/
-	p.getConcatenatedMatrix = function(matrix) {
-		if (matrix) { matrix.identity(); }
-		else { matrix = new createjs.Matrix2D(); }
-		var o = this;
-		while (o != null) {
-			
-			var m = o.getMatrix();
-			//matrix.prependTransform(o.x, o.y, o.scaleX, o.scaleY, o.rotation, o.skewX, o.skewY, o.regX, o.regY).prependProperties(o.alpha, o.shadow, o.compositeOperation);
-			matrix.prependMatrix(m);
-			o = o.parent;
-		}
-		
-		return matrix;
-	};	
 
 
-easelSif.group = group;
+
+easelSif.group = createjs.promote(group, 'Container');
 }());

@@ -31,11 +31,12 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function translate() {
+function translate(sifobj , data) {
 	this.type = 'translate';
+	this.rotate_constructor(sifobj , data);
 }
 
-var p = translate.prototype = new easelSif.rotate();
+var p = createjs.extend(translate, easelSif.rotate);
 
 	/** 
 	 * Initialization method.
@@ -51,5 +52,5 @@ var p = translate.prototype = new easelSif.rotate();
 
 	p.getMatrix = easelSif.region.prototype.getMatrix;
 
-easelSif.translate = translate;
+easelSif.translate = createjs.promote(translate, 'rotate');
 }());

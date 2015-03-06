@@ -31,18 +31,14 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function Switch() {
+function Switch(sifobj, data) {	
+	this.group_constructor(sifobj , data);
 	this.type = 'switch';
 }
 
-var p = Switch.prototype = new easelSif.group();
+var p = createjs.extend(Switch , easelSif.group);
 
-	p.init_group = p.init;
-	
-	p.init = function (sifobj, data) {
-		this.init_group(sifobj,data);
-	}
 	
 
-easelSif.Switch = Switch;
+easelSif.Switch = createjs.promote(Switch , 'group');
 }());

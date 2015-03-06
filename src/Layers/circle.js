@@ -33,11 +33,21 @@
 * @param {Object} data The data for the Layer
 **/	 	
 function circle(sifobj, data) {
+	this.Shape_constructor();
 	this.sifobj = sifobj;
+	this.transformMatrix = new createjs.Matrix2D();
 	this.init(data);
+	this.amount = null;
+	this.origin = null;
+	this.radius = null;
+	this.blend_method = null;
+	this.color = null;
+	
+	if (data) this.init(data);
+	
 }
-var region = easelSif.region.prototype;
-var p = circle.prototype = new createjs.Shape();
+
+var p = createjs.extend(circle , createjs.Shape);
 
 	/** 
 	 * Initialization method.
@@ -46,8 +56,7 @@ var p = circle.prototype = new createjs.Shape();
 	 * @param {Object} data The data for the Layer
 	 **/
 	p.init = function (data) {
-		var _set = sifPlayer.param._set;
-		this.initialize()
+		var _set = easelSif.param._set;
 		this.timeline = new createjs.Timeline();
 		this.timeline.setPaused(true);
 		this.timeline.duration = this.sifobj.timeline.duration;
@@ -58,10 +67,10 @@ var p = circle.prototype = new createjs.Shape();
 		_set(this, 'blend_method', 'integer', this, data.blend_method);
 		_set(this, 'color', 'color', this, data.color);
 		
-		sifPlayer._addToDesc(this, data);
+		easelSif._addToDesc(this, data);
 		
 		this.makeShape();
-		
+		this.setTransformMatrix();
 	}
 
 	
@@ -81,18 +90,16 @@ var p = circle.prototype = new createjs.Shape();
 	
 	p.setPosition = function (position) {
 		this.timeline.setPosition(position);
+		this.setTransformMatrix();
 		return position;
 	}
 	
-	p.updateContext = function (ctx) {
-		var mtx = this.getMatrix(this._matrix);
-		ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-		ctx.globalAlpha *= this.amount.getValue();
-		ctx.globalCompositeOperation = easelSif._getBlend( this.blend_method.getValue() );
-	}
+
 	
-	p.getMatrix = easelSif.region.prototype.getMatrix;
+	p.setTransformMatrix = function () {		
+		this.transformMatrix.identity().appendTransform(this.origin.getX(), this.origin.getY(), 1, 1, 0, 0,0,0,0);
+	}
 
 
-easelSif.circle = circle;
+easelSif.circle = createjs.promote(circle, "Shape");
 }());

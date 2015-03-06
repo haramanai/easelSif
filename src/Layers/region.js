@@ -29,29 +29,30 @@
 * @extends Shape
 * @constructor
 **/	
-function region() {
-
-}
-
-var p = region.prototype = new createjs.Shape();
-
-p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
+function region(sifobj, data) {
+	'use strict'
+	var _set = easelSif.param._set;
+	this.Shape_constructor();
+	this.timeline = new createjs.Timeline();
+	this.timeline.setPaused(true);
+	this.bline = {};
+	this.bline.sifobj = null;
+	this.bline.timeline = new createjs.Timeline();
+	this.bline.timeline.setPaused(true);
+	this.bline.entry = [];
+	this.transformMatrix = new createjs.Matrix2D();
+	this.entries = null;
+	this.unsynced = false;
 	
-	/** 
-	 * Initialization method.
-	 * @method init
-	 * @param {Object} parent The parent of the Layer
-	 * @param {Object} data The data for the Layer
-	 **/
-	p.init = function (sifobj, data) {
+	if (data) {
+
 		this.sifobj = sifobj;
-		var _set = easelSif.param._set;
-		this.initialize()
-		
-		this.timeline = new createjs.Timeline();
-		this.timeline.setPaused(true);
-		
+		this.bline.sifobj = this.sifobj;
+		this.visible = data._active;
+
+	
 		this._getBline(data.bline);
+		
 		
 		_set(this, 'blend_method', 'integer', this, data.blend_method);
 		_set(this, 'amount', 'real', this, data.amount);
@@ -64,9 +65,13 @@ p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 
 		this.entries = this.collectEntries();
 		this.makeShape();
-		this.getMatrix();
+		this.setTransformMatrix();
 
 	}
+
+}
+
+var p = createjs.extend(region, createjs.Shape);
 
 
 
@@ -76,12 +81,7 @@ p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 	 **/		
 	p._getBline = function (data) {
 		var _set = easelSif.param._set;
-		this.bline = {};
-		this.bline.sifobj = this.sifobj;
-		this.bline.timeline = new createjs.Timeline();
-		this.bline.timeline.setPaused(true);
-		
-		this.bline.entry = [];
+
 		var w, tw;
 
 		//LOOP
@@ -157,8 +157,6 @@ p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 		var e = this.entries;
 		var g = this.graphics;
 		
-		var aabb = easelSif.aabbFromEntries(this.entries);
-		this.setBounds(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1]);
 		
 		g.clear();
 		g.f( createjs.Graphics.getRGB( Math.round(this.color.r * 256),Math.round(this.color.g * 256),Math.round(this.color.b * 256), this.color.a) );
@@ -191,6 +189,8 @@ p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 				this.animated = true;
 		} else {
 			if (!this.cacheID) {
+				var aabb = easelSif.aabbFromEntries(this.entries , (this.width)?this.width.getValue():0);
+				this.setBounds(aabb[0] , aabb[1], aabb[2] - aabb[0], aabb[3] - aabb[1]);
 				var scale = Math.abs(easelSif.getTotalScale(this));
 				this.cache(this._bounds.x, this._bounds.y, this._bounds.width, this._bounds.height, scale);
 				//console.log(scale);
@@ -201,19 +201,12 @@ p.getConcatenatedMatrix = easelSif.group.prototype.getConcatenatedMatrix;
 	
 	
 	
-	p.getMatrix = function (matrix) {
-		var that = this;		
-		var orx = this.origin.getX();
-		var ory = this.origin.getY();
-
-		return (matrix ? matrix.identity() : new createjs.Matrix2D()).appendTransform(orx, ory, 1, 1, 0, 0,0,0,0);	
+	p.setTransformMatrix = function () {
+		this.transformMatrix.identity().appendTransform(this.origin.getX(), this.origin.getY(), 1, 1, 0, 0,0,0,0);
 	}
 	
 
 
 
-	
-
-
-easelSif.region = region;
+easelSif.region = createjs.promote(region, "Shape");
 }());

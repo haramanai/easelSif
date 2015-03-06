@@ -33,13 +33,15 @@
 **/	 	
 function stretch(sifobj, data) {
 	this.type = 'stretch';
+	this.rotate_constructor(sifobj , data);
+
 }
 
-var p = stretch.prototype = new easelSif.rotate();
+var p = createjs.extend(stretch, easelSif.rotate);
 
 	
 	p._setParams = function (data) {
-		var _set = sifPlayer.param._set;
+		var _set = easelSif.param._set;
 		_set(this, 'amount', 'vector', this, data.amount);
 		_set(this, 'center', 'vector', this, data.center);
 		
@@ -60,5 +62,5 @@ var p = stretch.prototype = new easelSif.rotate();
 	}
 		
 
-easelSif.stretch = stretch;
+easelSif.stretch = createjs.promote(stretch, 'rotate');
 }());

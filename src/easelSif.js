@@ -56,19 +56,16 @@ var easelSif = {};
 	easelSif._getLayer = function (sifobj, data) {
 		var o;
 		if (easelSif[data._type]) {
-			o = new easelSif[data._type]();
-			o.init(sifobj, data);
+			o = new easelSif[data._type](sifobj, data);
 			return o;
 		}
 		if (data._type === 'import') {
-			o = new easelSif.Import();
-			o.init(sifobj, data);
+			o = new easelSif.Import(sifobj, data);
 			return o;
 		}
 		
 		if (data._type === 'switch') {
-			o = new easelSif.Switch();
-			o.init(sifobj, data);
+			o = new easelSif.Switch(sifobj , data);
 			return o;
 		}
 		// Not supported LAYER
@@ -259,12 +256,12 @@ var easelSif = {};
 	easelSif._getEase = function (ease_type) {
 
 		if (ease_type === 'linear') return createjs.Ease.none;
-		if (ease_type === 'clamped') return createjs.Ease.none;
-		//EaseInOut
-		if (ease_type === 'halt') return createjs.Ease.none;
+		if (ease_type === 'clamped') return createjs.Ease.sineInOut;
+		if (ease_type === 'halt') return createjs.Ease.sineInOut;
+
 		if (ease_type === 'constant') return easelSif.Ease.constant;
 		//TCB
-		if (ease_type === 'auto') return createjs.Ease.none;
+		if (ease_type === 'auto') return createjs.Ease.sineInOut;
 
 		return false;
 	}
@@ -380,7 +377,64 @@ var easelSif = {};
 		return check;		
 	}	
 
-
+	easelSif.loadfile = function (filename) {
+		if (!easelSif.preload) easelSif.preload = new createjs.LoadQueue(true);
+		easelSif.preload.on("fileload", easelSif.handleFileLoad);
+		easelSif.preload.on("complete", easelSif.handleComplete);
+		easelSif.preload.loadFile({id:filename, src:filename, type:createjs.LoadQueue.XML});
+		
+	}
+	
+	easelSif._getFiles = function (xmlDoc , sifPath) {
+		sifPath = (sifPath)?sifPath:'';
+		var preload = easelSif.preload;
+		var params = xmlDoc.getElementsByTagName('param');
+		
+		for (var i = 0, ii = params.length; i < ii; i++) {
+			var r = params[i].getAttribute('name');
+			if (r === 'filename') {
+				//console.log(r.slice('.'));
+				var rr = sifPath + params[i].getElementsByTagName('string')[0].childNodes[0].nodeValue;
+				if (!preload.getItem(rr)) {					
+					preload.loadFile({src:rr});
+				}
+				//console.log(preload);
+			} else if (r === 'canvas') {
+				var rr = params[i].getAttribute('use');
+					if (rr) {
+						if (rr.search('#') > 0) {
+							rr = sifPath + rr.slice(0, rr.length - 1);
+							if (!preload.getItem(rr)) {
+								preload.loadFile({src:rr, type: createjs.LoadQueue.XML});
+							}
+							
+						}
+					}
+			}
+			
+			
+		}
+		
+	}
+	
+		
+	easelSif.handleFileLoad = function(event) {
+		var item = event.item; // A reference to the item that was passed in to the LoadQueue
+		var type = item.type;
+		var id = item.id;
+		//console.log(type);
+		if (type === createjs.LoadQueue.XML) {
+			if (id) {
+				easelSif._getFiles(event.result , id.slice(0,(id.search('/'))?id.search('/') + 1:0 ));
+			}
+		}
+		 
+	}
+	
+	easelSif.handleComplete = function(event) {
+		console.log('main');
+		main()
+	}
 
 	
 	
