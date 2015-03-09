@@ -31,11 +31,14 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function radial_gradient(parent, data) {
-	this.init(parent, data);
+function radial_gradient(sifobj, data) {
+	this.DisplayObject_constructor();
+	this.sifobj = sifobj;
+	this.animated = true;
+	if (data) this.init(data);
 }
 
-var p = radial_gradient.prototype;//= new sifPlayer.Layer();
+var p = createjs.extend(radial_gradient, createjs.DisplayObject);
 
 	/** 
 	 * Initialization method.
@@ -43,10 +46,12 @@ var p = radial_gradient.prototype;//= new sifPlayer.Layer();
 	 * @param {Object} parent The parent of the Layer
 	 * @param {Object} data The data for the Layer
 	 **/
-	p.init = function (parent, data) {
-		var _set = sifPlayer.param._set;
-		
-		this.initLayer(parent, data);
+	p.init = function (data) {
+		var _set = easelSif.param._set;
+		this.timeline = new createjs.Timeline();
+		this.timeline.setPaused(true);
+		this.timeline.duration = this.sifobj.timeline.duration;		
+
 		_set(this, 'amount', 'real', this, data.amount);
 		_set(this, 'blend_method', 'integer', this, data.blend_method);
 		_set(this, 'center', 'vector', this, data.center);	
@@ -58,8 +63,7 @@ var p = radial_gradient.prototype;//= new sifPlayer.Layer();
 	 * Draws the layer
 	 * @method draw
 	 **/
-	p.draw = function (track) {
-		var ctx = track.ctx;
+	p.draw = function (ctx) {
 		var x = this.center.getX();
 		var y = this.center.getY();
 		var grd = ctx.createRadialGradient(x, y,0, x, y, this.radius.getValue() );
@@ -71,13 +75,21 @@ var p = radial_gradient.prototype;//= new sifPlayer.Layer();
 		
 		ctx.globalAlpha = this.amount.getValue();
 				
-		ctx.globalCompositeOperation = this._getBlend();
+		ctx.globalCompositeOperation = easelSif._getBlend(this.blend_method.getValue());
 		ctx.fillStyle = grd;
-		ctx.fillRect(-1000, -1000, 2000 , 2000);
+		var ab = this.parent.getBounds();
+		ctx.fillRect(ab.x , ab.y, ab.width , ab.height);
+		//ctx.fillRect(-1000, -1000, 2000 , 2000);
 
 
 	}
+	
+	p.setPosition = function (position) {
+		this.timeline.setPosition(position);
+		this.animated = easelSif._checkTimeline(this.timeline);
+		return position;
+	}
 
 
-sifPlayer.easelSif.radial_gradient = radial_gradient;
+easelSif.radial_gradient = createjs.promote(radial_gradient, "DisplayObject");
 }());

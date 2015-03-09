@@ -43,13 +43,15 @@ overflow: hidden;
 <script type='text/javascript' src="src/Layers/skeleton.js"></script>
 <script type='text/javascript' src="src/Layers/switch.js"></script>
 <script type='text/javascript' src="src/Layers/fakeswitch.js"></script>
+<script type='text/javascript' src="src/Layers/linear_gradient.js"></script>
+<script type='text/javascript' src="src/Layers/radial_gradient.js"></script>
 
 
 
 <script type='text/javascript'>
 	
 function preload() {
-	easelSif.loadfile('assets/play.sif');
+	easelSif.loadfile('assets/test.sif');
 	createjs.Ticker.setFPS(60);
 	
 }	
@@ -59,7 +61,7 @@ function main() {
 	createjs.Ticker.addEventListener("tick", handleTick);
 	
 	
-	var so = new easelSif.SifObject('assets/play.sif' , stage.canvas.width, stage.canvas.height);
+	var so = new easelSif.SifObject('assets/test.sif' , stage.canvas.width, stage.canvas.height);
 	so.timeline.loop = true;
 	stage.addChild(so);
 

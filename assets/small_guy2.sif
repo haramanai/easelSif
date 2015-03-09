@@ -17,13 +17,13 @@
   <keyframe time="1s 6f" active="true"/>
   <keyframe time="1s 12f" active="true"> (Duplicate)</keyframe>
   <bones>
-    <bone_root type="bone_object" guid="28D2DC990F1B297DA8B625238A9A5C91"/>
+    <bone_root type="bone_object" guid="28B35FDCD911ED8A05674DE2CF39DD76"/>
     <bone type="bone_object" guid="6544BD6431357FCB5C444B668CC3377B">
       <name>
         <string>Bone 1</string>
       </name>
       <parent>
-        <bone_valuenode type="bone_object" guid="28D2DC990F1B297DA8B625238A9A5C91"/>
+        <bone_valuenode type="bone_object" guid="28B35FDCD911ED8A05674DE2CF39DD76"/>
       </parent>
       <origin>
         <animated type="vector">

@@ -25,4 +25,6 @@ subprocess.call(['java', '-jar', '../tools/compiler.jar',
 				'--js', '../src/Layers/timeloop.js' ,
 				'--js', '../src/Layers/skeleton.js' ,
 				'--js', '../src/Layers/switch.js' ,
+				'--js', '../src/Layers/linear_gradient.js' ,
+				'--js', '../src/Layers/radial_gradient.js' ,
 				'--js_output_file', '../build/easelsif.min.js'])

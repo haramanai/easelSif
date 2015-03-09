@@ -32,11 +32,14 @@
 * @param {Object} parent The parent of the Layer
 * @param {Object} data The data for the Layer
 **/	 	
-function linear_gradient(parent, data) {
-	this.init(parent, data);
+function linear_gradient(sifobj, data) {
+	this.DisplayObject_constructor();
+	this.sifobj = sifobj;
+	this.animated = true;
+	if (data) this.init(data);
 }
 
-var p = linear_gradient.prototype;// = new sifPlayer.Layer();
+var p = createjs.extend(linear_gradient, createjs.DisplayObject);
 
 	/** 
 	 * Initialization method.
@@ -44,10 +47,12 @@ var p = linear_gradient.prototype;// = new sifPlayer.Layer();
 	 * @param {Object} parent The parent of the Layer
 	 * @param {Object} data The data for the Layer
 	 **/
-	p.init = function (parent, data) {
-		var _set = sifPlayer.param._set;
-		
-		this.initLayer(parent, data);
+	p.init = function (data) {
+		var _set = easelSif.param._set;
+		this.timeline = new createjs.Timeline();
+		this.timeline.setPaused(true);
+		this.timeline.duration = this.sifobj.timeline.duration;
+		//this.initLayer(parent, data);
 		_set(this, 'amount', 'real', this, data.amount);
 		_set(this, 'blend_method', 'integer', this, data.blend_method);
 		_set(this, 'p1', 'vector', this, data.p1);	
@@ -59,29 +64,29 @@ var p = linear_gradient.prototype;// = new sifPlayer.Layer();
 	 * Draws the layer
 	 * @method draw
 	 **/
-	p.draw = function (track) {
-		var ctx = track.ctx;
+	p.draw = function (ctx) {
 		var grd = ctx.createLinearGradient(this.p1.getX(), this.p1.getY(), this.p2.getX(), this.p2.getY() );
 		var color = this.gradient.color;
-		var vb = this.sifobj.sif.canvas.view_box;
 		
 		for (var i = 0, ii = color.length; i < ii; i++) {
 			grd.addColorStop(color[i].pos, 'rgba('+ Math.round(color[i].r * 256) + ', ' + Math.round(color[i].g * 256)  + ', ' + Math.round(color[i].b * 256)  + ', ' + color[i].a  + ')');
 		}
 		
 		ctx.globalAlpha = this.amount.getValue();
-		ctx.globalCompositeOperation = this._getBlend();		
+		ctx.globalCompositeOperation = easelSif._getBlend(this.blend_method.getValue());		
 		ctx.fillStyle = grd;
-		//ctx.fillRect(vb[0] , -vb[1], vb[2] * 2, vb[2] * 2);
-		//We render more than we need but it's the only solution I found
-		// looks like that we don't get lower framerate by the size of the 
-		// rect. So it's ok to do it like this. The best way is to store somewhere
-		// the matrix so we can render to the screen size.
-		ctx.fillRect(-1000, -1000, 2000 , 2000);
 
-
+		var ab = this.parent.getBounds();
+		ctx.fillRect(ab.x , ab.y, ab.width , ab.height);
+		//ctx.fillRect(-1000, -1000, 2000 , 2000);
+	}
+	
+	p.setPosition = function (position) {
+		this.timeline.setPosition(position);
+		this.animated = easelSif._checkTimeline(this.timeline);
+		return position;
 	}
 
 
-sifPlayer.easelSif.linear_gradient = linear_gradient;
+easelSif.linear_gradient = createjs.promote(linear_gradient, "DisplayObject");
 }());

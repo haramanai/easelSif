@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <canvas version="1.0" width="64" height="64" xres="2834.645752" yres="2834.645752" view-box="-3.245189 3.245189 3.245189 -3.245189" antialias="1" fps="24.000" begin-time="0f" end-time="5s" bgcolor="0.500000 0.500000 0.500000 1.000000">
   <name>Synfig Animation 1</name>
-  <meta name="grid_color" content="0.623529 0.623529 0.623529"/>
+  <meta name="grid_color" content="0,623529 0,623529 0,623529"/>
   <meta name="grid_show" content="0"/>
-  <meta name="grid_size" content="0.250000 0.250000"/>
+  <meta name="grid_size" content="0,250000 0,250000"/>
   <meta name="grid_snap" content="0"/>
   <meta name="guide_color" content="0,435294 0,435294 1,000000"/>
   <meta name="guide_show" content="1"/>
   <meta name="guide_snap" content="0"/>
-  <meta name="jack_offset" content="0.000000"/>
+  <meta name="jack_offset" content="0,000000"/>
   <meta name="onion_skin" content="0"/>
   <keyframe time="0f" active="true"/>
   <keyframe time="12f" active="true"/>
@@ -17,13 +17,13 @@
   <keyframe time="1s 6f" active="true"/>
   <keyframe time="1s 12f" active="true"> (Duplicate)</keyframe>
   <bones>
-    <bone_root type="bone_object" guid="28D2DC990F1B297DA8B625238A9A5C91"/>
+    <bone_root type="bone_object" guid="28B35FDCD911ED8A05674DE2CF39DD76"/>
     <bone type="bone_object" guid="6544BD6431357FCB5C444B668CC3377B">
       <name>
         <string>Bone 1</string>
       </name>
       <parent>
-        <bone_valuenode type="bone_object" guid="28D2DC990F1B297DA8B625238A9A5C91"/>
+        <bone_valuenode type="bone_object" guid="28B35FDCD911ED8A05674DE2CF39DD76"/>
       </parent>
       <origin>
         <animated type="vector">
@@ -80,95 +80,6 @@
       <tipwidth>
         <real value="0.1000000000"/>
       </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
-      <length>
-        <real value="1.0000000000"/>
-      </length>
-    </bone>
-    <bone type="bone_object" guid="F9C98ADEC6413B7F7A394A369A623916">
-      <name>
-        <string>Bone 2</string>
-      </name>
-      <parent>
-        <bone_valuenode type="bone_object" guid="6544BD6431357FCB5C444B668CC3377B"/>
-      </parent>
-      <origin>
-        <vector>
-          <x>0.1162455156</x>
-          <y>-0.9880874157</y>
-        </vector>
-      </origin>
-      <angle>
-        <angle value="91.909149"/>
-      </angle>
-      <scalelx>
-        <real value="2.0828738046"/>
-      </scalelx>
-      <width>
-        <real value="0.1000000000"/>
-      </width>
-      <scalex>
-        <real value="1.0000000000"/>
-      </scalex>
-      <tipwidth>
-        <real value="0.1000000000"/>
-      </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
-      <length>
-        <real value="1.0000000000"/>
-      </length>
-    </bone>
-    <bone type="bone_object" guid="5FB28F496A3E78F2E71899AA5990A5F0">
-      <name>
-        <string>Bone 22</string>
-      </name>
-      <parent>
-        <bone_valuenode type="bone_object" guid="6544BD6431357FCB5C444B668CC3377B"/>
-      </parent>
-      <origin>
-        <vector>
-          <x>0.2986474037</x>
-          <y>-1.1947159767</y>
-        </vector>
-      </origin>
-      <angle>
-        <animated type="angle">
-          <waypoint time="0s" before="clamped" after="clamped">
-            <angle value="-91.273026"/>
-          </waypoint>
-          <waypoint time="0.5s" before="clamped" after="clamped">
-            <angle guid="1574999B3B478EF40606B764730C1CC1" value="-53.993534"/>
-          </waypoint>
-          <waypoint time="0.75s" before="clamped" after="clamped">
-            <angle value="-91.949768"/>
-          </waypoint>
-          <waypoint time="1s" before="clamped" after="clamped">
-            <angle value="-130.070511"/>
-          </waypoint>
-          <waypoint time="1.5s" before="clamped" after="clamped">
-            <angle guid="1574999B3B478EF40606B764730C1CC1" value="-53.993534"/>
-          </waypoint>
-        </animated>
-      </angle>
-      <scalelx>
-        <real value="0.6527712189"/>
-      </scalelx>
-      <width>
-        <real value="0.1000000000"/>
-      </width>
-      <scalex>
-        <real value="1.0000000000"/>
-      </scalex>
-      <tipwidth>
-        <real value="0.1000000000"/>
-      </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
       <length>
         <real value="1.0000000000"/>
       </length>
@@ -220,44 +131,44 @@
       <tipwidth>
         <real value="0.1000000000"/>
       </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
       <length>
         <real value="1.0000000000"/>
       </length>
     </bone>
-    <bone type="bone_object" guid="4A5A13BDBE70A2A5AF56F82AB1CF2C4C">
+    <bone type="bone_object" guid="5FB28F496A3E78F2E71899AA5990A5F0">
       <name>
-        <string>Bone 16</string>
+        <string>Bone 22</string>
       </name>
       <parent>
-        <bone_valuenode type="bone_object" guid="F9C98ADEC6413B7F7A394A369A623916"/>
+        <bone_valuenode type="bone_object" guid="6544BD6431357FCB5C444B668CC3377B"/>
       </parent>
       <origin>
         <vector>
-          <x>0.7466084361</x>
-          <y>-0.3409758210</y>
+          <x>0.2986474037</x>
+          <y>-1.1947159767</y>
         </vector>
       </origin>
       <angle>
         <animated type="angle">
           <waypoint time="0s" before="clamped" after="clamped">
-            <angle value="-180.018387"/>
+            <angle value="-91.273026"/>
           </waypoint>
           <waypoint time="0.5s" before="clamped" after="clamped">
-            <angle guid="A69B25998581D20680329EBC55725E80" value="-221.678650"/>
+            <angle guid="1574999B3B478EF40606B764730C1CC1" value="-53.993534"/>
+          </waypoint>
+          <waypoint time="0.75s" before="clamped" after="clamped">
+            <angle value="-91.949768"/>
           </waypoint>
           <waypoint time="1s" before="clamped" after="clamped">
-            <angle value="-164.042236"/>
+            <angle value="-130.070511"/>
           </waypoint>
           <waypoint time="1.5s" before="clamped" after="clamped">
-            <angle guid="A69B25998581D20680329EBC55725E80" value="-221.678650"/>
+            <angle guid="1574999B3B478EF40606B764730C1CC1" value="-53.993534"/>
           </waypoint>
         </animated>
       </angle>
       <scalelx>
-        <real value="0.6404329652"/>
+        <real value="0.6527712189"/>
       </scalelx>
       <width>
         <real value="0.1000000000"/>
@@ -268,9 +179,157 @@
       <tipwidth>
         <real value="0.1000000000"/>
       </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
+      <length>
+        <real value="1.0000000000"/>
+      </length>
+    </bone>
+    <bone type="bone_object" guid="F9C98ADEC6413B7F7A394A369A623916">
+      <name>
+        <string>Bone 2</string>
+      </name>
+      <parent>
+        <bone_valuenode type="bone_object" guid="6544BD6431357FCB5C444B668CC3377B"/>
+      </parent>
+      <origin>
+        <vector>
+          <x>0.1162455156</x>
+          <y>-0.9880874157</y>
+        </vector>
+      </origin>
+      <angle>
+        <angle value="91.909149"/>
+      </angle>
+      <scalelx>
+        <real value="2.0828738046"/>
+      </scalelx>
+      <width>
+        <real value="0.1000000000"/>
+      </width>
+      <scalex>
+        <real value="1.0000000000"/>
+      </scalex>
+      <tipwidth>
+        <real value="0.1000000000"/>
+      </tipwidth>
+      <length>
+        <real value="1.0000000000"/>
+      </length>
+    </bone>
+    <bone type="bone_object" guid="7CACF3275350E839BAEC12A0BFB55BDD">
+      <name>
+        <string>Bone 5</string>
+      </name>
+      <parent>
+        <bone_valuenode type="bone_object" guid="E3D450D74BB987F2ACD19A63A76F2B95"/>
+      </parent>
+      <origin>
+        <vector>
+          <x>1.1000000238</x>
+          <y>0.0000000000</y>
+        </vector>
+      </origin>
+      <angle>
+        <animated type="angle">
+          <waypoint time="0.5s" before="clamped" after="clamped">
+            <angle guid="5FC584FC9EB66C042D275219A1662495" value="1.784032"/>
+          </waypoint>
+          <waypoint time="0.75s" before="clamped" after="clamped">
+            <angle value="-90.051605"/>
+          </waypoint>
+          <waypoint time="1s" before="clamped" after="clamped">
+            <angle value="1.784032"/>
+          </waypoint>
+          <waypoint time="1.5s" before="clamped" after="clamped">
+            <angle guid="5FC584FC9EB66C042D275219A1662495" value="1.784032"/>
+          </waypoint>
+        </animated>
+      </angle>
+      <scalelx>
+        <real value="0.5970754925"/>
+      </scalelx>
+      <width>
+        <real value="0.1000000000"/>
+      </width>
+      <scalex>
+        <real value="1.0000000000"/>
+      </scalex>
+      <tipwidth>
+        <real value="0.1000000000"/>
+      </tipwidth>
+      <length>
+        <real value="1.0000000000"/>
+      </length>
+    </bone>
+    <bone type="bone_object" guid="F009DC7A836B0E479AE29B705EEF8251">
+      <name>
+        <string>Bone 23</string>
+      </name>
+      <parent>
+        <bone_valuenode type="bone_object" guid="5FB28F496A3E78F2E71899AA5990A5F0"/>
+      </parent>
+      <origin>
+        <vector>
+          <x>1.0963736773</x>
+          <y>0.0021153244</y>
+        </vector>
+      </origin>
+      <angle>
+        <animated type="angle">
+          <waypoint time="1s" before="clamped" after="clamped">
+            <angle value="1.291288"/>
+          </waypoint>
+          <waypoint time="1.25s" before="clamped" after="clamped">
+            <angle value="-72.589287"/>
+          </waypoint>
+          <waypoint time="1.5s" before="clamped" after="clamped">
+            <angle value="1.291288"/>
+          </waypoint>
+        </animated>
+      </angle>
+      <scalelx>
+        <real value="0.6305852653"/>
+      </scalelx>
+      <width>
+        <real value="0.1000000000"/>
+      </width>
+      <scalex>
+        <real value="1.0000000000"/>
+      </scalex>
+      <tipwidth>
+        <real value="0.1000000000"/>
+      </tipwidth>
+      <length>
+        <real value="1.0000000000"/>
+      </length>
+    </bone>
+    <bone type="bone_object" guid="CFC84022001B662DF8F92179BF147509">
+      <name>
+        <string>Bone 3</string>
+      </name>
+      <parent>
+        <bone_valuenode type="bone_object" guid="F9C98ADEC6413B7F7A394A369A623916"/>
+      </parent>
+      <origin>
+        <vector>
+          <x>0.9943876266</x>
+          <y>-0.0956037566</y>
+        </vector>
+      </origin>
+      <angle>
+        <angle value="-1.282262"/>
+      </angle>
+      <scalelx>
+        <real value="1.8988026225"/>
+      </scalelx>
+      <width>
+        <real value="0.1000000000"/>
+      </width>
+      <scalex>
+        <real value="1.0000000000"/>
+      </scalex>
+      <tipwidth>
+        <real value="0.1000000000"/>
+      </tipwidth>
       <length>
         <real value="1.0000000000"/>
       </length>
@@ -320,172 +379,41 @@
       <tipwidth>
         <real value="0.1000000000"/>
       </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
       <length>
         <real value="1.0000000000"/>
       </length>
     </bone>
-    <bone type="bone_object" guid="CFC84022001B662DF8F92179BF147509">
+    <bone type="bone_object" guid="4A5A13BDBE70A2A5AF56F82AB1CF2C4C">
       <name>
-        <string>Bone 3</string>
+        <string>Bone 16</string>
       </name>
       <parent>
         <bone_valuenode type="bone_object" guid="F9C98ADEC6413B7F7A394A369A623916"/>
       </parent>
       <origin>
         <vector>
-          <x>0.9943876266</x>
-          <y>-0.0956037566</y>
-        </vector>
-      </origin>
-      <angle>
-        <angle value="-1.282262"/>
-      </angle>
-      <scalelx>
-        <real value="1.8988026225"/>
-      </scalelx>
-      <width>
-        <real value="0.1000000000"/>
-      </width>
-      <scalex>
-        <real value="1.0000000000"/>
-      </scalex>
-      <tipwidth>
-        <real value="0.1000000000"/>
-      </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
-      <length>
-        <real value="1.0000000000"/>
-      </length>
-    </bone>
-    <bone type="bone_object" guid="F009DC7A836B0E479AE29B705EEF8251">
-      <name>
-        <string>Bone 23</string>
-      </name>
-      <parent>
-        <bone_valuenode type="bone_object" guid="5FB28F496A3E78F2E71899AA5990A5F0"/>
-      </parent>
-      <origin>
-        <vector>
-          <x>1.0963736773</x>
-          <y>0.0021153244</y>
-        </vector>
-      </origin>
-      <angle>
-        <animated type="angle">
-          <waypoint time="1s" before="clamped" after="clamped">
-            <angle value="1.291288"/>
-          </waypoint>
-          <waypoint time="1.25s" before="clamped" after="clamped">
-            <angle value="-72.589287"/>
-          </waypoint>
-          <waypoint time="1.5s" before="clamped" after="clamped">
-            <angle value="1.291288"/>
-          </waypoint>
-        </animated>
-      </angle>
-      <scalelx>
-        <real value="0.6305852653"/>
-      </scalelx>
-      <width>
-        <real value="0.1000000000"/>
-      </width>
-      <scalex>
-        <real value="1.0000000000"/>
-      </scalex>
-      <tipwidth>
-        <real value="0.1000000000"/>
-      </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
-      <length>
-        <real value="1.0000000000"/>
-      </length>
-    </bone>
-    <bone type="bone_object" guid="7CACF3275350E839BAEC12A0BFB55BDD">
-      <name>
-        <string>Bone 5</string>
-      </name>
-      <parent>
-        <bone_valuenode type="bone_object" guid="E3D450D74BB987F2ACD19A63A76F2B95"/>
-      </parent>
-      <origin>
-        <vector>
-          <x>1.1000000238</x>
-          <y>0.0000000000</y>
-        </vector>
-      </origin>
-      <angle>
-        <animated type="angle">
-          <waypoint time="0.5s" before="clamped" after="clamped">
-            <angle guid="5FC584FC9EB66C042D275219A1662495" value="1.784032"/>
-          </waypoint>
-          <waypoint time="0.75s" before="clamped" after="clamped">
-            <angle value="-90.051605"/>
-          </waypoint>
-          <waypoint time="1s" before="clamped" after="clamped">
-            <angle value="1.784032"/>
-          </waypoint>
-          <waypoint time="1.5s" before="clamped" after="clamped">
-            <angle guid="5FC584FC9EB66C042D275219A1662495" value="1.784032"/>
-          </waypoint>
-        </animated>
-      </angle>
-      <scalelx>
-        <real value="0.5970754925"/>
-      </scalelx>
-      <width>
-        <real value="0.1000000000"/>
-      </width>
-      <scalex>
-        <real value="1.0000000000"/>
-      </scalex>
-      <tipwidth>
-        <real value="0.1000000000"/>
-      </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
-      <length>
-        <real value="1.0000000000"/>
-      </length>
-    </bone>
-    <bone type="bone_object" guid="E82FF136E7B1CE38C1833DB8D627D7FE">
-      <name>
-        <string>Bone 17</string>
-      </name>
-      <parent>
-        <bone_valuenode type="bone_object" guid="4A5A13BDBE70A2A5AF56F82AB1CF2C4C"/>
-      </parent>
-      <origin>
-        <vector>
-          <x>1.1000000238</x>
-          <y>0.0000000000</y>
+          <x>0.7466084361</x>
+          <y>-0.3409758210</y>
         </vector>
       </origin>
       <angle>
         <animated type="angle">
           <waypoint time="0s" before="clamped" after="clamped">
-            <angle value="-0.500236"/>
+            <angle value="-180.018387"/>
           </waypoint>
           <waypoint time="0.5s" before="clamped" after="clamped">
-            <angle guid="E8BCED61995D3092915BA4FF8E030FC9" value="21.890202"/>
+            <angle guid="A69B25998581D20680329EBC55725E80" value="-221.678650"/>
           </waypoint>
           <waypoint time="1s" before="clamped" after="clamped">
-            <angle value="21.890202"/>
+            <angle value="-164.042236"/>
           </waypoint>
           <waypoint time="1.5s" before="clamped" after="clamped">
-            <angle guid="E8BCED61995D3092915BA4FF8E030FC9" value="21.890202"/>
+            <angle guid="A69B25998581D20680329EBC55725E80" value="-221.678650"/>
           </waypoint>
         </animated>
       </angle>
       <scalelx>
-        <real value="0.6424912792"/>
+        <real value="0.6404329652"/>
       </scalelx>
       <width>
         <real value="0.1000000000"/>
@@ -496,9 +424,90 @@
       <tipwidth>
         <real value="0.1000000000"/>
       </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
+      <length>
+        <real value="1.0000000000"/>
+      </length>
+    </bone>
+    <bone type="bone_object" guid="363A99D31C7DFC081AFBE9516A864D8A">
+      <name>
+        <string>Bone 6</string>
+      </name>
+      <parent>
+        <bone_valuenode type="bone_object" guid="7CACF3275350E839BAEC12A0BFB55BDD"/>
+      </parent>
+      <origin>
+        <vector>
+          <x>1.1483540535</x>
+          <y>0.0016543746</y>
+        </vector>
+      </origin>
+      <angle>
+        <animated type="angle">
+          <waypoint time="0s" before="clamped" after="clamped">
+            <angle value="53.520809"/>
+          </waypoint>
+          <waypoint time="0.5s" before="clamped" after="clamped">
+            <angle value="39.006210"/>
+          </waypoint>
+          <waypoint time="0.75s" before="clamped" after="clamped">
+            <angle value="53.520809"/>
+          </waypoint>
+        </animated>
+      </angle>
+      <scalelx>
+        <real value="0.6586206705"/>
+      </scalelx>
+      <width>
+        <real value="0.1000000000"/>
+      </width>
+      <scalex>
+        <real value="1.0000000000"/>
+      </scalex>
+      <tipwidth>
+        <real value="0.1000000000"/>
+      </tipwidth>
+      <length>
+        <real value="1.0000000000"/>
+      </length>
+    </bone>
+    <bone type="bone_object" guid="BE18E8266AC40AB69B75B208B6BCA674">
+      <name>
+        <string>Bone 24</string>
+      </name>
+      <parent>
+        <bone_valuenode type="bone_object" guid="F009DC7A836B0E479AE29B705EEF8251"/>
+      </parent>
+      <origin>
+        <vector>
+          <x>1.1788717508</x>
+          <y>-0.0049094823</y>
+        </vector>
+      </origin>
+      <angle>
+        <animated type="angle">
+          <waypoint time="0.75s" before="clamped" after="clamped">
+            <angle value="63.075977"/>
+          </waypoint>
+          <waypoint time="1s" before="clamped" after="clamped">
+            <angle value="53.308502"/>
+          </waypoint>
+          <waypoint time="1.25s" before="clamped" after="clamped">
+            <angle value="63.075977"/>
+          </waypoint>
+        </animated>
+      </angle>
+      <scalelx>
+        <real value="0.6133141531"/>
+      </scalelx>
+      <width>
+        <real value="0.1000000000"/>
+      </width>
+      <scalex>
+        <real value="1.0000000000"/>
+      </scalex>
+      <tipwidth>
+        <real value="0.1000000000"/>
+      </tipwidth>
       <length>
         <real value="1.0000000000"/>
       </length>
@@ -544,207 +553,41 @@
       <tipwidth>
         <real value="0.1000000000"/>
       </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
       <length>
         <real value="1.0000000000"/>
       </length>
     </bone>
-    <bone type="bone_object" guid="BE18E8266AC40AB69B75B208B6BCA674">
+    <bone type="bone_object" guid="E82FF136E7B1CE38C1833DB8D627D7FE">
       <name>
-        <string>Bone 24</string>
+        <string>Bone 17</string>
       </name>
       <parent>
-        <bone_valuenode type="bone_object" guid="F009DC7A836B0E479AE29B705EEF8251"/>
+        <bone_valuenode type="bone_object" guid="4A5A13BDBE70A2A5AF56F82AB1CF2C4C"/>
       </parent>
       <origin>
         <vector>
-          <x>1.1788717508</x>
-          <y>-0.0049094823</y>
-        </vector>
-      </origin>
-      <angle>
-        <animated type="angle">
-          <waypoint time="0.75s" before="clamped" after="clamped">
-            <angle value="63.075977"/>
-          </waypoint>
-          <waypoint time="1s" before="clamped" after="clamped">
-            <angle value="53.308502"/>
-          </waypoint>
-          <waypoint time="1.25s" before="clamped" after="clamped">
-            <angle value="63.075977"/>
-          </waypoint>
-        </animated>
-      </angle>
-      <scalelx>
-        <real value="0.6133141531"/>
-      </scalelx>
-      <width>
-        <real value="0.1000000000"/>
-      </width>
-      <scalex>
-        <real value="1.0000000000"/>
-      </scalex>
-      <tipwidth>
-        <real value="0.1000000000"/>
-      </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
-      <length>
-        <real value="1.0000000000"/>
-      </length>
-    </bone>
-    <bone type="bone_object" guid="363A99D31C7DFC081AFBE9516A864D8A">
-      <name>
-        <string>Bone 6</string>
-      </name>
-      <parent>
-        <bone_valuenode type="bone_object" guid="7CACF3275350E839BAEC12A0BFB55BDD"/>
-      </parent>
-      <origin>
-        <vector>
-          <x>1.1483540535</x>
-          <y>0.0016543746</y>
+          <x>1.1000000238</x>
+          <y>0.0000000000</y>
         </vector>
       </origin>
       <angle>
         <animated type="angle">
           <waypoint time="0s" before="clamped" after="clamped">
-            <angle value="53.520809"/>
+            <angle value="-0.500236"/>
           </waypoint>
           <waypoint time="0.5s" before="clamped" after="clamped">
-            <angle value="39.006210"/>
-          </waypoint>
-          <waypoint time="0.75s" before="clamped" after="clamped">
-            <angle value="53.520809"/>
-          </waypoint>
-        </animated>
-      </angle>
-      <scalelx>
-        <real value="0.6586206705"/>
-      </scalelx>
-      <width>
-        <real value="0.1000000000"/>
-      </width>
-      <scalex>
-        <real value="1.0000000000"/>
-      </scalex>
-      <tipwidth>
-        <real value="0.1000000000"/>
-      </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
-      <length>
-        <real value="1.0000000000"/>
-      </length>
-    </bone>
-    <bone type="bone_object" guid="8D951EAA1125F59F2FED7DA850364DC6">
-      <name>
-        <string>Bone 18</string>
-      </name>
-      <parent>
-        <bone_valuenode type="bone_object" guid="E82FF136E7B1CE38C1833DB8D627D7FE"/>
-      </parent>
-      <origin>
-        <vector>
-          <x>1.1000000238</x>
-          <y>0.0000000000</y>
-        </vector>
-      </origin>
-      <angle>
-        <angle value="2.774448"/>
-      </angle>
-      <scalelx>
-        <real value="0.5457746456"/>
-      </scalelx>
-      <width>
-        <real value="0.1000000000"/>
-      </width>
-      <scalex>
-        <real value="1.0000000000"/>
-      </scalex>
-      <tipwidth>
-        <real value="0.1000000000"/>
-      </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
-      <length>
-        <real value="1.0000000000"/>
-      </length>
-    </bone>
-    <bone type="bone_object" guid="3410B5FC56B1D2C8DA016CEDEFC914F6">
-      <name>
-        <string>Bone 15</string>
-      </name>
-      <parent>
-        <bone_valuenode type="bone_object" guid="6A527C79EDAEF8C0769B23E506E872C7"/>
-      </parent>
-      <origin>
-        <vector>
-          <x>1.1000000238</x>
-          <y>0.0000000000</y>
-        </vector>
-      </origin>
-      <angle>
-        <angle value="7.879820"/>
-      </angle>
-      <scalelx>
-        <real value="0.4730629807"/>
-      </scalelx>
-      <width>
-        <real value="0.1000000000"/>
-      </width>
-      <scalex>
-        <real value="1.0000000000"/>
-      </scalex>
-      <tipwidth>
-        <real value="0.1000000000"/>
-      </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
-      <length>
-        <real value="1.0000000000"/>
-      </length>
-    </bone>
-    <bone type="bone_object" guid="F7C2BBEC76D539C89EE870DCDD9AD66F">
-      <name>
-        <string>Bone 26</string>
-      </name>
-      <parent>
-        <bone_valuenode type="bone_object" guid="BE18E8266AC40AB69B75B208B6BCA674"/>
-      </parent>
-      <origin>
-        <vector>
-          <x>1.1000000238</x>
-          <y>0.0000000000</y>
-        </vector>
-      </origin>
-      <angle>
-        <animated type="angle">
-          <waypoint time="0.5s" before="clamped" after="clamped">
-            <angle guid="2936AB796BC09AD63EA5BEA333A0C599" value="25.638111"/>
-          </waypoint>
-          <waypoint time="0.75s" before="clamped" after="clamped">
-            <angle value="28.385412"/>
+            <angle guid="E8BCED61995D3092915BA4FF8E030FC9" value="21.890202"/>
           </waypoint>
           <waypoint time="1s" before="clamped" after="clamped">
-            <angle value="66.237610"/>
-          </waypoint>
-          <waypoint time="1.25s" before="clamped" after="clamped">
-            <angle value="43.933495"/>
+            <angle value="21.890202"/>
           </waypoint>
           <waypoint time="1.5s" before="clamped" after="clamped">
-            <angle guid="2936AB796BC09AD63EA5BEA333A0C599" value="25.638111"/>
+            <angle guid="E8BCED61995D3092915BA4FF8E030FC9" value="21.890202"/>
           </waypoint>
         </animated>
       </angle>
       <scalelx>
-        <real value="0.4152061928"/>
+        <real value="0.6424912792"/>
       </scalelx>
       <width>
         <real value="0.1000000000"/>
@@ -755,9 +598,6 @@
       <tipwidth>
         <real value="0.1000000000"/>
       </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
       <length>
         <real value="1.0000000000"/>
       </length>
@@ -812,9 +652,118 @@
       <tipwidth>
         <real value="0.1000000000"/>
       </tipwidth>
-      <bone_depth>
-        <real value="0.0000000000"/>
-      </bone_depth>
+      <length>
+        <real value="1.0000000000"/>
+      </length>
+    </bone>
+    <bone type="bone_object" guid="F7C2BBEC76D539C89EE870DCDD9AD66F">
+      <name>
+        <string>Bone 26</string>
+      </name>
+      <parent>
+        <bone_valuenode type="bone_object" guid="BE18E8266AC40AB69B75B208B6BCA674"/>
+      </parent>
+      <origin>
+        <vector>
+          <x>1.1000000238</x>
+          <y>0.0000000000</y>
+        </vector>
+      </origin>
+      <angle>
+        <animated type="angle">
+          <waypoint time="0.5s" before="clamped" after="clamped">
+            <angle guid="2936AB796BC09AD63EA5BEA333A0C599" value="25.638111"/>
+          </waypoint>
+          <waypoint time="0.75s" before="clamped" after="clamped">
+            <angle value="28.385412"/>
+          </waypoint>
+          <waypoint time="1s" before="clamped" after="clamped">
+            <angle value="66.237610"/>
+          </waypoint>
+          <waypoint time="1.25s" before="clamped" after="clamped">
+            <angle value="43.933495"/>
+          </waypoint>
+          <waypoint time="1.5s" before="clamped" after="clamped">
+            <angle guid="2936AB796BC09AD63EA5BEA333A0C599" value="25.638111"/>
+          </waypoint>
+        </animated>
+      </angle>
+      <scalelx>
+        <real value="0.4152061928"/>
+      </scalelx>
+      <width>
+        <real value="0.1000000000"/>
+      </width>
+      <scalex>
+        <real value="1.0000000000"/>
+      </scalex>
+      <tipwidth>
+        <real value="0.1000000000"/>
+      </tipwidth>
+      <length>
+        <real value="1.0000000000"/>
+      </length>
+    </bone>
+    <bone type="bone_object" guid="3410B5FC56B1D2C8DA016CEDEFC914F6">
+      <name>
+        <string>Bone 15</string>
+      </name>
+      <parent>
+        <bone_valuenode type="bone_object" guid="6A527C79EDAEF8C0769B23E506E872C7"/>
+      </parent>
+      <origin>
+        <vector>
+          <x>1.1000000238</x>
+          <y>0.0000000000</y>
+        </vector>
+      </origin>
+      <angle>
+        <angle value="7.879820"/>
+      </angle>
+      <scalelx>
+        <real value="0.4730629807"/>
+      </scalelx>
+      <width>
+        <real value="0.1000000000"/>
+      </width>
+      <scalex>
+        <real value="1.0000000000"/>
+      </scalex>
+      <tipwidth>
+        <real value="0.1000000000"/>
+      </tipwidth>
+      <length>
+        <real value="1.0000000000"/>
+      </length>
+    </bone>
+    <bone type="bone_object" guid="8D951EAA1125F59F2FED7DA850364DC6">
+      <name>
+        <string>Bone 18</string>
+      </name>
+      <parent>
+        <bone_valuenode type="bone_object" guid="E82FF136E7B1CE38C1833DB8D627D7FE"/>
+      </parent>
+      <origin>
+        <vector>
+          <x>1.1000000238</x>
+          <y>0.0000000000</y>
+        </vector>
+      </origin>
+      <angle>
+        <angle value="2.774448"/>
+      </angle>
+      <scalelx>
+        <real value="0.5457746456"/>
+      </scalelx>
+      <width>
+        <real value="0.1000000000"/>
+      </width>
+      <scalex>
+        <real value="1.0000000000"/>
+      </scalex>
+      <tipwidth>
+        <real value="0.1000000000"/>
+      </tipwidth>
       <length>
         <real value="1.0000000000"/>
       </length>
@@ -857,6 +806,9 @@
           </vector>
         </scale>
       </composite>
+    </param>
+    <param name="enable_transformation">
+      <bool value="true"/>
     </param>
     <param name="canvas">
       <canvas>
@@ -919,6 +871,9 @@
                 <bool value="true"/>
               </scale_y>
             </bone_link>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -1565,6 +1520,9 @@
               </scale_y>
             </bone_link>
           </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
+          </param>
           <param name="canvas">
             <canvas>
               <layer type="region" active="true" exclude_from_rendering="false" version="0.1" desc="NewSpline039 Region">
@@ -2119,6 +2077,9 @@
                 <bool value="true"/>
               </scale_y>
             </bone_link>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -2677,6 +2638,9 @@
         </scale>
       </composite>
     </param>
+    <param name="enable_transformation">
+      <bool value="true"/>
+    </param>
     <param name="canvas">
       <canvas>
         <layer type="group" active="true" exclude_from_rendering="false" version="0.2" desc="leg_up">
@@ -2738,6 +2702,9 @@
                 <bool value="true"/>
               </scale_y>
             </bone_link>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -3294,6 +3261,9 @@
               </scale_y>
             </bone_link>
           </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
+          </param>
           <param name="canvas">
             <canvas>
               <layer type="region" active="true" exclude_from_rendering="false" version="0.1" desc="NewSpline049 Region">
@@ -3848,6 +3818,9 @@
                 <bool value="true"/>
               </scale_y>
             </bone_link>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -4854,6 +4827,9 @@
               </scale_y>
             </bone_link>
           </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
+          </param>
           <param name="canvas">
             <canvas>
               <layer type="region" active="true" exclude_from_rendering="false" version="0.1" desc="NewSpline051 Region">
@@ -5433,6 +5409,9 @@
         </scale_y>
       </bone_link>
     </param>
+    <param name="enable_transformation">
+      <bool value="true"/>
+    </param>
     <param name="canvas">
       <canvas>
         <layer type="group" active="true" exclude_from_rendering="false" version="0.2" desc="lec">
@@ -5472,6 +5451,9 @@
                 </vector>
               </scale>
             </composite>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -6194,6 +6176,9 @@
                 </vector>
               </scale>
             </composite>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -7581,6 +7566,9 @@
         </scale>
       </composite>
     </param>
+    <param name="enable_transformation">
+      <bool value="true"/>
+    </param>
     <param name="canvas">
       <canvas>
         <layer type="group" active="true" exclude_from_rendering="false" version="0.2" desc="leg_up">
@@ -7642,6 +7630,9 @@
                 <bool value="true"/>
               </scale_y>
             </bone_link>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -8528,6 +8519,9 @@
               </scale_y>
             </bone_link>
           </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
+          </param>
           <param name="canvas">
             <canvas>
               <layer type="region" active="true" exclude_from_rendering="false" version="0.1" desc="NewSpline049 Region">
@@ -9306,6 +9300,9 @@
                 <bool value="true"/>
               </scale_y>
             </bone_link>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -10328,6 +10325,9 @@
               </scale_y>
             </bone_link>
           </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
+          </param>
           <param name="canvas">
             <canvas>
               <layer type="region" active="true" exclude_from_rendering="false" version="0.1" desc="NewSpline051 Region">
@@ -10906,6 +10906,9 @@
           <bool value="true"/>
         </scale_y>
       </bone_link>
+    </param>
+    <param name="enable_transformation">
+      <bool value="true"/>
     </param>
     <param name="canvas">
       <canvas>
@@ -11843,6 +11846,9 @@
                 </vector>
               </scale>
             </composite>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -14386,6 +14392,9 @@
         </scale>
       </composite>
     </param>
+    <param name="enable_transformation">
+      <bool value="true"/>
+    </param>
     <param name="canvas">
       <canvas>
         <layer type="group" active="true" exclude_from_rendering="false" version="0.2" desc="arm_up">
@@ -14447,6 +14456,9 @@
                 <bool value="true"/>
               </scale_y>
             </bone_link>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
@@ -15472,6 +15484,9 @@
               </scale_y>
             </bone_link>
           </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
+          </param>
           <param name="canvas">
             <canvas>
               <layer type="region" active="true" exclude_from_rendering="false" version="0.1" desc="NewSpline039 Region">
@@ -16026,6 +16041,9 @@
                 <bool value="true"/>
               </scale_y>
             </bone_link>
+          </param>
+          <param name="enable_transformation">
+            <bool value="true"/>
           </param>
           <param name="canvas">
             <canvas>
